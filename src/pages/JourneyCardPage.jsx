@@ -76,26 +76,22 @@ const nextCard =
      <div className="lesson-content">
   <section className="lesson-section skill-section">
     <p>Skill you’ll build</p>
-    <h2>A practical ability you can use at work</h2>
-    <p>{card.skill}</p>
+<h2>{card.skillTitle || "A practical skill you can use at work"}</h2>    <p>{card.skill}</p>
   </section>
 
   <section className="lesson-section">
     <p>Learn</p>
-    <h2>What customer support actually means</h2>
-    <p>{card.lesson}</p>
+<h2>{card.lessonTitle || card.title}</h2>    <p>{card.lesson}</p>
   </section>
 
   <section className="lesson-section scenario-section">
     <p>Real support scenario</p>
-    <h2>See the principle in action</h2>
-    <p>{card.scenario}</p>
+<h2>{card.scenarioTitle || "See the principle in action"}</h2>    <p>{card.scenario}</p>
   </section>
 
   <section className="lesson-section practice-section">
     <p>Practice lab</p>
-    <h2>What would you do?</h2>
-    <p>{card.practice}</p>
+<h2>{card.practiceTitle || "What would you do?"}</h2>    <p>{card.practice}</p>
 
     <label htmlFor="practice-answer">
       Write your response
