@@ -393,4 +393,253 @@ export const journeyCards = [
     takeaway:
       "A confident closing confirms success, sets expectations, and ensures the customer knows what to do next.",
   },
+    {
+    id: "troubleshooting-mindset",
+    number: "01",
+    collectionId: "technical-support",
+    title: "The Troubleshooting Mindset",
+    description:
+      "Learn how technical support professionals investigate problems methodically instead of guessing.",
+    difficulty: "Beginner",
+    duration: "7 minutes",
+        skillTitle: "Investigate systematically instead of guessing",
+    skill:
+      "Use evidence, controlled tests, and elimination to narrow a technical problem to its most likely cause.",
+
+    lessonTitle: "Troubleshooting is structured uncertainty reduction",
+    lesson:
+      "Technical troubleshooting begins with a clear description of what the customer expected, what actually happened, and what changed before the issue started. Gather evidence before recommending fixes. Form one reasonable hypothesis, test it, observe the result, and update your understanding. Change one important variable at a time so you know which action affected the outcome. Keep notes throughout the investigation and distinguish confirmed facts from assumptions.",
+
+    scenarioTitle: "A checkout button that suddenly stopped working",
+    scenario:
+      "A customer reports that the checkout button does nothing. Instead of immediately recommending a reinstall, the agent confirms the affected device, browser, account, and time of failure. The agent checks whether the problem occurs in another browser and discovers that it only affects one browser with a recently installed extension. This narrows the investigation without making unnecessary changes.",
+
+    practiceTitle: "Create an investigation plan",
+    practice:
+      "A customer says a mobile application crashes whenever they upload a photo. List the first five pieces of information you would collect, then describe one controlled test that would help narrow the cause.",
+
+    interview:
+      "Walk me through how you would troubleshoot a technical issue you have never seen before.",
+
+    takeaway:
+      "Strong troubleshooting replaces random fixes with evidence, focused hypotheses, controlled tests, and documented results.",
+  },
+
+  {
+    id: "reproducing-customer-issues",
+    number: "02",
+    collectionId: "technical-support",
+    title: "Reproducing Customer Issues",
+    description:
+      "Turn customer reports into repeatable steps that reveal where and why a problem occurs.",
+    difficulty: "Beginner",
+    duration: "8 minutes",
+        skillTitle: "Turn reports into repeatable evidence",
+    skill:
+      "Document the exact conditions and actions required to reproduce a customer's technical problem.",
+
+    lessonTitle: "A reproducible issue is easier to investigate",
+    lesson:
+      "Reproduction means following the same sequence of actions under similar conditions to observe the reported result. Begin with the customer's starting state, environment, account conditions, exact steps, expected result, and actual result. Avoid silently correcting unclear steps because the customer's specific sequence may reveal the cause. If you cannot reproduce the problem, record what you tested and compare your environment with the customer's device, version, permissions, data, and network conditions.",
+
+    scenarioTitle: "The export that fails for one customer",
+    scenario:
+      "A customer reports that exporting a report produces an error. The agent successfully exports a small report and initially concludes that the feature works. After collecting the customer's date range and filters, the agent reproduces the failure using a much larger dataset. The issue is connected to report size rather than the export feature generally.",
+
+    practiceTitle: "Write reproducible steps",
+   
+  },
+
+  {
+    id: "reading-error-messages",
+    number: "03",
+    collectionId: "technical-support",
+    title: "Reading Error Messages",
+    description:
+      "Extract useful evidence from error messages, status codes, timestamps, and identifiers.",
+    difficulty: "Beginner",
+    duration: "7 minutes",
+        skillTitle: "Turn errors into useful investigation clues",
+    skill:
+      "Extract actionable information from error text, status codes, timestamps, request identifiers, and surrounding context.",
+
+    lessonTitle: "Read the complete error before interpreting it",
+    lesson:
+      "An error message is evidence, not always a complete diagnosis. Record the exact wording instead of relying on a customer's summary. Identify the action that triggered it, when it occurred, and whether it can be repeated. Look for status codes, error codes, timestamps, affected resources, and request or correlation identifiers. Search trusted internal documentation for known meanings, but avoid presenting a code's common meaning as a confirmed root cause without supporting evidence.",
+
+    scenarioTitle: "A useful detail inside a 403 response",
+    scenario:
+      "A customer says an API is broken. The response shows 403 Forbidden and includes a request identifier. The agent confirms that authentication succeeded but the account lacks permission for the requested resource. The request identifier allows the internal team to locate the exact server-side event if further investigation is required.",
+
+    practiceTitle: "Extract the investigation clues",
+    practice:
+      "Review this report: 'Upload failed at 14:32 UTC with error 413 and request ID req_8472.' List what is already known, explain what the status code commonly suggests, and write three follow-up checks before concluding the cause.",
+
+    interview:
+      "How would you investigate an unfamiliar error message reported by a customer?",
+
+    takeaway:
+      "Capture errors exactly, interpret them in context, and use their identifiers to connect the customer report with technical evidence.",
+  
+  },
+
+  {
+    id: "browser-developer-tools",
+    number: "04",
+    collectionId: "technical-support",
+    title: "Browser Developer Tools",
+    description:
+      "Use the browser console and network panel to investigate common web application problems.",
+    difficulty: "Intermediate",
+    duration: "10 minutes",
+        skillTitle: "Investigate browser problems using technical evidence",
+    skill:
+      "Use the Console and Network panels to identify failed requests, JavaScript errors, response codes, and timing problems.",
+
+    lessonTitle: "Developer Tools reveal what the browser is doing",
+    lesson:
+      "Browser Developer Tools provide evidence that is not visible in the interface. The Console records JavaScript errors, warnings, and application messages. The Network panel shows requests made by the page, their status codes, timing, headers, and responses. Reproduce the issue while Developer Tools are open, clear old entries when necessary, and focus on events created at the moment of failure. Protect customer privacy by removing tokens, cookies, personal data, and sensitive request content before sharing screenshots or exported network files.",
+
+    scenarioTitle: "A save button that appears to do nothing",
+    scenario:
+      "A customer clicks Save, but no confirmation appears. The Network panel shows a request to the profile endpoint returning 500 Internal Server Error. The Console also records a failed request message. The agent captures the timestamp, endpoint, response status, and request identifier, providing engineering with evidence that the failure is server-side rather than a button or browser problem.",
+
+    practiceTitle: "Plan a Developer Tools investigation",
+    practice:
+      "A customer reports that a dashboard remains blank after loading. Describe how you would use the Console and Network panels to investigate. List the evidence you would record and the sensitive information you would remove before escalating.",
+
+    interview:
+      "How can browser Developer Tools help you troubleshoot a web application issue?",
+
+    takeaway:
+      "Developer Tools transform a vague browser problem into observable requests, responses, errors, and timing evidence.",
+  },
+
+  {
+    id: "api-and-http-basics",
+    number: "05",
+    collectionId: "technical-support",
+    title: "API and HTTP Basics",
+    description:
+      "Understand requests, responses, methods, status codes, headers, and JSON in practical support work.",
+    difficulty: "Intermediate",
+    duration: "12 minutes",
+        skillTitle: "Understand how applications exchange information",
+    skill:
+      "Read basic API requests and responses, recognize common HTTP methods and status codes, and inspect JSON data.",
+
+    lessonTitle: "An API conversation has a request and a response",
+    lesson:
+      "An API allows applications to exchange information through structured requests and responses. A request typically contains an endpoint, an HTTP method, headers, and sometimes a body. GET usually retrieves information, POST creates something, PATCH or PUT updates it, and DELETE removes it. The response contains a status code and often a JSON body. Status codes describe the outcome: 2xx usually means success, 4xx indicates a request or access problem, and 5xx indicates a server-side failure. These categories guide investigation but do not prove the root cause by themselves.",
+
+    scenarioTitle: "A request that returns 401 Unauthorized",
+    scenario:
+      "A customer's integration sends a GET request to retrieve account data but receives 401 Unauthorized. The agent checks whether the authorization header is present, whether the token has expired, and whether the integration is using the correct environment. After generating a valid token for the production environment, the same request succeeds with 200 OK.",
+
+    practiceTitle: "Interpret the API exchange",
+    practice:
+      "An application sends POST /orders with a JSON body and receives 400 Bad Request. Explain what POST indicates, what the 400 category commonly suggests, and which parts of the request you would inspect before escalating.",
+
+    interview:
+      "What is an API, and how would understanding HTTP status codes help you in a support role?",
+
+    takeaway:
+      "Read API problems as structured exchanges: identify what was requested, how it was sent, and what the response reveals.",
+  },
+
+  {
+    id: "authentication-problems",
+    number: "06",
+    collectionId: "technical-support",
+    title: "Investigating Authentication Problems",
+    description:
+      "Troubleshoot login, password, verification, session, permission, and token-related issues.",
+    difficulty: "Intermediate",
+    duration: "10 minutes",
+        skillTitle: "Separate identity, session, and permission failures",
+    skill:
+      "Identify whether an access problem involves credentials, verification, sessions, tokens, account state, or authorization.",
+
+    lessonTitle: "Not every access problem is a password problem",
+    lesson:
+      "Authentication confirms who a user is, while authorization determines what that user is allowed to access. Begin by identifying where the failure occurs: account lookup, password validation, multi-factor verification, session creation, token validation, or permission checking. Confirm the environment and account state, check for expired links or tokens, and record the exact error. Never request a customer's password, one-time code, complete access token, recovery code, or other authentication secret.",
+
+    scenarioTitle: "A successful login followed by access denied",
+    scenario:
+      "A customer can sign in but receives Access Denied when opening an administrative page. Resetting the password will not help because authentication succeeded. The agent checks the customer's assigned role and discovers that the account lacks the required administrator permission. The investigation shifts from authentication to authorization.",
+
+    practiceTitle: "Classify the access failure",
+    practice:
+      "For each situation, identify the likely investigation area: an expired password-reset link, a missing verification code, repeated session timeouts, and a user who can sign in but cannot view billing settings. Explain the first safe check you would perform for each.",
+
+    interview:
+      "How would you troubleshoot a customer who says they cannot access their account?",
+
+    takeaway:
+      "First identify where access fails, then investigate the relevant layer without requesting or exposing authentication secrets.",
+  },
+
+  {
+    id: "networking-and-dns-basics",
+    number: "07",
+    collectionId: "technical-support",
+    title: "Networking and DNS Basics",
+    description:
+      "Understand connectivity, domains, DNS, latency, and the checks used to isolate network problems.",
+    difficulty: "Intermediate",
+    duration: "11 minutes",
+        skillTitle: "Isolate connectivity and domain problems",
+    skill:
+      "Use basic network checks to distinguish device, local network, DNS, routing, latency, and service availability issues.",
+
+    lessonTitle: "Connectivity problems occur at different layers",
+    lesson:
+      "When a customer cannot reach a service, first determine the scope. Check whether the problem affects one device, one network, one location, or many users. Confirm whether other websites work and whether the service works through another network. DNS translates a domain name into an IP address, so an incorrect or outdated DNS result can prevent access even when the server is healthy. Latency describes delay, while packet loss means some network data never reaches its destination. Avoid assuming every connectivity problem belongs to the customer's internet provider or to your service.",
+
+    scenarioTitle: "A website works on mobile data but not Wi-Fi",
+    scenario:
+      "A customer cannot open the product website on their office Wi-Fi, but it loads successfully through mobile data. This suggests the account and public service are functioning. The agent checks the domain resolution and learns that the office network is using an outdated cached DNS result. The evidence narrows the issue to that network rather than the application itself.",
+
+    practiceTitle: "Narrow the scope of the outage",
+    practice:
+      "A customer says the dashboard is extremely slow. Write a sequence of checks that would help determine whether the cause is the device, browser, local network, geographic route, or application service.",
+
+    interview:
+      "How would you investigate a website that works for you but not for the customer?",
+
+    takeaway:
+      "Change one part of the connection at a time to discover whether the problem follows the device, network, location, domain, or service.",
+  },
+
+  {
+    id: "technical-escalations",
+    number: "08",
+    collectionId: "technical-support",
+    title: "Writing Technical Escalations",
+    description:
+      "Create clear, evidence-based escalations that help engineering teams investigate efficiently.",
+    difficulty: "Intermediate",
+    duration: "9 minutes",
+        skillTitle: "Give technical teams evidence they can act on",
+    skill:
+      "Create concise escalations containing customer impact, reproduction steps, environment details, evidence, and completed investigation.",
+
+    lessonTitle: "An escalation should continue the investigation",
+    lesson:
+      "A strong escalation prevents the next team from restarting the investigation. Begin with a clear summary and explain the customer or business impact. Include the environment, affected account or resource identifiers, timestamps with time zones, exact reproduction steps, expected and actual results, error messages, request identifiers, and relevant logs. Document what you already tested and the results. Remove passwords, tokens, personal data, and unrelated sensitive information. Clearly state what assistance or decision you need from the receiving team.",
+
+    scenarioTitle: "From 'the API is broken' to actionable evidence",
+    scenario:
+      "A weak escalation says, 'Customer API is not working. Please investigate.' A strong escalation explains that production POST requests to the orders endpoint return 500 for one account, provides the first observed timestamp, request identifiers, sanitized payload characteristics, reproduction results, customer impact, and the checks that ruled out authentication and malformed input.",
+
+    practiceTitle: "Write the escalation",
+    practice:
+      "Create a technical escalation for a customer whose dashboard export fails only for reports containing more than 10,000 records. Include a summary, impact, environment, reproduction steps, expected result, actual result, evidence, completed tests, and the help requested from engineering.",
+
+    interview:
+      "What information should a technical support agent include when escalating a suspected product bug?",
+
+    takeaway:
+      "A useful escalation transfers evidence, context, and investigative progress—not just responsibility.",
+  },
 ];
