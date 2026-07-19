@@ -2131,3 +2131,24 @@ main > h2,
     width: calc(100% - 16px);
   }
 }
+
+/* ---------- Center content inside the active Journey Card ---------- */
+
+.journey-deck-card.active-card {
+  align-items: center;
+  text-align: center;
+}
+
+.journey-deck-card.active-card h3,
+.journey-deck-card.active-card > p {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.journey-deck-card.active-card .journey-metadata {
+  justify-content: center;
+}
+
+.journey-deck-card.active-card > a {
+  align-self: center;
+}
