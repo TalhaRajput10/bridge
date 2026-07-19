@@ -2101,3 +2101,33 @@ main > h2,
     font-size: 1.3rem;
   }
 }
+
+/* ---------- Center the interactive Journey Card stack ---------- */
+
+.journey-deck {
+  width: 100%;
+  max-width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.journey-deck-stage {
+  width: 100%;
+  max-width: 820px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.journey-deck-card {
+  right: auto;
+  left: 50%;
+  width: min(calc(100% - 32px), 760px);
+  box-sizing: border-box;
+  transform-origin: center bottom;
+}
+
+@media (max-width: 700px) {
+  .journey-deck-card {
+    width: calc(100% - 16px);
+  }
+}
