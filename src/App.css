@@ -1846,3 +1846,258 @@ button:hover {
     text-align: center;
   }
 }
+
+/* ---------- Calm, compact editorial density ---------- */
+
+main {
+  min-height: auto;
+  padding-top: clamp(44px, 6vw, 76px);
+  padding-bottom: clamp(44px, 6vw, 76px);
+}
+
+main > h2,
+.collection-header h1,
+.journey-page-header h1 {
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.collections,
+.collection-header,
+.journey-list,
+.lesson-content {
+  padding-top: clamp(40px, 5vw, 64px);
+  padding-bottom: clamp(40px, 5vw, 64px);
+}
+
+.collections > h2,
+.journey-list-heading h2 {
+  font-size: clamp(2.1rem, 4vw, 3.35rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.collection-grid {
+  gap: 18px;
+}
+
+.collection-card {
+  min-height: 0;
+  padding: 24px;
+}
+
+.collection-card h3 {
+  font-size: 1.45rem;
+  line-height: 1.12;
+}
+
+.collection-header > p:last-child,
+.journey-page-header > p:last-of-type,
+.lesson-section > p:last-of-type {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.journey-list-heading {
+  margin-bottom: 24px;
+}
+
+.journey-deck-stage {
+  min-height: 370px;
+}
+
+.journey-deck-card {
+  min-height: 285px;
+  padding: 28px;
+}
+
+.journey-deck-card h3 {
+  margin-top: 22px;
+  font-size: clamp(1.75rem, 3vw, 2.55rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.journey-deck-card > p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.journey-page {
+  padding: 28px 4% 56px;
+}
+
+.journey-page-header {
+  padding: clamp(30px, 4vw, 44px);
+}
+
+.journey-page-header > a {
+  margin-bottom: 24px;
+}
+
+.lesson-content {
+  gap: 18px;
+}
+
+.lesson-section {
+  padding: clamp(24px, 3vw, 32px);
+}
+
+.lesson-section h2 {
+  font-size: clamp(1.65rem, 3vw, 2.45rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.practice-response {
+  margin-top: 24px;
+  padding-top: 22px;
+}
+
+.completion-panel {
+  padding: 26px 30px;
+}
+
+.completion-panel h2 {
+  font-size: clamp(1.55rem, 2.5vw, 2.15rem);
+}
+
+.lesson-navigation a {
+  min-height: 105px;
+  padding: 20px;
+}
+
+.lesson-navigation strong {
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+}
+
+@media (max-width: 700px) {
+  main > h2,
+  .collection-header h1,
+  .journey-page-header h1 {
+    font-size: clamp(2.35rem, 11vw, 3.25rem);
+  }
+
+  .collections > h2,
+  .journey-list-heading h2 {
+    font-size: clamp(2rem, 9vw, 2.75rem);
+  }
+
+  .journey-page {
+    padding: 18px 4% 40px;
+  }
+
+  .journey-deck-stage {
+    min-height: 350px;
+  }
+
+  .journey-deck-card {
+    min-height: 270px;
+    padding: 24px;
+  }
+
+  .journey-deck-card h3 {
+    font-size: clamp(1.7rem, 8vw, 2.25rem);
+  }
+
+  .lesson-section {
+    padding: 22px;
+  }
+}
+
+/* ---------- Unified Journey Card alignment ---------- */
+
+.journey-page {
+  overflow-x: hidden;
+}
+
+.journey-page > .module-bar,
+.journey-page-header,
+.lesson-content,
+.completion-panel,
+.lesson-navigation {
+  width: 100%;
+  max-width: 1040px;
+  margin-right: auto;
+  margin-left: auto;
+  box-sizing: border-box;
+}
+
+.journey-page > .module-bar {
+  border-right: 1px solid var(--bridge-border);
+  border-left: 1px solid var(--bridge-border);
+}
+
+.journey-page-header {
+  text-align: center;
+}
+
+.journey-page-header h1,
+.journey-page-header > p:last-of-type {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.journey-page-header .journey-metadata {
+  justify-content: center;
+}
+
+.lesson-content {
+  margin-top: 18px;
+  padding-right: clamp(16px, 3vw, 32px);
+  padding-left: clamp(16px, 3vw, 32px);
+}
+
+.lesson-section {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.practice-section textarea {
+  box-sizing: border-box;
+}
+
+.takeaway-section h2 {
+  max-width: 720px;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.takeaway-section > p:first-child {
+  text-align: center;
+}
+
+.interview-section blockquote {
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.35;
+}
+
+@media (max-width: 700px) {
+  .journey-page > .module-bar {
+    border-right: 0;
+    border-left: 0;
+  }
+
+  .journey-page-header h1 {
+    overflow-wrap: anywhere;
+  }
+
+  .lesson-content {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .takeaway-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .interview-section blockquote {
+    margin-top: 24px;
+    padding-left: 18px;
+    font-size: 1.3rem;
+  }
+}
