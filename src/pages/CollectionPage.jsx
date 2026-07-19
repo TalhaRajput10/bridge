@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
 import JourneyCardStack from "../components/JourneyCardStack.jsx";
+import ModuleBar from "../components/ModuleBar.jsx";
 
 function CollectionPage() {
   const { collectionId } = useParams();
@@ -36,7 +37,9 @@ const progressPercentage =
 
   return (
     <div className="collection-detail">
-      <header className="collection-header">
+     <ModuleBar activeCollectionId={collectionId} />
+
+<header className="collection-header">
         <Link to="/">← Return Home</Link>
 
         <p>BRIDGE Collection</p>

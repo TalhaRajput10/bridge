@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { journeyCards } from "../data/journeyCards.js";
-
+import ModuleBar from "../components/ModuleBar.jsx";
 function JourneyCardPage() {
   const { cardId } = useParams();
 const storageKey = `bridge-completed-${cardId}`;
@@ -56,10 +56,9 @@ const nextCard =
 
   return (
     <article className="journey-page">
+      <ModuleBar activeCollectionId={card.collectionId} />
       <header className="journey-page-header">
-        <Link to={`/collections/${card.collectionId}`}>
-          ← Return to Collection
-        </Link>
+       
 
         <p>Journey Card {card.number}</p>
 

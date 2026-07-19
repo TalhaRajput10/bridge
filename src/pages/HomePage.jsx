@@ -1,21 +1,26 @@
-import { collections } from "../data/collections.js";
+import { Link } from "react-router-dom";
 import CollectionCard from "../components/CollectionCard.jsx";
+import { collections } from "../data/collections.js";
 
 function HomePage() {
   return (
     <>
       <header className="navbar">
-        <a className="logo" href="/">
+        <Link className="logo" to="/">
           BRIDGE
-        </a>
+        </Link>
 
         <nav className="nav-links">
-          <a href="/">Home</a>
+          <Link to="/">Home</Link>
           <a href="#collections">Collections</a>
-          <a href="#about">About</a>
         </nav>
 
-        <button className="nav-button">Start Learning</button>
+        <Link
+          className="nav-button button-link"
+          to="/collections/foundations"
+        >
+          Start Learning
+        </Link>
       </header>
 
       <main>
@@ -29,12 +34,22 @@ function HomePage() {
           Land the role.
         </h2>
 
-        <p>Every great support interaction builds a bridge.</p>
+        <p>
+          Every great support interaction builds a bridge.
+        </p>
 
-        <button>Start Your Journey</button>
+        <Link
+          className="primary-button button-link"
+          to="/collections/foundations"
+        >
+          Start Your Journey
+        </Link>
       </main>
 
-      <section className="collections" id="collections">
+      <section
+        className="collections"
+        id="collections"
+      >
         <div className="section-heading">
           <p>Explore the curriculum</p>
           <h2>Choose your collection.</h2>
