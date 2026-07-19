@@ -9,23 +9,14 @@ export const journeyCards = [
     difficulty: "Beginner",
     duration: "5 minutes",
 
-    skill:
-      "Explain the real purpose of customer support and identify what customers expect from a professional interaction.",
+     skill
+     Title: "Understand support as a profession",
 
-    lesson:
-      "Customer support is more than answering questions or following scripts. A support professional helps customers understand a product, overcome obstacles, and regain confidence. The goal is not simply to close a ticket. The goal is to help the customer move forward with as little effort and uncertainty as possible.",
+    lessonTitle: "More than answering questions",
 
-    scenario:
-      "A customer says their mobile service stopped working after they changed phones. An average response immediately sends troubleshooting steps. A stronger response first confirms what changed, what the customer has already tried, and what outcome they need.",
+    scenarioTitle: "Diagnose before giving instructions",
 
-    practice:
-      "What are the first three questions you would ask this customer before offering a solution?",
-
-    interview:
-      "What does excellent customer support mean to you?",
-
-    takeaway:
-      "Great support begins by understanding the customer's goal before offering instructions.",
+    practiceTitle: "Start with discovery",
   },
   {
     id: "customer-support-mindset",
@@ -36,23 +27,13 @@ export const journeyCards = [
       "Learn how great support professionals approach problems, customers, and responsibility.",
     difficulty: "Beginner",
     duration: "6 minutes",
-        skill:
-      "Approach customer problems with ownership, curiosity, patience, and a focus on the customer's desired outcome.",
+           skillTitle: "Build ownership, curiosity, and calm",
 
-    lesson:
-      "A professional support mindset begins with ownership. Ownership does not mean promising that you can personally fix everything. It means taking responsibility for understanding the issue, communicating clearly, and guiding the customer toward the correct next step. Strong agents stay curious instead of making assumptions and remain calm when customers are frustrated.",
+    lessonTitle: "Think like a trusted guide",
 
-    scenario:
-      "A customer contacts support for the third time about the same billing problem. Instead of repeating the previous instructions, the agent reviews the earlier conversations, acknowledges the repeated effort, confirms what remains unresolved, and explains exactly what will happen next.",
+    scenarioTitle: "The third-contact test",
 
-    practice:
-      "Write a short response that acknowledges the customer's repeated effort and demonstrates ownership of the issue.",
-
-    interview:
-      "Tell me about a time you took ownership of a customer problem.",
-
-    takeaway:
-      "Ownership means guiding the issue forward, even when another person or team must provide the final solution.",
+    practiceTitle: "Respond with ownership",
   },
   {
     id: "understanding-customer-goals",
