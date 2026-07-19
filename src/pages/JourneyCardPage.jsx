@@ -6,6 +6,14 @@ import ModuleBar from "../components/ModuleBar.jsx";
 function JourneyCardPage() {
   const { cardId } = useParams();
 const storageKey = `bridge-completed-${cardId}`;
+const answerStorageKey = `bridge-answer-${cardId}`;
+useEffect(() => {
+  const savedAnswer =
+    localStorage.getItem(answerStorageKey) || "";
+
+  setPracticeAnswer(savedAnswer);
+  setAnswerSaved(savedAnswer.length > 0);
+}, [answerStorageKey]);
 
 const [isComplete, setIsComplete] = useState(false);
 
@@ -15,6 +23,21 @@ useEffect(() => {
 
   setIsComplete(savedStatus);
 }, [storageKey]);
+function savePracticeAnswer() {
+  const cleanedAnswer = practiceAnswer.trim();
+
+  if (!cleanedAnswer) {
+    return;
+  }
+
+  localStorage.setItem(
+    answerStorageKey,
+    cleanedAnswer,
+  );
+
+  setPracticeAnswer(cleanedAnswer);
+  setAnswerSaved(true);
+}
 
 function toggleCompletion() {
   const newStatus = !isComplete;
@@ -88,34 +111,51 @@ const nextCard =
 <h2>{card.scenarioTitle || "See the principle in action"}</h2>    <p>{card.scenario}</p>
   </section>
 
-  <section className="lesson-section practice-section">
-    <p>Practice lab</p>
-<h2>{card.practiceTitle || "What would you do?"}</h2>    <p>{card.practice}</p>
+<section className="lesson-section practice-section">
+  <p>Practice lab</p>
 
+  <h2>
+    {card.practiceTitle || "What would you do?"}
+  </h2>
+
+  <p>{card.practice}</p>
+
+  <div className="practice-response">
     <label htmlFor="practice-answer">
       Write your response
     </label>
 
     <textarea
+      key={card.id}
       id="practice-answer"
       rows="7"
+      value={practiceAnswer}
+      onChange={(event) => {
+        setPracticeAnswer(event.target.value);
+        setAnswerSaved(false);
+      }}
       placeholder="Type your answer here..."
     />
-  </section>
 
-  <section className="lesson-section interview-section">
-    <p>Interview connection</p>
-    <h2>Prepare your answer</h2>
+    <div className="practice-actions">
+      <button
+        type="button"
+        onClick={savePracticeAnswer}
+        disabled={!practiceAnswer.trim()}
+      >
+        {answerSaved
+          ? "✓ Response Saved"
+          : "Save Response"}
+      </button>
 
-    <blockquote>
-      “{card.interview}”
-    </blockquote>
-  </section>
-
-  <section className="lesson-section takeaway-section">
-    <p>Key takeaway</p>
-    <h2>{card.takeaway}</h2>
-  </section>
+      {answerSaved && (
+        <span>
+          Saved privately on this device
+        </span>
+      )}
+    </div>
+  </div>
+</section>
 </div>
 <nav className="lesson-navigation">
   <div>

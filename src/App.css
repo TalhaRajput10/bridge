@@ -1800,3 +1800,49 @@ button:hover {
 .active-module .module-link-heading > strong {
   color: #86efac;
 }
+/* ---------- Practice response controls ---------- */
+
+.practice-response {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid rgb(37 99 235 / 18%);
+}
+
+.practice-actions {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.practice-actions button {
+  margin: 0;
+}
+
+.practice-actions button:disabled {
+  cursor: not-allowed;
+  background: #94a3b8;
+  opacity: 0.65;
+  transform: none;
+}
+
+.practice-actions span {
+  color: #15803d;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .practice-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .practice-actions button {
+    width: 100%;
+  }
+
+  .practice-actions span {
+    text-align: center;
+  }
+}
