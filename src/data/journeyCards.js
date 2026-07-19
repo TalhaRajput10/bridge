@@ -138,4 +138,112 @@ export const journeyCards = [
     takeaway:
       "The problem may remain the same, but excellent support adapts to the expectations and limitations of each channel.",
   },
+    {
+    id: "active-listening",
+    number: "01",
+    collectionId: "customer-communication",
+    title: "Active Listening",
+    description:
+      "Learn how to identify important details, emotions, and customer goals before responding.",
+    difficulty: "Beginner",
+    duration: "6 minutes",
+        skillTitle: "Listen for facts, feelings, and goals",
+    skill:
+      "Identify the customer's key details, emotional state, and desired outcome before deciding how to respond.",
+
+    lessonTitle: "Listening is an investigative skill",
+    lesson:
+      "Active listening means giving full attention to what the customer says and checking that you understood it correctly. In written support, this means reading the complete message, reviewing earlier context, and noticing details that could change the solution. In calls and live chat, it also means avoiding interruptions and allowing customers to finish explaining. Strong agents listen for three things: what happened, how it affected the customer, and what the customer needs next.",
+
+    scenarioTitle: "The detail hidden inside the complaint",
+    scenario:
+      "A customer says their payment failed and complains that the service is unreliable. They also mention that they recently received a replacement bank card. An agent who focuses only on the complaint may investigate an outage. An active listener notices the replacement card and first checks whether the saved payment details are outdated.",
+
+    practiceTitle: "Separate facts from assumptions",
+    practice:
+      "A customer says: 'I updated the application yesterday, and now I cannot sign in. I have already reset my password twice.' Identify the known facts, the customer's likely emotion, and two details you still need to confirm.",
+
+    interview:
+      "How do you demonstrate active listening when helping a customer?",
+
+    takeaway:
+      "Listen completely before solving; the detail that reveals the answer is often mentioned before the direct request.",
+  },
+
+  {
+    id: "asking-better-questions",
+    number: "02",
+    collectionId: "customer-communication",
+    title: "Asking Better Questions",
+    description:
+      "Use clear and purposeful questions to investigate issues without overwhelming customers.",
+    difficulty: "Beginner",
+    duration: "7 minutes",
+  },
+
+  {
+    id: "showing-genuine-empathy",
+    number: "03",
+    collectionId: "customer-communication",
+    title: "Showing Genuine Empathy",
+    description:
+      "Acknowledge customer emotions naturally without relying on robotic scripts.",
+    difficulty: "Beginner",
+    duration: "6 minutes",
+  },
+
+  {
+    id: "professional-tone",
+    number: "04",
+    collectionId: "customer-communication",
+    title: "Building a Professional Tone",
+    description:
+      "Write with clarity, confidence, warmth, and respect across support channels.",
+    difficulty: "Beginner",
+    duration: "7 minutes",
+  },
+
+  {
+    id: "positive-language",
+    number: "05",
+    collectionId: "customer-communication",
+    title: "Using Positive Language",
+    description:
+      "Explain limitations and next steps without sounding dismissive or unhelpful.",
+    difficulty: "Beginner",
+    duration: "6 minutes",
+  },
+
+  {
+    id: "de-escalating-frustration",
+    number: "06",
+    collectionId: "customer-communication",
+    title: "De-escalating Frustrated Customers",
+    description:
+      "Reduce tension, restore trust, and guide difficult conversations toward resolution.",
+    difficulty: "Intermediate",
+    duration: "8 minutes",
+  },
+
+  {
+    id: "writing-clear-responses",
+    number: "07",
+    collectionId: "customer-communication",
+    title: "Writing Clear Support Responses",
+    description:
+      "Structure emails and chat messages so customers can understand and act on them easily.",
+    difficulty: "Beginner",
+    duration: "8 minutes",
+  },
+
+  {
+    id: "closing-conversations",
+    number: "08",
+    collectionId: "customer-communication",
+    title: "Closing Conversations with Confidence",
+    description:
+      "Confirm resolution, set expectations, and leave customers feeling supported.",
+    difficulty: "Beginner",
+    duration: "6 minutes",
+  },
 ];
