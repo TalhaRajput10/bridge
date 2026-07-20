@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ModuleBar from "../components/ModuleBar.jsx";
 import { journeyCards } from "../data/journeyCards.js";
@@ -12,30 +12,19 @@ function JourneyCardPage() {
   const answerStorageKey =
     `bridge-answer-${cardId}`;
 
-  const [isComplete, setIsComplete] =
-    useState(false);
-
-  const [practiceAnswer, setPracticeAnswer] =
-    useState("");
-
-  const [answerSaved, setAnswerSaved] =
-    useState(false);
-
-  useEffect(() => {
-    const savedStatus =
+  const [isComplete, setIsComplete] = useState(
+    () =>
       localStorage.getItem(completionStorageKey) ===
-      "true";
+      "true",
+  );
 
-    setIsComplete(savedStatus);
-  }, [completionStorageKey]);
+  const [practiceAnswer, setPracticeAnswer] = useState(
+    () => localStorage.getItem(answerStorageKey) || "",
+  );
 
-  useEffect(() => {
-    const savedAnswer =
-      localStorage.getItem(answerStorageKey) || "";
-
-    setPracticeAnswer(savedAnswer);
-    setAnswerSaved(savedAnswer.length > 0);
-  }, [answerStorageKey]);
+  const [answerSaved, setAnswerSaved] = useState(
+    () => Boolean(localStorage.getItem(answerStorageKey)),
+  );
 
   function toggleCompletion() {
     const newStatus = !isComplete;
@@ -106,7 +95,11 @@ function JourneyCardPage() {
         activeCollectionId={card.collectionId}
       />
 
-      <header className="journey-page-header">
+      <header
+        className="journey-page-header"
+        id="main-content"
+        tabIndex="-1"
+      >
         <p>Journey Card {card.number}</p>
 
         <h1>{card.title}</h1>

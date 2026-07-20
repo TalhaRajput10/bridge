@@ -1,5 +1,10 @@
 import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage.jsx";
 import CollectionPage from "./pages/CollectionPage.jsx";
@@ -15,10 +20,21 @@ function ScrollToTop() {
   return null;
 }
 
+function JourneyCardRoute() {
+  const { cardId } = useParams();
+
+  return <JourneyCardPage key={cardId} />;
+}
+
 function App() {
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
+
       <ScrollToTop />
+
       <Routes>
         <Route path="/" element={<HomePage />} />
 
@@ -29,7 +45,7 @@ function App() {
 
         <Route
           path="/cards/:cardId"
-          element={<JourneyCardPage />}
+          element={<JourneyCardRoute />}
         />
       </Routes>
     </>

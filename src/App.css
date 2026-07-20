@@ -2152,3 +2152,61 @@ main > h2,
 .journey-deck-card.active-card > a {
   align-self: center;
 }
+
+/* ---------- Keyboard accessibility ---------- */
+
+:focus-visible {
+  outline: 3px solid var(--bridge-blue);
+  outline-offset: 4px;
+}
+
+a:focus-visible,
+button:focus-visible,
+textarea:focus-visible {
+  border-radius: 6px;
+}
+
+.module-links a:focus-visible,
+.button-link:focus-visible,
+.journey-deck-controls button:focus-visible,
+.journey-deck-card a:focus-visible {
+  box-shadow:
+    0 0 0 4px var(--bridge-cream),
+    0 0 0 7px var(--bridge-blue);
+}
+
+.journey-deck-card.active-card:focus-within {
+  outline: 3px solid var(--bridge-blue);
+  outline-offset: 6px;
+  box-shadow:
+    0 0 0 5px var(--bridge-cream),
+    0 35px 80px rgb(15 23 42 / 25%);
+}
+
+/* ---------- Skip navigation link ---------- */
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  z-index: 9999;
+  padding: 12px 18px;
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  background: var(--bridge-navy);
+  color: #ffffff;
+  font-family: var(--bridge-sans);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgb(15 23 42 / 25%);
+  transform: translate(-50%, -180%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  color: #ffffff;
+  outline-color: var(--bridge-blue);
+  transform: translate(-50%, 0);
+}

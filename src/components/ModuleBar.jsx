@@ -40,15 +40,20 @@ function ModuleBar({ activeCollectionId }) {
           );
 
           return (
-            <Link
-              key={collection.id}
-              to={`/collections/${collection.id}`}
-              className={
-                collection.id === activeCollectionId
-                  ? "active-module"
-                  : ""
-              }
-            >
+           <Link
+  key={collection.id}
+  to={`/collections/${collection.id}`}
+  className={
+    collection.id === activeCollectionId
+      ? "active-module"
+      : ""
+  }
+  aria-current={
+    collection.id === activeCollectionId
+      ? "page"
+      : undefined
+  }
+>
               <div className="module-link-heading">
                 <span>{collection.title}</span>
                 <strong>{percentage}%</strong>

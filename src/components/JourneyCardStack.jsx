@@ -50,12 +50,14 @@ function JourneyCardStack({ cards }) {
   return (
     <div className="journey-deck">
       <div
-  className="journey-deck-stage"
-  onPointerMove={handlePointerMove}
-  onPointerLeave={handlePointerLeave}
-  onTouchStart={handleTouchStart}
-  onTouchEnd={handleTouchEnd}
->
+        className="journey-deck-stage"
+        role="region"
+        aria-label="Journey Card preview"
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {visibleCards
           .map((card, position) => (
             <article
@@ -63,19 +65,20 @@ function JourneyCardStack({ cards }) {
                 position === 0 ? "active-card" : ""
               }`}
               key={card.id}
+              aria-hidden={position !== 0}
               style={{
                 "--card-position": position,
                 zIndex: visibleCards.length - position,
               }}
             >
               <span>Journey Card {card.number}</span>
-{localStorage.getItem(
-  `bridge-completed-${card.id}`,
-) === "true" && (
-  <span className="card-completed-badge">
-    ✓ Completed
-  </span>
-)}
+              {localStorage.getItem(
+                `bridge-completed-${card.id}`,
+              ) === "true" && (
+                <span className="card-completed-badge">
+                  ✓ Completed
+                </span>
+              )}
               <h3>{card.title}</h3>
 
               <p>{card.description}</p>
@@ -96,15 +99,23 @@ function JourneyCardStack({ cards }) {
       </div>
 
       <div className="journey-deck-controls">
-        <button type="button" onClick={showPreviousCard}>
+        <button
+          type="button"
+          onClick={showPreviousCard}
+          aria-label="Show previous Journey Card"
+        >
           ← Previous
         </button>
 
-        <span>
+        <span aria-live="polite" aria-atomic="true">
           {currentIndex + 1} / {cards.length}
         </span>
 
-        <button type="button" onClick={showNextCard}>
+        <button
+          type="button"
+          onClick={showNextCard}
+          aria-label="Show next Journey Card"
+        >
           Next →
         </button>
       </div>

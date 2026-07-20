@@ -23,7 +23,7 @@ function HomePage() {
         </Link>
       </header>
 
-      <main>
+      <main id="main-content" tabIndex="-1">
         <p>Customer Support Career Platform</p>
 
         <h1>BRIDGE</h1>

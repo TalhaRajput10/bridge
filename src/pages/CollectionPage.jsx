@@ -39,8 +39,11 @@ const progressPercentage =
     <div className="collection-detail">
      <ModuleBar activeCollectionId={collectionId} />
 
-<header className="collection-header">
-        <Link to="/">← Return Home</Link>
+<header
+  className="collection-header"
+  id="main-content"
+  tabIndex="-1"
+>        <Link to="/">← Return Home</Link>
 
         <p>BRIDGE Collection</p>
 
