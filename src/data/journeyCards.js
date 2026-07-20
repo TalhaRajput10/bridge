@@ -62,9 +62,6 @@ export const journeyCards = [
     practice:
       "Write a short response that acknowledges the customer's repeated effort and demonstrates ownership of the issue.",
 
-    modelAnswer:
-      "I understand that you've already contacted us several times about this billing issue, and I'm sorry it remains unresolved. I'll review your previous conversations first so you don't have to repeat everything. I'll then investigate what is preventing the resolution, coordinate with the appropriate team if needed, and keep you updated on the next steps until we have a clear outcome.",
-
     interview:
       "Tell me about a time you took ownership of a customer problem.",
 

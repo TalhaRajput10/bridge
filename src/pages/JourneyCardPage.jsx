@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ModuleBar from "../components/ModuleBar.jsx";
 import { journeyCards } from "../data/journeyCards.js";
+import { modelAnswers } from "../data/modelAnswers.js";
 import { evaluatePracticeResponse } from "../utils/practiceFeedback.js";
 
 function JourneyCardPage() {
@@ -276,10 +277,10 @@ function JourneyCardPage() {
                   </p>
                 </div>
 
-                {card.modelAnswer && (
+                {modelAnswers[card.id] && (
                   <div className="model-answer">
                     <p>Example of a strong answer</p>
-                    <blockquote>{card.modelAnswer}</blockquote>
+                    <blockquote>{modelAnswers[card.id]}</blockquote>
                     <span>
                       Use this as a reference. Your answer can be different while still demonstrating the same skills.
                     </span>
