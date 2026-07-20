@@ -10,7 +10,7 @@ function CollectionCard({ collection }) {
       <p>{collection.description}</p>
 
       <Link to={`/collections/${collection.id}`}>
-        Explore Collection →
+        Explore Collection {"\u2192"}
       </Link>
     </article>
   );

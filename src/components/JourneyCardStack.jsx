@@ -76,7 +76,7 @@ function JourneyCardStack({ cards }) {
                 `bridge-completed-${card.id}`,
               ) === "true" && (
                 <span className="card-completed-badge">
-                  ✓ Completed
+                  {"\u2713"} Completed
                 </span>
               )}
               <h3>{card.title}</h3>
@@ -90,7 +90,7 @@ function JourneyCardStack({ cards }) {
 
               {position === 0 && (
                 <Link to={`/cards/${card.id}`}>
-                  Open Journey Card →
+                  Open Journey Card {"\u2192"}
                 </Link>
               )}
             </article>
@@ -104,7 +104,7 @@ function JourneyCardStack({ cards }) {
           onClick={showPreviousCard}
           aria-label="Show previous Journey Card"
         >
-          ← Previous
+          {"\u2190"} Previous
         </button>
 
         <span aria-live="polite" aria-atomic="true">
@@ -116,7 +116,7 @@ function JourneyCardStack({ cards }) {
           onClick={showNextCard}
           aria-label="Show next Journey Card"
         >
-          Next →
+          Next {"\u2192"}
         </button>
       </div>
 
@@ -137,8 +137,8 @@ function handlePointerMove(event) {
   const pointerX = (event.clientX - bounds.left) / bounds.width;
   const pointerY = (event.clientY - bounds.top) / bounds.height;
 
-  const rotateY = (pointerX - 0.5) * 14;
-  const rotateX = (0.5 - pointerY) * 12;
+  const rotateY = (pointerX - 0.5) * 8;
+  const rotateX = (0.5 - pointerY) * 7;
 
   stage.style.setProperty("--rotate-x", `${rotateX}deg`);
   stage.style.setProperty("--rotate-y", `${rotateY}deg`);

@@ -43,7 +43,8 @@ const progressPercentage =
   className="collection-header"
   id="main-content"
   tabIndex="-1"
->        <Link to="/">← Return Home</Link>
+>
+        <Link to="/">{"\u2190"} Return Home</Link>
 
         <p>BRIDGE Collection</p>
 

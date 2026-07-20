@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ModuleBar from "../components/ModuleBar.jsx";
 import { journeyCards } from "../data/journeyCards.js";
+import { evaluatePracticeResponse } from "../utils/practiceFeedback.js";
 
 function JourneyCardPage() {
   const { cardId } = useParams();
@@ -25,6 +26,8 @@ function JourneyCardPage() {
   const [answerSaved, setAnswerSaved] = useState(
     () => Boolean(localStorage.getItem(answerStorageKey)),
   );
+
+  const [practiceFeedback, setPracticeFeedback] = useState(null);
 
   function toggleCompletion() {
     const newStatus = !isComplete;
@@ -51,6 +54,19 @@ function JourneyCardPage() {
 
     setPracticeAnswer(cleanedAnswer);
     setAnswerSaved(true);
+  }
+
+  function checkPracticeAnswer() {
+    const cleanedAnswer = practiceAnswer.trim();
+
+    if (!cleanedAnswer || !card) {
+      return;
+    }
+
+    localStorage.setItem(answerStorageKey, cleanedAnswer);
+    setPracticeAnswer(cleanedAnswer);
+    setAnswerSaved(true);
+    setPracticeFeedback(evaluatePracticeResponse(cleanedAnswer, card));
   }
 
   const card = journeyCards.find(
@@ -171,6 +187,7 @@ function JourneyCardPage() {
                 );
 
                 setAnswerSaved(false);
+                setPracticeFeedback(null);
               }}
               placeholder="Type your answer here..."
             />
@@ -186,12 +203,94 @@ function JourneyCardPage() {
                   : "Save Response"}
               </button>
 
+              <button
+                type="button"
+                className="feedback-button"
+                onClick={checkPracticeAnswer}
+                disabled={!practiceAnswer.trim()}
+              >
+                Check My Response
+              </button>
+
               {answerSaved && (
                 <span>
                   Saved privately on this device
                 </span>
               )}
             </div>
+
+            {practiceFeedback && (
+              <div className="practice-feedback" aria-live="polite">
+                <div className="practice-feedback-heading">
+                  <div>
+                    <p>Practice feedback</p>
+                    <h3>{practiceFeedback.title}</h3>
+                  </div>
+
+                  <span>
+                    {practiceFeedback.covered.length} of {practiceFeedback.total} key ideas
+                  </span>
+                </div>
+
+                <p className="practice-feedback-summary">
+                  {practiceFeedback.summary}
+                </p>
+
+                <div className="practice-feedback-grid">
+                  <div>
+                    <h4>What you covered</h4>
+                    {practiceFeedback.covered.length > 0 ? (
+                      <ul>
+                        {practiceFeedback.covered.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>None of the key ideas were clear yet. Use the structure below to revise your answer.</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <h4>What to strengthen</h4>
+                    {practiceFeedback.missing.length > 0 ? (
+                      <ul>
+                        {practiceFeedback.missing.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>You covered every key idea. Refine the wording and keep it concise.</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="suggested-structure">
+                  <h4>Suggested answer structure</h4>
+                  <ol>
+                    {practiceFeedback.structure.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ol>
+                  <p>
+                    <strong>Key principle:</strong> {card.takeaway}
+                  </p>
+                </div>
+
+                {card.modelAnswer && (
+                  <div className="model-answer">
+                    <p>Example of a strong answer</p>
+                    <blockquote>{card.modelAnswer}</blockquote>
+                    <span>
+                      Use this as a reference. Your answer can be different while still demonstrating the same skills.
+                    </span>
+                  </div>
+                )}
+
+                <p className="feedback-disclaimer">
+                  This is guidance based on key ideas, not a grade or the only correct answer. The checker matches written words and phrases; misspelled words may not be recognized.
+                </p>
+              </div>
+            )}
           </div>
         </section>
 

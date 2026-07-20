@@ -10,7 +10,7 @@ function HomePage() {
           BRIDGE
         </Link>
 
-        <nav className="nav-links">
+        <nav className="nav-links" aria-label="Primary navigation">
           <Link to="/">Home</Link>
           <a href="#collections">Collections</a>
         </nav>
@@ -44,6 +44,12 @@ function HomePage() {
         >
           Start Your Journey
         </Link>
+
+        <div className="hero-proof" aria-label="Platform highlights">
+          <span>64 Journey Cards</span>
+          <span>8 Collections</span>
+          <span>Free to Explore</span>
+        </div>
       </main>
 
       <section
