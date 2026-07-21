@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function JourneyCardStack({ cards }) {
+function JourneyCardStack({ cards, collectionTitle }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
 
@@ -71,7 +71,9 @@ function JourneyCardStack({ cards }) {
                 zIndex: visibleCards.length - position,
               }}
             >
-              <span>Journey Card {card.number}</span>
+              <span className="journey-card-kicker">
+                {collectionTitle} · Journey Card {card.number}
+              </span>
               {localStorage.getItem(
                 `bridge-completed-${card.id}`,
               ) === "true" && (
@@ -90,7 +92,7 @@ function JourneyCardStack({ cards }) {
 
               {position === 0 && (
                 <Link to={`/cards/${card.id}`}>
-                  Open Journey Card {"\u2192"}
+                  {currentIndex === 0 ? "Start here" : "Open Journey Card"} {"\u2192"}
                 </Link>
               )}
             </article>
