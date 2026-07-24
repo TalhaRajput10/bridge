@@ -55,8 +55,13 @@ function HomePage() {
         <nav className="nav-links" aria-label="Primary navigation">
           <a href="#learning-path">My path</a>
           <a href="#how-it-works">How it works</a>
+          <Link to="/resources">Resources</Link>
           <a href="#collections">Collections</a>
         </nav>
+
+        <Link className="mobile-resource-link" to="/resources">
+          Resources
+        </Link>
 
         <Link className="nav-button button-link" to={`/cards/${nextCard.id}`}>
           {hasStarted ? "Continue learning" : "Start learning"}
@@ -179,6 +184,44 @@ function HomePage() {
           {hasStarted ? "Continue from your next card" : "Begin with Foundations"}
           <span aria-hidden="true">{"\u2192"}</span>
         </Link>
+      </section>
+
+      <section
+        className="home-bridge-explainer"
+        aria-labelledby="bridge-explainer-heading"
+      >
+        <div className="bridge-explainer-heading">
+          <p className="home-eyebrow">So, what exactly is BRIDGE?</p>
+          <h2 id="bridge-explainer-heading">
+            Support jargon should not feel like you accidentally joined NASA.
+          </h2>
+        </div>
+
+        <div className="bridge-explainer-copy">
+          <p>
+            Customer support can sound unnecessarily complicated. People start
+            mentioning CRMs, SLAs, CSAT, escalations, and APIs—and suddenly a
+            first support job feels like it requires ten years of experience
+            and a dictionary beside you.
+          </p>
+          <p>
+            That is why BRIDGE exists. We turn confusing concepts into short,
+            practical Journey Cards that help you communicate with customers,
+            investigate problems, use support tools, and prepare for interviews.
+          </p>
+
+          <div className="bridge-explainer-shift" aria-label="The BRIDGE learning goal">
+            <span>“I have no idea what they are talking about.”</span>
+            <strong aria-hidden="true">→</strong>
+            <span>“I understand this. I can explain it. I can do it.”</span>
+          </div>
+
+          <p className="bridge-explainer-fineprint">
+            No endless lectures. No unnecessary corporate vocabulary. No
+            pretending one article makes you a Support Ninja. Just useful
+            learning, honest guidance, and a bridge to your next opportunity.
+          </p>
+        </div>
       </section>
 
       <section className="home-method" id="how-it-works" aria-labelledby="method-heading">

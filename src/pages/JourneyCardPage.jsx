@@ -3,12 +3,15 @@ import { Link, useParams } from "react-router-dom";
 import ModuleBar from "../components/ModuleBar.jsx";
 import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
+import { getCardEnhancement } from "../data/journeyCardEnhancements.js";
 import { modelAnswers } from "../data/modelAnswers.js";
+import { getResourcesForCard } from "../data/resources.js";
 import { evaluatePracticeResponse } from "../utils/practiceFeedback.js";
 import "./JourneyCardPage.css";
 
-const lessonSections = [
+const baseLessonSections = [
   ["skill", "Skill you'll build"],
+  ["why-it-matters", "Why it matters"],
   ["learn", "Learn"],
   ["scenario", "Real scenario"],
   ["practice", "Practice Lab"],
@@ -21,6 +24,7 @@ function JourneyCardPage() {
   const card = journeyCards.find((item) => item.id === cardId);
   const completionStorageKey = `bridge-completed-${cardId}`;
   const answerStorageKey = `bridge-answer-${cardId}`;
+  const stretchConfidenceStorageKey = `bridge-stretch-confidence-${cardId}`;
 
   const [isComplete, setIsComplete] = useState(
     () => localStorage.getItem(completionStorageKey) === "true",
@@ -32,6 +36,9 @@ function JourneyCardPage() {
     () => Boolean(localStorage.getItem(answerStorageKey)),
   );
   const [practiceFeedback, setPracticeFeedback] = useState(null);
+  const [stretchConfidence, setStretchConfidence] = useState(
+    () => localStorage.getItem(stretchConfidenceStorageKey) || "",
+  );
 
   const collectionCards = card
     ? journeyCards.filter((item) => item.collectionId === card.collectionId)
@@ -44,6 +51,17 @@ function JourneyCardPage() {
   const collection = card
     ? collections.find((item) => item.id === card.collectionId)
     : null;
+  const enhancement = card ? getCardEnhancement(card) : null;
+  const cardResources = card ? getResourcesForCard(card.id) : [];
+  const lessonSections = [
+    ...baseLessonSections.slice(0, 2),
+    ...(enhancement?.technicalStretch
+      ? [["technical-stretch", "Technical stretch"]]
+      : []),
+    ...baseLessonSections.slice(2, 6),
+    ...(cardResources.length ? [["resources", "Free resources"]] : []),
+    ...baseLessonSections.slice(6),
+  ];
 
   function toggleCompletion() {
     const newStatus = !isComplete;
@@ -68,6 +86,11 @@ function JourneyCardPage() {
     setPracticeAnswer(cleanedAnswer);
     setAnswerSaved(true);
     setPracticeFeedback(evaluatePracticeResponse(cleanedAnswer, card));
+  }
+
+  function saveStretchConfidence(value) {
+    setStretchConfidence(value);
+    localStorage.setItem(stretchConfidenceStorageKey, value);
   }
 
   if (!card) {
@@ -105,6 +128,7 @@ function JourneyCardPage() {
             <div className="journey-metadata" aria-label="Journey Card details">
               <span>{card.difficulty}</span>
               <span>{card.duration}</span>
+              {enhancement?.technicalStretch && <span>Technical stretch</span>}
             </div>
 
             <div className="journey-path-progress">
@@ -135,6 +159,20 @@ function JourneyCardPage() {
               </a>
             ))}
           </nav>
+
+          {enhancement?.supportSpeak.length > 0 && (
+            <details className="support-speak-panel" open>
+              <summary>Support Speak, translated</summary>
+              <dl>
+                {enhancement.supportSpeak.map((item) => (
+                  <div key={item.term}>
+                    <dt>{item.term}</dt>
+                    <dd>{item.definition}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
+          )}
         </aside>
 
         <div className="lesson-content">
@@ -144,10 +182,98 @@ function JourneyCardPage() {
             <p>{card.skill}</p>
           </section>
 
+          <section className="lesson-section why-section" id="why-it-matters">
+            <p>Why it matters</p>
+            <h2>Where this shows up in real support work</h2>
+            <p>{enhancement.whyItMatters}</p>
+          </section>
+
+          {enhancement.technicalStretch && (
+            <section
+              className="lesson-section technical-stretch-section"
+              id="technical-stretch"
+            >
+              <p>Technical stretch</p>
+              <h2>{enhancement.technicalStretch.title}</h2>
+              <p>{enhancement.technicalStretch.intro}</p>
+
+              <div className="stretch-prerequisites">
+                <h3>Helpful cards to understand first</h3>
+                <div>
+                  {enhancement.technicalStretch.prerequisites.map((item) => (
+                    <Link key={item.cardId} to={`/cards/${item.cardId}`}>
+                      {item.label} <span aria-hidden="true">→</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <ol className="stretch-first-pass">
+                {enhancement.technicalStretch.firstPass.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ol>
+
+              <p className="stretch-check-in">
+                <strong>Beginner check-in:</strong>{" "}
+                {enhancement.technicalStretch.checkIn}
+              </p>
+
+              <div className="stretch-confidence-check">
+                <p>How did this first pass land?</p>
+                <div>
+                  <button
+                    type="button"
+                    className={stretchConfidence === "clear" ? "is-selected" : ""}
+                    aria-pressed={stretchConfidence === "clear"}
+                    onClick={() => saveStretchConfidence("clear")}
+                  >
+                    I can explain the basics
+                  </button>
+                  <button
+                    type="button"
+                    className={stretchConfidence === "review" ? "is-selected" : ""}
+                    aria-pressed={stretchConfidence === "review"}
+                    onClick={() => saveStretchConfidence("review")}
+                  >
+                    I need another pass
+                  </button>
+                </div>
+                {stretchConfidence === "review" && (
+                  <span>
+                    That is completely normal. Revisit the prerequisite cards,
+                    then use the free visual resource below before trying the
+                    Practice Lab.
+                  </span>
+                )}
+                {stretchConfidence === "clear" && (
+                  <span>
+                    Good. Continue without trying to memorize every technical
+                    detail—the goal is recognition and safe investigation.
+                  </span>
+                )}
+              </div>
+            </section>
+          )}
+
           <section className="lesson-section" id="learn">
             <p>Learn</p>
             <h2>{card.lessonTitle || card.title}</h2>
             <p>{card.lesson}</p>
+
+            {enhancement.toolNote && (
+              <aside className="tool-in-practice">
+                <p>Tool in practice</p>
+                <span>{enhancement.toolNote}</span>
+              </aside>
+            )}
+
+            {enhancement.benchmark && (
+              <aside className="industry-benchmark">
+                <p>{enhancement.benchmark.label}</p>
+                <span>{enhancement.benchmark.text}</span>
+              </aside>
+            )}
           </section>
 
           <section className="lesson-section scenario-section" id="scenario">
@@ -162,6 +288,15 @@ function JourneyCardPage() {
             <p>{card.practice}</p>
 
             <div className="practice-response">
+              <div className="practice-criteria">
+                <p>How your answer is evaluated</p>
+                <ul>
+                  {enhancement.evaluationCriteria.map((criterion) => (
+                    <li key={criterion}>{criterion}</li>
+                  ))}
+                </ul>
+              </div>
+
               <div className="practice-response-heading">
                 <label htmlFor="practice-answer">Write your response</label>
                 <span>Saved privately on your device</span>
@@ -270,6 +405,40 @@ function JourneyCardPage() {
             <h2>Prepare your answer</h2>
             <blockquote>“{card.interview}”</blockquote>
           </section>
+
+          {cardResources.length > 0 && (
+            <section className="lesson-section card-resources-section" id="resources">
+              <p>Free resources</p>
+              <h2>Explore the idea in a real tool or trusted guide</h2>
+              <p>
+                These websites open in a new tab. Product interfaces and
+                documentation can change, so use the official source when
+                current details matter.
+              </p>
+
+              <div className="journey-resource-list">
+                {cardResources.map((resource) => (
+                  <a
+                    href={resource.url}
+                    key={resource.id}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span>{resource.type}</span>
+                    <strong>{resource.title}</strong>
+                    <small>{resource.description}</small>
+                    <b>
+                      Open {resource.provider} <span aria-hidden="true">↗</span>
+                    </b>
+                  </a>
+                ))}
+              </div>
+
+              <Link className="all-resources-link" to="/resources">
+                Browse every BRIDGE resource <span aria-hidden="true">→</span>
+              </Link>
+            </section>
+          )}
 
           <section className="lesson-section takeaway-section" id="takeaway">
             <p>Key takeaway</p>

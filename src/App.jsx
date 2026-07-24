@@ -9,6 +9,7 @@ import "./App.css";
 import HomePage from "./pages/HomePage.jsx";
 import CollectionPage from "./pages/CollectionPage.jsx";
 import JourneyCardPage from "./pages/JourneyCardPage.jsx";
+import ResourcesPage from "./pages/ResourcesPage.jsx";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -37,6 +38,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/resources" element={<ResourcesPage />} />
 
         <Route
           path="/collections/:collectionId"
