@@ -39,12 +39,12 @@ export const externalResources = [
   {
     id: "intercom-inbox",
     title: "Intercom Inbox Explained",
-    provider: "Intercom",
+    provider: "Macha",
     category: "Support tools",
-    type: "Official product guide",
+    type: "Independent visual guide",
     description:
-      "A visual introduction to a conversation-first inbox and the tools agents use while responding.",
-    url: "https://www.intercom.com/help/en/articles/6258745-the-inbox-explained",
+      "See how Intercom's shared inbox organizes conversations, ownership, routing, views, and agent workflows.",
+    url: "https://www.getmacha.com/blog/intercom-shared-inbox-explained",
     cardIds: ["support-terminology-and-workflows"],
   },
   {
@@ -63,10 +63,10 @@ export const externalResources = [
     title: "Twilio Flex Built-in Views",
     provider: "Twilio",
     category: "Support tools",
-    type: "Official product guide",
+    type: "Official GitHub sample",
     description:
-      "See a cloud contact-center agent desktop and how voice and digital tasks are presented to agents.",
-    url: "https://www.twilio.com/docs/flex/onboarding-guide/explore-the-built-in-flex-ui-views",
+      "Explore an official Twilio Flex web-chat interface sample and see how a contact-center UI is structured.",
+    url: "https://github.com/twilio/flex-webchat-ui-sample",
     cardIds: ["support-channels-explained", "how-support-operations-works"],
   },
   {
@@ -116,12 +116,12 @@ export const externalResources = [
   {
     id: "cloudflare-dns",
     title: "What Is DNS?",
-    provider: "Cloudflare Learning Center",
+    provider: "Cloudflare",
     category: "Technical support",
     type: "Free explainer",
     description:
       "A visual plain-language explanation of how domain names are translated into the addresses computers use.",
-    url: "https://www.cloudflare.com/learning/dns/what-is-dns/",
+    url: "https://developers.cloudflare.com/learning-paths/cybersafe/concepts/what-is-dns/",
     cardIds: ["networking-and-dns-basics"],
   },
   {
@@ -151,10 +151,10 @@ export const externalResources = [
     title: "Resume and Cover Letter Guide",
     provider: "Harvard Extension School",
     category: "Career readiness",
-    type: "Free PDF guide",
+    type: "Free online guide",
     description:
       "Review practical resume structure, achievement writing, and cover-letter guidance.",
-    url: "https://cdn-careerservices.fas.harvard.edu/wp-content/uploads/sites/161/2024/08/2024-HES_resume-and-letter.pdf",
+    url: "https://careerservices.fas.harvard.edu/resources/hes-create-impactful-resumes-and-cover-letters/",
     cardIds: ["writing-a-support-resume", "writing-targeted-applications"],
   },
   {
@@ -165,7 +165,7 @@ export const externalResources = [
     type: "Free CV builder",
     description:
       "Create and update a structured CV online. Treat it as one option, not the only correct resume format.",
-    url: "https://europass.europa.eu/en/create-europass-cv",
+    url: "https://europa.eu/europass/eportfolio/screen/cv-editor/compact-cv-editor?lang=en",
     cardIds: ["writing-a-support-resume"],
   },
   {
