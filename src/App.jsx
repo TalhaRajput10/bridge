@@ -1,54 +1,38 @@
 import { useEffect } from "react";
-import {
-  Route,
-  Routes,
-  useLocation,
-  useParams,
-} from "react-router-dom";
+import { Route, Routes, useLocation, useParams } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage.jsx";
 import CollectionPage from "./pages/CollectionPage.jsx";
 import JourneyCardPage from "./pages/JourneyCardPage.jsx";
 import ResourcesPage from "./pages/ResourcesPage.jsx";
+import AuthPage from "./pages/AuthPage.jsx";
+import AccountPage from "./pages/AccountPage.jsx";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname]);
-
   return null;
 }
 
 function JourneyCardRoute() {
   const { cardId } = useParams();
-
   return <JourneyCardPage key={cardId} />;
 }
 
 function App() {
   return (
     <>
-      <a className="skip-link" href="#main-content">
-        Skip to main content
-      </a>
-
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <ScrollToTop />
-
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/account" element={<AccountPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
-
-        <Route
-          path="/collections/:collectionId"
-          element={<CollectionPage />}
-        />
-
-        <Route
-          path="/cards/:cardId"
-          element={<JourneyCardRoute />}
-        />
+        <Route path="/collections/:collectionId" element={<CollectionPage />} />
+        <Route path="/cards/:cardId" element={<JourneyCardRoute />} />
       </Routes>
     </>
   );

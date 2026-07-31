@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
@@ -7,6 +8,7 @@ import "./CollectionPage.css";
 
 function CollectionPage() {
   const { collectionId } = useParams();
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
 
   const collection = collections.find((item) => item.id === collectionId);
   const collectionJourneyCards = journeyCards.filter(
@@ -88,10 +90,37 @@ function CollectionPage() {
           </p>
         </div>
 
-        <JourneyCardStack
-          cards={collectionJourneyCards}
-          collectionTitle={collection.title}
-        />
+        <div className="collection-showcase-grid">
+          <aside className="collection-overview" aria-label="Collection overview">
+            <p className="collection-panel-label">Collection overview</p>
+            <dl>
+              <div><dt>Goal</dt><dd>{collection.description}</dd></div>
+              <div><dt>Level</dt><dd>Beginner</dd></div>
+              <div><dt>Estimated time</dt><dd>About {collectionJourneyCards.length * 5} minutes</dd></div>
+            </dl>
+          </aside>
+
+          <JourneyCardStack
+            cards={collectionJourneyCards}
+            collectionTitle={collection.title}
+            currentIndex={activeCardIndex}
+            onIndexChange={setActiveCardIndex}
+          />
+
+          <aside className="collection-card-index" aria-label={`${collection.title} Journey Cards`}>
+            <p className="collection-panel-label">Your journey</p>
+            <ol>
+              {collectionJourneyCards.map((card, index) => (
+                <li className={index === activeCardIndex ? "is-current" : ""} key={card.id}>
+                  <button type="button" onClick={() => setActiveCardIndex(index)} aria-current={index === activeCardIndex ? "step" : undefined}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <strong>{card.title}</strong>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </aside>
+        </div>
       </section>
     </main>
   );

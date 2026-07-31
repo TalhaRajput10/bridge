@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function JourneyCardStack({ cards, collectionTitle }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+function JourneyCardStack({ cards, collectionTitle, currentIndex, onIndexChange }) {
+  const setCurrentIndex = onIndexChange;
   const [touchStart, setTouchStart] = useState(null);
 
   const orderedCards = [
@@ -13,13 +13,11 @@ function JourneyCardStack({ cards, collectionTitle }) {
   const visibleCards = orderedCards.slice(0, 4);
 
   function showNextCard() {
-    setCurrentIndex((current) => (current + 1) % cards.length);
+    setCurrentIndex((currentIndex + 1) % cards.length);
   }
 
   function showPreviousCard() {
-    setCurrentIndex(
-      (current) => (current - 1 + cards.length) % cards.length,
-    );
+    setCurrentIndex((currentIndex - 1 + cards.length) % cards.length);
   }
 
   function handleTouchStart(event) {

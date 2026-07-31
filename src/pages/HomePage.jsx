@@ -1,281 +1,211 @@
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CollectionCard from "../components/CollectionCard.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
 import "./HomePage.css";
 
 const learningSteps = [
-  {
-    number: "01",
-    title: "Learn the idea",
-    description: "Short, focused guidance written for people entering customer support.",
-  },
-  {
-    number: "02",
-    title: "Practise the skill",
-    description: "Respond to realistic customer situations in built-in Practice Labs.",
-  },
-  {
-    number: "03",
-    title: "Build confidence",
-    description: "Compare your thinking, save your answers, and prepare for interviews.",
-  },
+  { number: "01", title: "Learn the idea", description: "Short guidance written for people entering customer support." },
+  { number: "02", title: "Practise the skill", description: "Respond to realistic situations in built-in Practice Labs." },
+  { number: "03", title: "Build confidence", description: "Save your thinking, compare examples, and prepare for interviews." },
 ];
 
+const pathMilestones = [
+  { label: "Learn the basics", threshold: 12 },
+  { label: "Handle challenges", threshold: 38 },
+  { label: "Build confidence", threshold: 70 },
+  { label: "Ace the interview", threshold: 100 },
+];
+
+function JourneyIcon({ type }) {
+  const common = { fill: "none", stroke: "currentColor", strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round" };
+  const paths = {
+    chat: <><path {...common} d="M5 6.5h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-7l-4.5 3v-3H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"/><path {...common} d="M8 12h.01M12 12h.01M16 12h.01"/></>,
+    user: <><circle {...common} cx="12" cy="8" r="3.5"/><path {...common} d="M5 21v-2.5a5.5 5.5 0 0 1 5.5-5.5h3a5.5 5.5 0 0 1 5.5 5.5V21"/></>,
+    headset: <><path {...common} d="M4 14v-2a8 8 0 0 1 16 0v2"/><path {...common} d="M4 14h3v6H5a1 1 0 0 1-1-1v-5ZM20 14h-3v6h2a1 1 0 0 0 1-1v-5ZM17 20c0 1.1-.9 2-2 2h-3"/></>,
+    document: <><path {...common} d="M7 3h7l4 4v14H7z"/><path {...common} d="M14 3v5h4M10 12h5M10 16h5"/></>,
+    shield: <><path {...common} d="M12 3 20 6v6c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6z"/><path {...common} d="m8.5 12 2.2 2.2 4.8-5"/></>,
+    spark: <><path {...common} d="m12 3 1.6 4.8L18 10l-4.4 2.2L12 17l-1.6-4.8L6 10l4.4-2.2z"/><path {...common} d="M19 4v3M20.5 5.5h-3"/></>,
+    chart: <><path {...common} d="M4 20h16"/><path {...common} d="M6 17v-5h3v5M11 17V8h3v9M16 17V4h3v13"/></>,
+    graduate: <><path {...common} d="m3 9 9-5 9 5-9 5z"/><path {...common} d="M7 12v4c2.7 2 7.3 2 10 0v-4M21 9v6"/></>,
+  };
+  return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[type]}</svg>;
+}
+
+function localDateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function getStreakSnapshot(userId) {
+  if (!userId) return { count: 0, dates: [] };
+
+  const storageKey = `bridge-learning-streak-${userId}`;
+  let storedDates;
+
+  try {
+    storedDates = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  } catch {
+    storedDates = [];
+  }
+
+  const today = localDateKey();
+  const dates = [...new Set([...storedDates, today])].sort().slice(-60);
+  localStorage.setItem(storageKey, JSON.stringify(dates));
+
+  const completedDays = new Set(dates);
+  const cursor = new Date();
+  let count = 0;
+
+  while (completedDays.has(localDateKey(cursor))) {
+    count += 1;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+
+  return { count, dates };
+}
+
+function getCurrentWeek() {
+  const today = new Date();
+  const monday = new Date(today);
+  const offset = (today.getDay() + 6) % 7;
+  monday.setDate(today.getDate() - offset);
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + index);
+    return { label: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][index], key: localDateKey(date) };
+  });
+}
+
 function HomePage() {
+  const { user } = useAuth();
+  const [streak, setStreak] = useState({ count: 0, dates: [] });
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setStreak(getStreakSnapshot(user?.id));
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [user?.id]);
+
   const collectionStats = collections.map((collection) => {
     const cards = journeyCards.filter((card) => card.collectionId === collection.id);
-    const completed = cards.filter(
-      (card) => localStorage.getItem(`bridge-completed-${card.id}`) === "true",
-    ).length;
-
-    return {
-      ...collection,
-      cards,
-      completed,
-      percentage: cards.length ? Math.round((completed / cards.length) * 100) : 0,
-    };
+    const completed = cards.filter((card) => localStorage.getItem(`bridge-completed-${card.id}`) === "true").length;
+    return { ...collection, cards, completed, percentage: cards.length ? Math.round((completed / cards.length) * 100) : 0 };
   });
 
-  const totalCompleted = collectionStats.reduce(
-    (total, collection) => total + collection.completed,
-    0,
-  );
-  const overallPercentage = Math.round((totalCompleted / journeyCards.length) * 100);
-  const nextCard = journeyCards.find(
-    (card) => localStorage.getItem(`bridge-completed-${card.id}`) !== "true",
-  ) || journeyCards[0];
+  const totalCompleted = collectionStats.reduce((total, collection) => total + collection.completed, 0);
+  const overallPercentage = journeyCards.length ? Math.round((totalCompleted / journeyCards.length) * 100) : 0;
+  const nextCard = journeyCards.find((card) => localStorage.getItem(`bridge-completed-${card.id}`) !== "true") || journeyCards[0];
   const hasStarted = totalCompleted > 0;
+  const week = useMemo(() => getCurrentWeek(), []);
+  const streakDates = new Set(streak.dates);
+  const avatarLabel = user?.email?.slice(0, 1).toUpperCase() || "?";
 
   return (
     <div className="home-page">
-      <header className="navbar home-navbar">
-        <Link className="logo" to="/" aria-label="BRIDGE home">BRIDGE</Link>
-
-        <nav className="nav-links" aria-label="Primary navigation">
-          <a href="#learning-path">My path</a>
-          <a href="#how-it-works">How it works</a>
-          <Link to="/resources">Resources</Link>
+      <header className="home-navbar">
+        <Link className="home-logo" to="/" aria-label="BRIDGE home">BRIDGE</Link>
+        <nav className="home-nav-links" aria-label="Primary navigation">
+          <a href="#learning-path">My Path</a>
+          <a href="#how-it-works">How It Works</a>
           <a href="#collections">Collections</a>
+          <Link to="/resources">Resources</Link>
         </nav>
-
-        <Link className="mobile-resource-link" to="/resources">
-          Resources
-        </Link>
-
-        <Link className="nav-button button-link" to={`/cards/${nextCard.id}`}>
-          {hasStarted ? "Continue learning" : "Start learning"}
-        </Link>
+        <div className="home-account-actions">
+          {user ? (
+            <>
+              <span className="nav-streak" aria-label={`${streak.count} day learning streak`}><span aria-hidden="true">●</span>{streak.count} day streak</span>
+              <Link className="home-avatar" to="/account" aria-label="Open your account">{avatarLabel}</Link>
+            </>
+          ) : (
+            <Link className="home-sign-in" to="/auth">Sign in</Link>
+          )}
+        </div>
       </header>
 
       <main id="main-content" className="home-hero" tabIndex="-1">
         <div className="home-hero-copy">
           <p className="home-eyebrow">A free customer-support career platform</p>
-          <h1>
-            Build the skills.
-            <span>Bridge the gap.</span>
-          </h1>
-          <p className="home-hero-intro">
-            Practical, beginner-friendly learning that helps you handle real
-            customer situations and walk into interviews with confidence.
-          </p>
-
+          <h1>Build the skills.<span>Bridge the gap.</span></h1>
+          <p className="home-hero-intro">Practical, beginner-friendly learning for real customer situations and confident interviews.</p>
           <div className="home-hero-actions">
-            <Link className="button-link primary-button" to={`/cards/${nextCard.id}`}>
-              {hasStarted ? "Continue your journey" : "Start your journey"}
-              <span aria-hidden="true">{"\u2192"}</span>
-            </Link>
-            <a className="text-button" href="#collections">Explore collections</a>
-          </div>
-
-          <div className="home-proof" aria-label="Platform highlights">
-            <span><strong>64</strong> Journey Cards</span>
-            <span><strong>8</strong> skill collections</span>
-            <span><strong>100%</strong> free</span>
+            <Link className="home-primary-button" to={`/cards/${nextCard.id}`}>{hasStarted ? "Continue your journey" : "Start your journey"}<span aria-hidden="true">→</span></Link>
+            <a className="home-secondary-button" href="#collections">Explore collections</a>
           </div>
         </div>
 
-        <div className="bridge-visual">
-          <div className="bridge-sky-glow" aria-hidden="true" />
-          <div className="bridge-half bridge-half-left" aria-hidden="true">
-            <span /><span /><span /><span />
-          </div>
-          <div className="bridge-half bridge-half-right" aria-hidden="true">
-            <span /><span /><span /><span />
-          </div>
-
-          <nav className="bridge-path-cards" aria-label="Your collection progress bridge">
-            {collectionStats.map((collection) => (
-              <Link
-                className={`bridge-path-card ${
-                  collection.percentage === 100
-                    ? "is-complete"
-                    : collection.percentage > 0
-                      ? "is-active"
-                      : ""
-                }`}
-                data-label={collection.title}
-                aria-label={`${collection.title}: ${collection.completed} of ${collection.cards.length} cards completed`}
-                key={collection.id}
-                title={`${collection.title}: ${collection.completed} of ${collection.cards.length} cards completed`}
-                to={`/collections/${collection.id}`}
-              >
-                <span>{collection.number}</span>
-                <div aria-hidden="true">
-                  <i style={{ width: `${collection.percentage}%` }} />
-                </div>
+        <div className="night-bridge" aria-label="Journey Cards forming a bridge across your learning path">
+          <span className="moon" aria-hidden="true" />
+          <div className="bridge-land bridge-land-left" aria-hidden="true"><i /><i /></div>
+          <div className="bridge-land bridge-land-right" aria-hidden="true"><i /><i /></div>
+          <div className="bridge-water" aria-hidden="true" />
+          <nav className="hero-journey-cards" aria-label="Featured collections">
+            {collectionStats.map((collection, index) => (
+              <Link key={collection.id} to={`/collections/${collection.id}`} aria-label={`${collection.title}: ${collection.percentage}% complete`}>
+                <span className="hero-card-icon"><JourneyIcon type={["chat", "user", "headset", "document", "shield", "spark", "chart", "graduate"][index]} /></span>
+                <i><b style={{ width: `${Math.max(collection.percentage, 8)}%` }} /></i>
               </Link>
             ))}
           </nav>
-
-          <div className="bridge-live-summary" aria-live="polite">
-            <strong>{totalCompleted} / {journeyCards.length}</strong>
-            <span>Every completed card builds your bridge.</span>
-          </div>
         </div>
       </main>
 
-      <section
-        className="home-learning-path"
-        id="learning-path"
-        aria-labelledby="learning-path-heading"
-      >
-        <div className="learning-path-heading">
-          <div>
-            <p className="home-eyebrow">Your learning path</p>
-            <h2 id="learning-path-heading">Every completed card builds your bridge.</h2>
-          </div>
-
-          <div className="overall-progress-summary" aria-label={`${overallPercentage}% complete`}>
-            <span>{totalCompleted} of {journeyCards.length} cards completed</span>
-            <strong>{overallPercentage}%</strong>
-          </div>
+      <section className="home-learning-path" id="learning-path" aria-labelledby="learning-path-heading">
+        <div className="learning-path-topline">
+          <h2 id="learning-path-heading">Your learning path</h2>
+          <p><strong>{totalCompleted}</strong> / {journeyCards.length} cards completed</p>
+        </div>
+        <div className="milestone-rail" style={{ "--progress": `${overallPercentage}%` }}>
+          {pathMilestones.map((milestone, index) => {
+            const complete = overallPercentage >= milestone.threshold;
+            const active = !complete && (index === 0 || overallPercentage >= pathMilestones[index - 1].threshold);
+            return <div className={`milestone ${complete ? "is-complete" : ""} ${active ? "is-active" : ""}`} key={milestone.label}><span>{complete ? "✓" : index + 1}</span><strong>{milestone.label}</strong></div>;
+          })}
         </div>
 
-        <div className="learning-path-scroll">
-          <nav className="learning-path-rail" aria-label="Collection progress">
-            <div className="learning-path-line" aria-hidden="true">
-              <span style={{ width: `${overallPercentage}%` }} />
+        <div className="home-dashboard-row">
+          <Link className="continue-learning-card" to={`/cards/${nextCard.id}`}>
+            <span className="continue-icon" aria-hidden="true">◌</span>
+            <span><small>Next</small><strong>{nextCard.title}</strong><em>Keep the bridge moving.</em></span>
+            <b aria-hidden="true">→</b>
+          </Link>
+
+          <section className="streak-strip" aria-labelledby="streak-heading">
+            <div className="streak-heading"><h3 id="streak-heading">{user ? `${streak.count} day streak` : "Build a learning streak"}</h3>{!user && <Link to="/auth">Sign in to track it</Link>}</div>
+            <div className="streak-days">
+              {week.map((day) => <span className={streakDates.has(day.key) ? "is-done" : ""} key={day.key}><i>{streakDates.has(day.key) ? "✓" : ""}</i><small>{day.label}</small></span>)}
             </div>
-
-            {collectionStats.map((collection) => (
-              <Link
-                className={`learning-path-node ${
-                  collection.percentage === 100
-                    ? "is-complete"
-                    : collection.percentage > 0
-                      ? "is-active"
-                      : ""
-                }`}
-                key={collection.id}
-                to={`/collections/${collection.id}`}
-              >
-                <span className="path-node-marker">
-                  {collection.percentage === 100 ? "\u2713" : collection.number}
-                </span>
-                <strong>{collection.title}</strong>
-                <small>{collection.completed} / {collection.cards.length} cards</small>
-              </Link>
-            ))}
-          </nav>
+          </section>
         </div>
-
-        <Link className="learning-path-continue" to={`/cards/${nextCard.id}`}>
-          {hasStarted ? "Continue from your next card" : "Begin with Foundations"}
-          <span aria-hidden="true">{"\u2192"}</span>
-        </Link>
-      </section>
-
-      <section
-        className="home-bridge-explainer"
-        aria-labelledby="bridge-explainer-heading"
-      >
-        <div className="bridge-explainer-heading">
-          <p className="home-eyebrow">So, what exactly is BRIDGE?</p>
-          <h2 id="bridge-explainer-heading">
-            Support jargon should not feel like you accidentally joined NASA.
-          </h2>
-        </div>
-
-        <div className="bridge-explainer-copy">
-          <p>
-            Customer support can sound unnecessarily complicated. People start
-            mentioning CRMs, SLAs, CSAT, escalations, and APIs—and suddenly a
-            first support job feels like it requires ten years of experience
-            and a dictionary beside you.
-          </p>
-          <p>
-            That is why BRIDGE exists. We turn confusing concepts into short,
-            practical Journey Cards that help you communicate with customers,
-            investigate problems, use support tools, and prepare for interviews.
-          </p>
-
-          <div className="bridge-explainer-shift" aria-label="The BRIDGE learning goal">
-            <span>“I have no idea what they are talking about.”</span>
-            <strong aria-hidden="true">→</strong>
-            <span>“I understand this. I can explain it. I can do it.”</span>
-          </div>
-
-          <p className="bridge-explainer-fineprint">
-            No endless lectures. No unnecessary corporate vocabulary. No
-            pretending one article makes you a Support Ninja. Just useful
-            learning, honest guidance, and a bridge to your next opportunity.
-          </p>
-        </div>
+        <a className="quiet-collections-link" href="#collections">Explore all collections <span aria-hidden="true">→</span></a>
       </section>
 
       <section className="home-method" id="how-it-works" aria-labelledby="method-heading">
-        <div className="home-section-intro">
-          <p className="home-eyebrow">Learn by doing</p>
-          <h2 id="method-heading">From unsure to job-ready.</h2>
-          <p>
-            BRIDGE turns essential support knowledge into small, useful steps
-            you can complete at your own pace.
-          </p>
-        </div>
-
-        <div className="method-grid">
-          {learningSteps.map((step) => (
-            <article className="method-step" key={step.number}>
-              <span>{step.number}</span>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </article>
-          ))}
-        </div>
+        <div className="home-section-intro"><p className="home-eyebrow">Learn by doing</p><h2 id="method-heading">From unsure to job-ready.</h2><p>Essential support knowledge, broken into useful steps you can complete at your own pace.</p></div>
+        <div className="method-grid">{learningSteps.map((step) => <article className="method-step" key={step.number}><span>{step.number}</span><h3>{step.title}</h3><p>{step.description}</p></article>)}</div>
       </section>
 
-      <section className="collections home-collections" id="collections" aria-labelledby="collections-heading">
-        <div className="home-section-intro collections-intro">
-          <p className="home-eyebrow">The complete learning path</p>
-          <h2 id="collections-heading">Choose where to begin.</h2>
-          <p>
-            Start with Foundations or open the collection that matches the
-            skill you want to strengthen today.
-          </p>
-        </div>
-
-        <div className="collection-grid">
-          {collections.map((collection) => (
-            <CollectionCard key={collection.id} collection={collection} />
-          ))}
-        </div>
+      <section className="home-collections" id="collections" aria-labelledby="collections-heading">
+        <div className="home-section-intro"><p className="home-eyebrow">The complete learning path</p><h2 id="collections-heading">Choose where to begin.</h2><p>Start with Foundations or strengthen the skill you need today.</p></div>
+        <div className="collection-grid">{collections.map((collection) => <CollectionCard key={collection.id} collection={collection} />)}</div>
       </section>
 
-      <section className="home-closing" aria-labelledby="closing-heading">
-        <p className="home-eyebrow">Your next step</p>
-        <h2 id="closing-heading">A stronger support career starts with one card.</h2>
-        <Link className="button-link primary-button" to={`/cards/${nextCard.id}`}>
-          {hasStarted ? "Continue your journey" : "Begin with Foundations"}
-          <span aria-hidden="true">{"\u2192"}</span>
-        </Link>
-      </section>
+      <section className="home-closing"><p className="home-eyebrow">Your next step</p><h2>A stronger support career starts with one card.</h2><Link className="home-primary-button" to={`/cards/${nextCard.id}`}>{hasStarted ? "Continue your journey" : "Begin with Foundations"}<span aria-hidden="true">→</span></Link></section>
+      <footer className="home-footer"><Link className="home-logo" to="/">BRIDGE</Link><p>Every great support interaction builds a bridge.</p></footer>
 
-      <footer className="home-footer">
-        <Link className="logo" to="/">BRIDGE</Link>
-        <p>Every great support interaction builds a bridge.</p>
-        <span>Built for aspiring support professionals.</span>
-      </footer>
+      <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
+        <Link className="is-current" to="/"><span aria-hidden="true">⌂</span>Home</Link>
+        <Link to={`/cards/${nextCard.id}`}><span aria-hidden="true">◇</span>Journey</Link>
+        <a href="#collections"><span aria-hidden="true">▤</span>Collections</a>
+        <Link to={user ? "/account" : "/auth"}><span aria-hidden="true">○</span>Account</Link>
+      </nav>
     </div>
   );
 }

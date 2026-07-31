@@ -1,16 +1,71 @@
-# React + Vite
+# BRIDGE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Every great support interaction builds a bridge.**
 
-Currently, two official plugins are available:
+BRIDGE is a free, interactive customer-support career platform for aspiring and early-career professionals. It combines 64 concise Journey Cards, realistic Practice Labs, interview preparation, progress tracking, and eight skill collections in a responsive React experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Core experience
 
-## React Compiler
+- Eight learning collections and 64 Journey Cards
+- Practical scenarios, model answers, and saved Practice Lab responses
+- Completion progress and device-based learning streaks
+- Supabase email authentication
+- Responsive desktop and mobile layouts
+- Accessible keyboard navigation, visible focus states, and reduced-motion support
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technology
 
-## Expanding the ESLint configuration
+- React 19
+- React Router
+- Vite
+- Supabase authentication
+- Plain CSS design system
+- Cloudflare deployment
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Local development
+
+```powershell
+npm.cmd install
+npm.cmd run dev
+```
+
+Open the local URL printed by Vite.
+
+## Quality checks
+
+```powershell
+npm.cmd run lint
+npm.cmd run build
+```
+
+## Environment variables
+
+Create `.env.local` and provide the public Supabase project values used by `src/lib/supabase.js`:
+
+```text
+VITE_SUPABASE_URL=your-project-url
+VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+```
+
+Never commit private service-role keys.
+
+## Project structure
+
+```text
+src/
+  components/     Shared navigation and Journey Card components
+  context/        Authentication session context
+  data/           Curriculum, resources, examples, and card content
+  lib/            External client configuration
+  pages/          Route-level views
+  utils/          Practice Lab evaluation helpers
+  BridgeRevamp.css Approved cross-page visual system
+```
+
+The presentation layer is intentionally separate from curriculum data and authentication. UI work should not mutate files in `src/data`, `src/context`, or `src/lib` unless a feature explicitly requires a data or backend change.
+
+See [docs/BRIDGE_UI_SYSTEM.md](docs/BRIDGE_UI_SYSTEM.md) for the approved visual language and responsive rules.
+
+## Product ownership
+
+BRIDGE is an original concept and product led by Talha Rajput. AI tools, including ChatGPT/Codex, have been used as implementation and production assistants; product direction, audience, content strategy, and core ideas remain the creator's.
