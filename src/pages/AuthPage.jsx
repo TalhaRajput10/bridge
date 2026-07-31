@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate, Link, useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import { useAuth } from "../context/AuthContext";
 
 function AuthPage() {
@@ -26,6 +26,11 @@ function AuthPage() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    if (!isSupabaseConfigured || !supabase) {
+      setErrorMessage("Accounts are temporarily unavailable. Please try again shortly.");
+      return;
+    }
 
     setSubmitting(true);
     setMessage("");
@@ -64,6 +69,11 @@ function AuthPage() {
 
     if (!email.trim()) {
       setErrorMessage("Enter your email address first, then select Forgot password.");
+      return;
+    }
+
+    if (!isSupabaseConfigured || !supabase) {
+      setErrorMessage("Accounts are temporarily unavailable. Please try again shortly.");
       return;
     }
 

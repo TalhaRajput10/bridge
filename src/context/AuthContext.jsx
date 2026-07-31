@@ -5,15 +5,19 @@ import {
   useMemo,
   useState,
 } from "react";
-import { supabase } from "../lib/supabase";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(isSupabaseConfigured);
 
   useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      return undefined;
+    }
+
     let isMounted = true;
 
     supabase.auth.getSession().then(({ data, error }) => {
