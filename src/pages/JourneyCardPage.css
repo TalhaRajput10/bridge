@@ -627,33 +627,44 @@
 .journey-resource-list {
   display: grid;
   margin-top: 30px;
-  gap: 12px;
+  gap: 16px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .journey-resource-list > a {
   display: flex;
-  min-height: 230px;
-  padding: 24px;
-  border: 1px solid var(--journey-line);
-  border-radius: 7px;
-  background: #fff;
-  color: inherit;
+  min-height: 236px;
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid #294a64;
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgb(28 61 87 / 74%), rgb(10 31 50 / 96%)),
+    #0d2236;
+  box-shadow: 0 18px 42px rgb(0 8 20 / 18%);
+  color: #f2f7fa;
   flex-direction: column;
   text-decoration: none;
   transition:
     border-color 160ms ease,
+    box-shadow 160ms ease,
     transform 160ms ease;
 }
 
 .journey-resource-list > a:hover {
-  border-color: var(--journey-blue);
+  border-color: #66b9e4;
+  box-shadow: 0 22px 50px rgb(0 8 20 / 28%);
   transform: translateY(-3px);
+}
+
+.journey-resource-list > a:focus-visible {
+  outline: 3px solid #73c9f2;
+  outline-offset: 4px;
 }
 
 .journey-resource-list > a > span {
   margin-bottom: 22px;
-  color: var(--journey-blue);
+  color: #7ec8e3;
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -661,7 +672,7 @@
 }
 
 .journey-resource-list strong {
-  color: var(--journey-ink);
+  color: #f2f7fa;
   font-family: var(--journey-display);
   font-size: 1.45rem;
   font-weight: 520;
@@ -671,15 +682,18 @@
 
 .journey-resource-list small {
   margin: 14px 0 24px;
-  color: var(--journey-copy);
+  color: #a9bac9;
   font-size: 0.8rem;
   line-height: 1.55;
 }
 
 .journey-resource-list b {
   margin-top: auto;
-  color: var(--journey-blue);
+  padding-top: 18px;
+  border-top: 1px solid rgb(126 200 227 / 18%);
+  color: #8fd4f4;
   font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .all-resources-link {
