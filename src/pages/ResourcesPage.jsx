@@ -107,7 +107,12 @@ function ResourcesPage() {
                 <p>{resource.description}</p>
                 <div className="resource-card-footer">
                   <span>By {resource.provider}</span>
-                  <a href={resource.url} target="_blank" rel="noreferrer">
+                  <a
+                    href={resource.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Open ${resource.title} in a new tab`}
+                  >
                     Open resource <span aria-hidden="true">↗</span>
                   </a>
                 </div>
