@@ -1,3 +1,5 @@
+import { getPracticeRubric } from "./practiceRubrics.js";
+
 const collectionWhyItMatters = {
   foundations:
     "This gives you a reliable starting point for real support work and helps the rest of the platform make sense.",
@@ -162,10 +164,14 @@ const toolNotes = {
 
 export function getCardEnhancement(card) {
   const termKeys = cardTerms[card.id] || [];
+  const practiceRubric = getPracticeRubric(card);
 
   return {
     whyItMatters: collectionWhyItMatters[card.collectionId],
-    evaluationCriteria: evaluationCriteria[card.collectionId] || [],
+    evaluationCriteria:
+      practiceRubric?.criteria.map((criterion) => criterion.label)
+      || evaluationCriteria[card.collectionId]
+      || [],
     supportSpeak: termKeys.map((key) => ({
       term: key === "rootCause" ? "Root cause" : key,
       definition: glossary[key],

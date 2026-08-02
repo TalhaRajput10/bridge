@@ -852,6 +852,152 @@
   line-height: 1.7;
 }
 
+.journey-page .feedback-reasons {
+  margin-top: 16px;
+  padding: 22px 24px;
+  border: 1px solid #315875;
+  border-radius: 5px;
+  background: #0a1c31;
+}
+
+.journey-page .feedback-reasons h4 {
+  margin: 0 0 12px;
+  color: #f2f7fa;
+  font-size: 0.78rem;
+}
+
+.journey-page .feedback-reasons ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #a9bac9;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+/* Card-level learner feedback */
+
+.journey-page .card-feedback-section {
+  margin-top: 28px;
+  padding: 34px;
+  border: 1px solid #294a64;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #0d2236, #091a2b);
+}
+
+.journey-page .card-feedback-section > p:first-child {
+  color: #7ec8e3;
+}
+
+.journey-page .card-feedback-section > h2 {
+  margin-bottom: 10px;
+  color: #f2f7fa;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+}
+
+.journey-page .card-feedback-section > h2 + p {
+  max-width: 650px;
+  color: #9fb2c2;
+  font-size: 0.86rem;
+}
+
+.card-rating-options {
+  display: flex;
+  margin-top: 24px;
+  gap: 10px;
+}
+
+.card-rating-options button {
+  min-width: 92px;
+  min-height: 44px;
+  border: 1px solid #315875;
+  border-radius: 6px;
+  background: #0a1c31;
+  color: #c9d7e1;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.card-rating-options button:hover,
+.card-rating-options button.selected {
+  border-color: #66b9e4;
+  background: #153a55;
+  color: #fff;
+}
+
+.card-rating-options button:focus-visible,
+.card-feedback-details select:focus-visible,
+.card-feedback-details textarea:focus-visible,
+.card-feedback-actions button:focus-visible {
+  outline: 3px solid #73c9f2;
+  outline-offset: 3px;
+}
+
+.card-feedback-details {
+  display: grid;
+  max-width: 680px;
+  margin-top: 24px;
+  gap: 10px;
+}
+
+.card-feedback-details label {
+  margin-top: 8px;
+  color: #dce9f0;
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.card-feedback-details select,
+.card-feedback-details textarea {
+  width: 100%;
+  border: 1px solid #315875;
+  border-radius: 6px;
+  background: #061522;
+  color: #f2f7fa;
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.card-feedback-details select {
+  min-height: 46px;
+  padding: 0 13px;
+}
+
+.card-feedback-details textarea {
+  min-height: 96px;
+  padding: 13px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.card-feedback-details textarea::placeholder {
+  color: #6e8496;
+}
+
+.card-feedback-actions {
+  display: flex;
+  margin-top: 10px;
+  gap: 14px;
+  align-items: center;
+}
+
+.card-feedback-actions button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid #3d8dca;
+  border-radius: 6px;
+  background: #2d78b7;
+  color: #fff;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.card-feedback-actions span {
+  color: #83d9ae;
+  font-size: 0.74rem;
+}
+
 /* Interview and takeaway */
 
 .journey-page .interview-section blockquote {
@@ -1140,6 +1286,28 @@
 
   .journey-page .practice-feedback-heading {
     flex-direction: column;
+  }
+
+  .journey-page .card-feedback-section {
+    padding: 28px 22px;
+  }
+
+  .card-rating-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .card-rating-options button {
+    min-width: 0;
+  }
+
+  .card-feedback-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .card-feedback-actions span {
+    text-align: center;
   }
 
   .journey-page > .completion-panel {

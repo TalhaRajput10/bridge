@@ -19,12 +19,22 @@ const baseLessonSections = [
   ["takeaway", "Key takeaway"],
 ];
 
+function readSavedCardFeedback(storageKey) {
+  try {
+    const savedFeedback = localStorage.getItem(storageKey);
+    return savedFeedback ? JSON.parse(savedFeedback) : null;
+  } catch {
+    return null;
+  }
+}
+
 function JourneyCardPage() {
   const { cardId } = useParams();
   const card = journeyCards.find((item) => item.id === cardId);
   const completionStorageKey = `bridge-completed-${cardId}`;
   const answerStorageKey = `bridge-answer-${cardId}`;
   const stretchConfidenceStorageKey = `bridge-stretch-confidence-${cardId}`;
+  const cardFeedbackStorageKey = `bridge-card-feedback-${cardId}`;
 
   const [isComplete, setIsComplete] = useState(
     () => localStorage.getItem(completionStorageKey) === "true",
@@ -38,6 +48,19 @@ function JourneyCardPage() {
   const [practiceFeedback, setPracticeFeedback] = useState(null);
   const [stretchConfidence, setStretchConfidence] = useState(
     () => localStorage.getItem(stretchConfidenceStorageKey) || "",
+  );
+  const [savedCardFeedback] = useState(
+    () => readSavedCardFeedback(cardFeedbackStorageKey),
+  );
+  const [cardRating, setCardRating] = useState(() => savedCardFeedback?.rating || "");
+  const [cardFeedbackReason, setCardFeedbackReason] = useState(
+    () => savedCardFeedback?.reason || "",
+  );
+  const [cardFeedbackNote, setCardFeedbackNote] = useState(
+    () => savedCardFeedback?.note || "",
+  );
+  const [cardFeedbackSaved, setCardFeedbackSaved] = useState(
+    () => Boolean(savedCardFeedback),
   );
 
   const collectionCards = card
@@ -91,6 +114,19 @@ function JourneyCardPage() {
   function saveStretchConfidence(value) {
     setStretchConfidence(value);
     localStorage.setItem(stretchConfidenceStorageKey, value);
+  }
+
+  function saveCardFeedback() {
+    if (!cardRating) return;
+
+    localStorage.setItem(cardFeedbackStorageKey, JSON.stringify({
+      cardId,
+      rating: cardRating,
+      reason: cardFeedbackReason,
+      note: cardFeedbackNote.trim(),
+      updatedAt: new Date().toISOString(),
+    }));
+    setCardFeedbackSaved(true);
   }
 
   if (!card) {
@@ -374,6 +410,17 @@ function JourneyCardPage() {
                     </div>
                   </div>
 
+                  {practiceFeedback.reasons?.length > 0 && (
+                    <div className="feedback-reasons">
+                      <h4>Why these ideas matter</h4>
+                      <ul>
+                        {practiceFeedback.reasons.map((reason) => (
+                          <li key={reason}>{reason}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
                   <div className="suggested-structure">
                     <h4>Suggested answer structure</h4>
                     <ol>
@@ -393,7 +440,7 @@ function JourneyCardPage() {
                   )}
 
                   <p className="feedback-disclaimer">
-                    This is guidance based on key ideas, not a grade or the only correct answer. The checker matches written words and phrases; misspelled words may not be recognized.
+                    This is guidance based on key ideas, not a grade or the only correct answer. Minor spelling mistakes are tolerated where possible, but very different spellings or wording may still affect automated recognition.
                   </p>
                 </div>
               )}
@@ -443,6 +490,71 @@ function JourneyCardPage() {
           <section className="lesson-section takeaway-section" id="takeaway">
             <p>Key takeaway</p>
             <h2>{card.takeaway}</h2>
+          </section>
+
+          <section className="lesson-section card-feedback-section" aria-labelledby="card-feedback-title">
+            <p>Help improve BRIDGE</p>
+            <h2 id="card-feedback-title">Was this Journey Card useful?</h2>
+            <p>Your feedback helps identify lessons that need clearer language, stronger examples, or better exercises.</p>
+
+            <div className="card-rating-options" role="group" aria-label="Journey Card usefulness">
+              {["Yes", "Partly", "No"].map((rating) => (
+                <button
+                  type="button"
+                  key={rating}
+                  className={cardRating === rating ? "selected" : ""}
+                  aria-pressed={cardRating === rating}
+                  onClick={() => {
+                    setCardRating(rating);
+                    setCardFeedbackSaved(false);
+                  }}
+                >
+                  {rating}
+                </button>
+              ))}
+            </div>
+
+            {cardRating && (
+              <div className="card-feedback-details">
+                <label htmlFor="card-feedback-reason">What influenced your answer?</label>
+                <select
+                  id="card-feedback-reason"
+                  value={cardFeedbackReason}
+                  onChange={(event) => {
+                    setCardFeedbackReason(event.target.value);
+                    setCardFeedbackSaved(false);
+                  }}
+                >
+                  <option value="">Choose a reason (optional)</option>
+                  <option value="clear-and-useful">Clear and useful</option>
+                  <option value="too-much-jargon">Too much jargon</option>
+                  <option value="unclear-exercise">Exercise was unclear</option>
+                  <option value="inaccurate-feedback">Practice feedback felt inaccurate</option>
+                  <option value="broken-link">A resource link is broken</option>
+                  <option value="outdated-content">Content appears outdated</option>
+                  <option value="visual-accessibility">Visual or accessibility problem</option>
+                  <option value="other">Something else</option>
+                </select>
+
+                <label htmlFor="card-feedback-note">Anything else we should know?</label>
+                <textarea
+                  id="card-feedback-note"
+                  rows="3"
+                  maxLength="400"
+                  value={cardFeedbackNote}
+                  onChange={(event) => {
+                    setCardFeedbackNote(event.target.value);
+                    setCardFeedbackSaved(false);
+                  }}
+                  placeholder="Optional note—please do not include private customer information."
+                />
+
+                <div className="card-feedback-actions">
+                  <button type="button" onClick={saveCardFeedback}>Save feedback</button>
+                  {cardFeedbackSaved && <span role="status">Feedback saved on this device</span>}
+                </div>
+              </div>
+            )}
           </section>
         </div>
       </div>

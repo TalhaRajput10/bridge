@@ -1,3 +1,5 @@
+import { getPracticeRubric } from "../data/practiceRubrics.js";
+
 const rubrics = {
   foundations: [
     {
@@ -143,22 +145,70 @@ function normalizeText(value) {
   return value.toLowerCase().replace(/[’']/g, "'");
 }
 
+function normalizeForMatching(value) {
+  return normalizeText(value)
+    .replace(/[^a-z0-9'\s:-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function editDistance(left, right) {
+  const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+
+  for (let leftIndex = 1; leftIndex <= left.length; leftIndex += 1) {
+    const current = [leftIndex];
+    for (let rightIndex = 1; rightIndex <= right.length; rightIndex += 1) {
+      const substitution = previous[rightIndex - 1]
+        + (left[leftIndex - 1] === right[rightIndex - 1] ? 0 : 1);
+      current[rightIndex] = Math.min(
+        current[rightIndex - 1] + 1,
+        previous[rightIndex] + 1,
+        substitution,
+      );
+    }
+    previous.splice(0, previous.length, ...current);
+  }
+
+  return previous[right.length];
+}
+
+function includesSignal(normalizedAnswer, signal) {
+  const normalizedSignal = normalizeForMatching(signal);
+  if (normalizedAnswer.includes(normalizedSignal)) return true;
+  if (normalizedSignal.includes(" ") || normalizedSignal.length < 5) return false;
+
+  return normalizedAnswer
+    .split(" ")
+    .some((word) => word.length >= 5 && editDistance(word, normalizedSignal) <= 1);
+}
+
+function criterionIsCovered(normalizedAnswer, criterion) {
+  const matchCount = criterion.signals.filter((signal) =>
+    includesSignal(normalizedAnswer, signal),
+  ).length;
+
+  return matchCount >= (criterion.minimumMatches || 1);
+}
+
 export function evaluatePracticeResponse(answer, card) {
   const cleanedAnswer = answer.trim();
-  const normalizedAnswer = normalizeText(cleanedAnswer);
-  const criteria = rubrics[card.collectionId] || fallbackRubric;
-  const covered = criteria.filter((criterion) =>
-    criterion.keywords.some((keyword) => normalizedAnswer.includes(keyword)),
-  );
+  const normalizedAnswer = normalizeForMatching(cleanedAnswer);
+  const cardRubric = getPracticeRubric(card);
+  const criteria = cardRubric?.criteria || rubrics[card.collectionId] || fallbackRubric;
+  const covered = criteria.filter((criterion) => {
+    if (criterion.signals) return criterionIsCovered(normalizedAnswer, criterion);
+    return criterion.keywords.some((keyword) => includesSignal(normalizedAnswer, keyword));
+  });
   const missing = criteria.filter((criterion) => !covered.includes(criterion));
   const wordCount = cleanedAnswer.split(/\s+/).filter(Boolean).length;
   const coverageRatio = covered.length / criteria.length;
+  const recommendedWordCount = cardRubric?.minimumWords || 30;
 
   let title = "Keep developing your response";
   let summary =
     "You have made a start. Add more detail and make your reasoning visible so a hiring manager or team lead can follow your approach.";
 
-  if (coverageRatio === 1 && wordCount >= 35) {
+  if (coverageRatio === 1 && wordCount >= recommendedWordCount) {
     title = "Strong, well-rounded response";
     summary =
       "Your response covers the main ideas and gives enough detail to show how you would approach the situation.";
@@ -177,7 +227,8 @@ export function evaluatePracticeResponse(answer, card) {
     title,
     summary,
     covered: covered.map((criterion) => criterion.label),
-    missing: missing.map((criterion) => criterion.label),
+    missing: missing.map((criterion) => criterion.prompt || criterion.label),
+    reasons: covered.map((criterion) => criterion.why).filter(Boolean),
     structure: criteria.map((criterion) => criterion.prompt),
     total: criteria.length,
   };
