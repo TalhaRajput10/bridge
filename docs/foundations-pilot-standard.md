@@ -28,15 +28,16 @@ Each criterion contains:
 - natural-language signals used by the local evaluator; and
 - an optional minimum number of signals for structured exercises.
 
-The evaluator tolerates a one-character spelling difference for meaningful single-word signals. It does not grade grammar, guarantee semantic understanding, or make a hiring decision. Every result includes the expected answer structure and a model answer so the learner can revise rather than merely receive a score.
+The evaluator tolerates a one-character spelling difference for meaningful single-word signals and up to two edits for words of eight or more characters. This covers common missing letters and transpositions without making short words overly permissive. It does not grade grammar, guarantee semantic understanding, or make a hiring decision. Every result includes the expected answer structure and a model answer so the learner can revise rather than merely receive a score.
 
 ## Card feedback
 
 Every Journey Card includes a compact usefulness control with:
 
 - Yes, Partly, and No ratings;
-- optional issue categories;
-- an optional 400-character note; and
+- one-click saving for Yes and Partly;
+- issue categories shown only after a No rating;
+- an optional 400-character note after a No rating; and
 - a clear privacy reminder.
 
 The pilot stores this feedback on the learner's device. Central reporting will use the same data shape when Supabase feedback storage is introduced:
@@ -74,3 +75,18 @@ Practice Lab answers must never be included automatically with card feedback.
 ## Scaling rule
 
 The remaining Collections should adopt this system one Collection at a time. Rubrics must be written from the actual Practice Lab task; Collection-level generic keyword lists remain only as a temporary fallback until all 64 cards have dedicated rubrics.
+
+## Customer Communication rollout
+
+The second Phase 1 rollout applies the standard to all eight Customer Communication cards:
+
+- Active Listening;
+- Asking Better Questions;
+- Showing Genuine Empathy;
+- Building a Professional Tone;
+- Using Positive Language;
+- De-escalating Frustrated Customers;
+- Writing Clear Support Responses; and
+- Closing Conversations with Confidence.
+
+Each card now has three criteria derived directly from its Practice Lab. All eight model answers satisfy all three criteria, typo-bearing versions retain full credit, and a generic irrelevant response receives zero credit on every card. The rendered Active Listening lab was also verified at desktop and 390 x 844 mobile widths with no horizontal overflow.

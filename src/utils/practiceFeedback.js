@@ -177,9 +177,15 @@ function includesSignal(normalizedAnswer, signal) {
   if (normalizedAnswer.includes(normalizedSignal)) return true;
   if (normalizedSignal.includes(" ") || normalizedSignal.length < 5) return false;
 
+  const allowedDistance = normalizedSignal.length >= 8 ? 2 : 1;
+
   return normalizedAnswer
     .split(" ")
-    .some((word) => word.length >= 5 && editDistance(word, normalizedSignal) <= 1);
+    .some((word) =>
+      word.length >= 5
+      && Math.abs(word.length - normalizedSignal.length) <= allowedDistance
+      && editDistance(word, normalizedSignal) <= allowedDistance,
+    );
 }
 
 function criterionIsCovered(normalizedAnswer, criterion) {

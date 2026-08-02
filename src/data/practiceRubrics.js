@@ -197,6 +197,209 @@ export const practiceRubrics = {
       },
     ],
   },
+  "active-listening": {
+    minimumWords: 28,
+    criteria: [
+      {
+        label: "Separate the known facts",
+        prompt: "Identify that the application was updated yesterday, sign-in now fails, and the password has already been reset twice.",
+        why: "Restating verified facts prevents the investigation from drifting into assumptions.",
+        signals: ["updated yesterday", "application was updated", "cannot sign in", "sign-in stopped", "reset my password twice", "password twice", "two password resets"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Recognize the likely emotion",
+        prompt: "Name a reasonable emotion or impact without presenting it as a confirmed fact.",
+        why: "Noticing repeated effort helps the agent respond with care while avoiding mind-reading.",
+        signals: ["likely frustrated", "probably frustrated", "may feel frustrated", "concerned", "repeated effort", "already tried", "has not helped"],
+      },
+      {
+        label: "Ask for the missing diagnostic details",
+        prompt: "Confirm the exact error and relevant application, device, browser, or version details.",
+        why: "The missing details determine whether the next step should focus on credentials, the application, or the environment.",
+        signals: ["exact error", "error message", "application version", "app version", "device version", "device model", "browser", "another device", "operating system"],
+        minimumMatches: 2,
+      },
+    ],
+  },
+  "asking-better-questions": {
+    minimumWords: 28,
+    criteria: [
+      {
+        label: "Clarify the delivery symptom and timing",
+        prompt: "Ask whether the message is missing or delayed and when the latest verification email was requested.",
+        why: "Symptom and timing distinguish a delivery delay from a complete failure or an expired request.",
+        signals: ["missing entirely", "arrive late", "delayed", "when was", "latest code", "latest email", "requested", "how long"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Check common filtering locations",
+        prompt: "Ask the customer to check spam, junk, promotions, or a company quarantine.",
+        why: "Verification messages are often delivered but filtered before reaching the main inbox.",
+        signals: ["spam", "junk", "promotions", "quarantine", "filtered", "blocked"],
+      },
+      {
+        label: "Verify the destination and narrow the cause",
+        prompt: "Confirm that the account address is correct and whether it receives other messages.",
+        why: "Destination and wider email delivery help separate an account typo from a verification-system problem.",
+        signals: ["email address", "address shown", "address correct", "receive other", "other messages", "other emails", "multiple requests"],
+        minimumMatches: 2,
+      },
+    ],
+  },
+  "showing-genuine-empathy": {
+    minimumWords: 32,
+    criteria: [
+      {
+        label: "Acknowledge the specific financial impact",
+        prompt: "Recognize that the duplicate charge affects money needed for an urgent payment.",
+        why: "Specific acknowledgment sounds human because it reflects the customerâ€™s actual situation.",
+        signals: ["duplicate charge", "charged twice", "urgent payment", "need those funds", "need the money", "financial impact", "disruptive"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Explain the immediate investigation",
+        prompt: "State that you will review both transactions and check whether they are completed charges or temporary authorizations.",
+        why: "Empathy becomes useful when it is connected to a relevant action.",
+        signals: ["review both", "check both", "transactions", "completed charge", "pending charge", "temporary authorization", "verify"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Set an honest expectation",
+        prompt: "Explain the next process or timeframe without guaranteeing a refund before verification.",
+        why: "Accurate expectations protect trust when the final outcome is not yet confirmed.",
+        signals: ["once verified", "after i confirm", "available refund", "release process", "timeframe", "cannot promise", "without promising", "next step"],
+        minimumMatches: 2,
+      },
+    ],
+  },
+  "professional-tone": {
+    minimumWords: 28,
+    criteria: [
+      {
+        label: "Remove blame and judgment",
+        prompt: "Describe the temporary lock neutrally instead of blaming the customer for entering a wrong password.",
+        why: "Neutral language keeps the customer focused on recovery instead of becoming defensive.",
+        signals: ["temporarily locked", "temporary lock", "unsuccessful attempts", "sign-in attempts", "security lock", "account lock"],
+      },
+      {
+        label: "Give a clear and safe next step",
+        prompt: "Explain when and how the customer should try signing in again.",
+        why: "Professional tone is most useful when the customer can act on it immediately.",
+        signals: ["please wait", "lock to expire", "try again", "sign in again", "most recent password", "current password"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Offer continued help",
+        prompt: "Explain what support will do if the customer still cannot sign in.",
+        why: "A conditional follow-up provides reassurance without overstating certainty.",
+        signals: ["if you are still", "if it continues", "let me know", "help you", "verify the account", "next safe step", "continue investigating"],
+        minimumMatches: 2,
+      },
+    ],
+  },
+  "positive-language": {
+    minimumWords: 35,
+    criteria: [
+      {
+        label: "Offer an alternative to the unavailable feature",
+        prompt: "State the feature limitation honestly and provide a practical alternative.",
+        why: "Positive language turns a product limitation into useful guidance without hiding the truth.",
+        signals: ["not available", "available yet", "similar result", "alternative", "export option", "instead"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Own the transfer to another team",
+        prompt: "Explain why another team is suitable and route the request with the existing context.",
+        why: "Ownership prevents the customer from feeling dismissed or forced to start over.",
+        signals: ["specialists", "best equipped", "route", "transfer", "context", "already provided", "connect you"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Frame the timing around what can happen",
+        prompt: "Explain what can begin today and when processing can realistically finish.",
+        why: "A useful timeframe focuses on progress while remaining accurate.",
+        signals: ["begin today", "start today", "review today", "next business day", "completed", "processed", "timeframe"],
+        minimumMatches: 2,
+      },
+    ],
+  },
+  "de-escalating-frustration": {
+    minimumWords: 35,
+    criteria: [
+      {
+        label: "Acknowledge the repeated failure",
+        prompt: "Recognize that the customer received three incorrect orders and needs a clear solution.",
+        why: "Naming the history shows that the customer will not need to fight to prove the impact again.",
+        signals: ["three incorrect orders", "third incorrect", "repeated", "again", "clear solution", "repeated disruption"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Take ownership without blame",
+        prompt: "State that you will review the order history and requested items without blaming another person or team.",
+        why: "Ownership lowers tension by replacing excuses with a concrete action.",
+        signals: ["review", "order records", "order history", "items requested", "originally requested", "do not have to explain", "take ownership"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Explain the first resolution path",
+        prompt: "Describe the first action and the replacement or refund options you will confirm next.",
+        why: "A specific next step moves the conversation from anger toward a realistic outcome.",
+        signals: ["first", "confirm", "replacement", "refund", "fastest available", "next step", "what happens next", "available option"],
+        minimumMatches: 2,
+      },
+    ],
+  },
+  "writing-clear-responses": {
+    minimumWords: 48,
+    criteria: [
+      {
+        label: "Open with the purpose",
+        prompt: "Begin with a brief statement that you will help the customer reset the password.",
+        why: "A clear opening tells the customer what the response will help them accomplish.",
+        signals: ["help you reset", "reset your password", "password reset", "i can help"],
+      },
+      {
+        label: "Provide ordered reset instructions",
+        prompt: "Give numbered or clearly ordered steps covering Forgot password, the account email, the reset link, and the new password.",
+        why: "Ordered steps reduce skipped actions and make the response easy to scan.",
+        signals: ["forgot password", "email address", "reset email", "reset link", "new password", "sign in again"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Explain the expected result and fallback",
+        prompt: "State what success looks like and what to do if the reset email does not arrive.",
+        why: "Expected results and a fallback help the customer continue without opening a new conversation.",
+        signals: ["account dashboard", "sign in", "does not arrive", "spam", "new link", "reply here", "investigate delivery"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "closing-conversations": {
+    minimumWords: 32,
+    criteria: [
+      {
+        label: "Confirm the successful outcome",
+        prompt: "Confirm that the application or technical issue is now working normally.",
+        why: "A closing should verify resolution rather than assume the previous instruction worked.",
+        signals: ["confirmed", "working again", "issue was resolved", "fixed", "working normally", "successfully"],
+      },
+      {
+        label: "Summarize what solved the issue",
+        prompt: "Briefly record the action that restored service.",
+        why: "A concise summary gives the customer confidence and creates useful future context.",
+        signals: ["resolved after", "clearing", "browser data", "signing in again", "restart", "what solved", "solution was"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Provide a useful return path",
+        prompt: "Explain what evidence to note and how to resume support if the problem returns.",
+        why: "A good return path prevents the customer from having to restart the investigation.",
+        signals: ["if the", "returns", "happens again", "note the time", "browser", "reply", "continue the investigation", "without starting over"],
+        minimumMatches: 3,
+      },
+    ],
+  },
 };
 
 export function getPracticeRubric(card) {
