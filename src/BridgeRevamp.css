@@ -1654,6 +1654,15 @@ body {
    margin: 0 and borderless horizontal padding. Restore the standalone card
    treatment here so the closing actions never visually merge together. */
 
+.journey-page .lesson-content > .technical-stretch-section,
+.journey-page .lesson-content > .scenario-section {
+  margin: 26px 0 0 !important;
+}
+
+.journey-page .lesson-content > .practice-section {
+  margin: 32px 0 0 !important;
+}
+
 .journey-page .lesson-content > .takeaway-section {
   margin: 38px 0 0 !important;
   border: 1px solid var(--br-line-bright) !important;
@@ -1697,6 +1706,12 @@ body {
 }
 
 @media (max-width: 700px) {
+  .journey-page .lesson-content > .technical-stretch-section,
+  .journey-page .lesson-content > .scenario-section,
+  .journey-page .lesson-content > .practice-section {
+    margin-top: 22px !important;
+  }
+
   .journey-page .lesson-content > .takeaway-section {
     margin-top: 28px !important;
   }
