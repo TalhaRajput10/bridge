@@ -1648,3 +1648,65 @@ body {
   .collection-card,
   .continue-learning-card { transition: none !important; }
 }
+
+/* ---------- Journey Card closing panels ----------
+   These panels also carry .lesson-section, whose compact content rhythm sets
+   margin: 0 and borderless horizontal padding. Restore the standalone card
+   treatment here so the closing actions never visually merge together. */
+
+.journey-page .lesson-content > .takeaway-section {
+  margin: 38px 0 0 !important;
+  border: 1px solid var(--br-line-bright) !important;
+  border-radius: var(--br-radius) !important;
+  overflow: hidden;
+}
+
+.journey-page .lesson-content > .card-feedback-section {
+  width: 100%;
+  margin: 32px 0 0 !important;
+  padding: 36px 38px 38px !important;
+  border: 1px solid var(--br-line-bright) !important;
+  border-radius: var(--br-radius) !important;
+  background: linear-gradient(145deg, #0d2236, #091a2b) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.journey-page .card-feedback-section > p:first-child,
+.journey-page .card-feedback-section > h2,
+.journey-page .card-feedback-section > h2 + p {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.journey-page .card-feedback-section > h2 {
+  margin-top: 12px !important;
+}
+
+.journey-page .card-rating-options {
+  margin-top: 26px;
+}
+
+.journey-page .card-feedback-details {
+  margin-top: 26px;
+}
+
+.journey-page > .completion-panel {
+  margin-top: 42px !important;
+  border-radius: var(--br-radius) !important;
+}
+
+@media (max-width: 700px) {
+  .journey-page .lesson-content > .takeaway-section {
+    margin-top: 28px !important;
+  }
+
+  .journey-page .lesson-content > .card-feedback-section {
+    margin-top: 24px !important;
+    padding: 26px 22px 28px !important;
+  }
+
+  .journey-page > .completion-panel {
+    margin-top: 30px !important;
+  }
+}
