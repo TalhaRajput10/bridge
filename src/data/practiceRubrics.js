@@ -608,6 +608,214 @@ export const practiceRubrics = {
       },
     ],
   },
+  "customer-success-explained": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Define Support's responsibility",
+        prompt: "Explain that Support confirms product functionality and resolves technical blockers or immediate product problems.",
+        why: "Clear role boundaries prevent proactive success work from replacing issue resolution.",
+        signals: ["support", "functions correctly", "technical blocker", "technical problem", "resolve", "issue", "tickets"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Connect Customer Success to outcomes",
+        prompt: "Explain that Customer Success investigates the intended business outcome, workflow, adoption, and measures of success.",
+        why: "Customer Success is defined by progress toward outcomes, not simply by frequent contact.",
+        signals: ["customer success", "business outcome", "intended outcome", "workflow", "adoption", "success measures", "value", "use case"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Show how the teams coordinate",
+        prompt: "Describe how Support and Customer Success share evidence and divide actions while working toward one customer result.",
+        why: "Collaboration avoids duplicate work and connects technical resolution to meaningful adoption.",
+        signals: ["share", "ticket history", "product evidence", "agree", "coordinate", "support removes", "success guides", "measures progress", "plan"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "customer-onboarding": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Define an early measurable value goal",
+        prompt: "Connect organized customer emails to a measurable response-time baseline or improvement.",
+        why: "A first-value goal keeps onboarding focused on a customer result instead of a product tour.",
+        signals: ["first-value", "first value", "support emails", "shared inbox", "organize", "response time", "baseline", "goal"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Configure and practise the essential workflow",
+        prompt: "Set up the inbox, users, ownership, and priority flow, then test it with sample customer emails and coaching.",
+        why: "Configuration creates access, while realistic practice builds the confidence to use it.",
+        signals: ["configure", "inbox", "users", "ownership", "priority queue", "live test", "sample emails", "coach", "assign", "reply"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Review evidence before adding more features",
+        prompt: "After a defined period, compare captured-email and response-time results before expanding the onboarding plan.",
+        why: "A measured review confirms value and prevents unnecessary feature overload.",
+        signals: ["after one week", "review", "percentage", "emails captured", "response time", "measure", "next feature", "agreed outcome"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "customer-goals-and-outcomes": {
+    minimumWords: 38,
+    criteria: [
+      {
+        label: "Discover the business problem",
+        prompt: "Ask what problem automation should solve and why that change matters to the team.",
+        why: "The feature request becomes useful only when it connects to a meaningful problem.",
+        signals: ["business problem", "what problem", "why", "solve", "matters", "goal", "outcome"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Understand the workflow and people affected",
+        prompt: "Ask which repeated task should change, who will use it, and what could prevent adoption.",
+        why: "Workflow and stakeholder context reveal whether the proposed change is realistic.",
+        signals: ["workflow", "repeated task", "change first", "who", "team", "use it", "prevent adoption", "barrier"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Define observable value",
+        prompt: "Ask what measurable result, such as time saved or errors reduced, would demonstrate success.",
+        why: "An observable measure turns a broad expectation into a reviewable outcome.",
+        signals: ["measurable", "measure", "result", "time saved", "errors reduced", "faster responses", "show", "valuable", "success"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "product-adoption": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Consider several distinct adoption barriers",
+        prompt: "List at least five plausible barriers across value, workflow fit, setup, access, training, confidence, or habit.",
+        why: "Adoption rarely improves when every inactive customer is assumed to need more training.",
+        signals: ["unclear value", "workflow mismatch", "workflow fit", "difficult setup", "permissions", "missing data", "training", "confidence", "habit", "process resistance"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Ask questions about the customer's actual experience",
+        prompt: "Ask what task the feature should improve, what happened during recent use, where usage stopped, and what the customer uses instead.",
+        why: "Experience-based questions reveal the barrier without blaming the customer.",
+        signals: ["what task", "expected", "last time", "what happened", "where they stopped", "permissions", "data", "use instead", "today"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Use answers to identify the barrier type",
+        prompt: "Explain how the answers distinguish motivation, capability, access, workflow, confidence, or product fit.",
+        why: "A diagnosis makes the next adoption action relevant instead of generic.",
+        signals: ["motivation", "capability", "access", "product fit", "workflow", "confidence", "reveal", "barrier"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "customer-health-signals": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Separate healthy and risky signals",
+        prompt: "Identify stable usage and positive feedback as encouraging while treating unresolved cases and declining attendance as risk.",
+        why: "Separating signals prevents one positive metric from hiding meaningful risk.",
+        signals: ["healthy", "stable usage", "positive feedback", "risk", "unresolved", "support cases", "declining", "meeting attendance"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Recognize incomplete or biased evidence",
+        prompt: "Explain that one user's survey response cannot represent the complete account.",
+        why: "Customer health must account for who provided the signal and whose experience is missing.",
+        signals: ["one user", "one viewpoint", "survey", "limited", "not enough", "does not represent", "only one"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Investigate context before assigning health",
+        prompt: "Check case severity and age, usage by role or feature, attendance changes, stakeholders, goals, and renewal timing before deciding.",
+        why: "Context converts a dashboard snapshot into a responsible health judgment.",
+        signals: ["severity", "case age", "usage by role", "usage by feature", "meetings", "stakeholder", "business goals", "renewal", "needs review", "before assigning"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "proactive-customer-communication": {
+    minimumWords: 40,
+    criteria: [
+      {
+        label: "Explain the evidence-based reason for reaching out",
+        prompt: "Mention that setup is complete but the core feature has not been used for 14 days.",
+        why: "A relevant trigger makes the message helpful rather than a generic check-in.",
+        signals: ["setup is complete", "completed setup", "not been used", "has not been used", "14 days", "noticed", "reaching out"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Connect the feature to the customer's goal",
+        prompt: "Relate the unused feature to the stated goal or workflow it was meant to improve.",
+        why: "Goal context explains why the feature matters without pressuring the customer to create activity.",
+        signals: ["your goal", "stated goal", "reduce", "manual assignment", "routing", "workflow", "value"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Offer one practical next step",
+        prompt: "Suggest one specific, low-effort action such as a short working session to configure the first real workflow.",
+        why: "A concrete next step makes proactive outreach immediately useful.",
+        signals: ["working session", "20-minute", "20 minute", "this week", "configure", "first rule", "together", "real workflow", "would you like"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "preventing-customer-churn": {
+    minimumWords: 85,
+    criteria: [
+      {
+        label: "Investigate the underlying renewal risk",
+        prompt: "Ask about the unmet outcome, declining usage, unresolved-case impact, renewal decision owner, and required improvement.",
+        why: "Churn prevention begins with the real loss of value or trust, not an automatic discount.",
+        signals: ["outcome", "usage", "declined", "unresolved", "cases", "daily work", "renewal", "decision", "owner", "must improve", "improve", "risk"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Assign three recovery actions with owners and deadlines",
+        prompt: "Give Support, Customer Success, and the account owner a concrete action and time commitment.",
+        why: "Named owners and dates turn concern into an accountable recovery plan.",
+        signals: ["support lead", "csm", "customer success", "account owner", "five business days", "seven days", "ten days", "within", "owner", "deadline"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Define evidence of recovery",
+        prompt: "State how restored usage, support outcomes, and sponsor confirmation will show whether the plan worked.",
+        why: "Recovery must be measured through restored value and trust, not simply completed internal tasks.",
+        signals: ["success", "restored usage", "usage", "case outcomes", "resolved", "sponsor", "confirmation", "renewal path"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "renewals-and-expansion": {
+    minimumWords: 80,
+    criteria: [
+      {
+        label: "Prepare and validate value evidence",
+        prompt: "Compile adoption trends and measurable outcomes, then confirm that evidence with the customer.",
+        why: "Renewal conversations are stronger when value is demonstrated and mutually recognized.",
+        signals: ["adoption trends", "measurable outcomes", "outcomes achieved", "value evidence", "validate", "confirm", "customer"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Address risks and missing stakeholders",
+        prompt: "Create an owned plan for the integration issue and reconnect with the executive sponsor.",
+        why: "Strong usage does not erase an unresolved blocker or a missing decision-maker.",
+        signals: ["integration issue", "renewal risk", "owner", "workaround", "update schedule", "target resolution", "executive sponsor", "reconnect", "priorities"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Plan renewal and expansion responsibly",
+        prompt: "Agree on a mutual action plan and timeline, and discuss expansion only when customer goals and usage demonstrate a genuine need.",
+        why: "Responsible expansion supports the customer's next outcome instead of distracting from unresolved risk.",
+        signals: ["mutual action plan", "60-day", "renewal timeline", "expansion", "genuine need", "usage", "goals", "adding seats", "not as a distraction"],
+        minimumMatches: 5,
+      },
+    ],
+  },
 };
 
 export function getPracticeRubric(card) {

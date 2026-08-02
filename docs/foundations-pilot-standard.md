@@ -109,3 +109,20 @@ The rubrics reward safe evidence gathering, controlled comparisons, contextual i
 API and HTTP Basics and Networking and DNS Basics retain the Technical Stretch treatment, prerequisite links, beginner check-in, and plain-language first pass. Their rendered desktop and 390 x 844 mobile experiences were verified with no horizontal overflow.
 
 The official technical resources were rechecked during this rollout: Chrome DevTools Network, MDN HTTP Overview, MDN HTTP Status Codes, RFC 6749, and Cloudflare's DNS explainer all resolve to current authoritative pages.
+
+## Customer Success rollout
+
+The fourth Phase 1 rollout applies the standard to all eight Customer Success cards:
+
+- What Customer Success Actually Means;
+- Designing Effective Customer Onboarding;
+- Understanding Customer Goals and Outcomes;
+- Driving Product Adoption;
+- Reading Customer Health Signals;
+- Proactive Customer Communication;
+- Preventing Customer Churn; and
+- Renewals and Responsible Expansion.
+
+The rubrics distinguish meaningful outcomes from product activity, contextual health from a single metric, proactive guidance from generic check-ins, and responsible expansion from sales pressure. All eight model answers and typo-bearing variants satisfy all three card-specific criteria. A generic contact-and-follow-up response receives zero credit on every card.
+
+The Preventing Customer Churn Practice Lab was verified end to end, including its model answer and 390 x 844 responsive layout. The rendered collection has no horizontal overflow.
