@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
+import { useProgress } from "../context/ProgressContext.jsx";
 
 function ModuleBar({ activeCollectionId }) {
+  const { isCardComplete } = useProgress();
   function getCollectionProgress(collectionId) {
     const cards = journeyCards.filter(
       (card) => card.collectionId === collectionId,
@@ -12,12 +14,7 @@ function ModuleBar({ activeCollectionId }) {
       return 0;
     }
 
-    const completedCards = cards.filter(
-      (card) =>
-        localStorage.getItem(
-          `bridge-completed-${card.id}`,
-        ) === "true",
-    ).length;
+    const completedCards = cards.filter((card) => isCardComplete(card.id)).length;
 
     return Math.round(
       (completedCards / cards.length) * 100,

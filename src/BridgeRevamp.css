@@ -1649,6 +1649,32 @@ body {
   .continue-learning-card { transition: none !important; }
 }
 
+/* Mobile touch targets: retain the compact visual language while ensuring
+   primary links remain comfortable to operate by touch. */
+@media (max-width: 700px) {
+  .home-logo {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .home-avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero-journey-cards > a {
+    min-width: 44px !important;
+    min-height: 58px;
+  }
+
+  .home-page .collection-card a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 /* ---------- Journey Card closing panels ----------
    These panels also carry .lesson-section, whose compact content rhythm sets
    margin: 0 and borderless horizontal padding. Restore the standalone card

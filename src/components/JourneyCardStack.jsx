@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useProgress } from "../context/ProgressContext.jsx";
 
 function JourneyCardStack({ cards, collectionTitle, currentIndex, onIndexChange }) {
+  const { isCardComplete } = useProgress();
   const setCurrentIndex = onIndexChange;
   const [touchStart, setTouchStart] = useState(null);
 
@@ -72,9 +74,7 @@ function JourneyCardStack({ cards, collectionTitle, currentIndex, onIndexChange 
               <span className="journey-card-kicker">
                 {collectionTitle} · Journey Card {card.number}
               </span>
-              {localStorage.getItem(
-                `bridge-completed-${card.id}`,
-              ) === "true" && (
+              {isCardComplete(card.id) && (
                 <span className="card-completed-badge">
                   {"\u2713"} Completed
                 </span>

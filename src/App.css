@@ -2922,3 +2922,29 @@ button:active {
     transform: translateX(-50%) !important;
   }
 }
+
+.app-error-state {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  color: #edf6ff;
+  background: #03111f;
+  text-align: center;
+}
+
+.app-error-state h1,
+.app-error-state p {
+  margin: 0;
+}
+
+.app-error-state button {
+  justify-self: center;
+  min-height: 44px;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #63c9ff;
+  color: #03111f;
+  background: #63c9ff;
+  cursor: pointer;
+}

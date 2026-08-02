@@ -4,9 +4,11 @@ import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
 import JourneyCardStack from "../components/JourneyCardStack.jsx";
 import ModuleBar from "../components/ModuleBar.jsx";
+import { useProgress } from "../context/ProgressContext.jsx";
 import "./CollectionPage.css";
 
 function CollectionPage() {
+  const { isCardComplete, syncStatus } = useProgress();
   const { collectionId } = useParams();
   const [activeCardIndex, setActiveCardIndex] = useState(0);
 
@@ -24,8 +26,8 @@ function CollectionPage() {
     );
   }
 
-  const completedCards = collectionJourneyCards.filter(
-    (card) => localStorage.getItem(`bridge-completed-${card.id}`) === "true",
+  const completedCards = collectionJourneyCards.filter((card) =>
+    isCardComplete(card.id),
   ).length;
 
   const progressPercentage = collectionJourneyCards.length
@@ -76,7 +78,13 @@ function CollectionPage() {
           >
             <div className="progress-fill" style={{ width: `${progressPercentage}%` }} />
           </div>
-          <small>Your progress is saved automatically on this device.</small>
+          <small>
+            {syncStatus === "synced" && "Progress synced privately to your BRIDGE account."}
+            {["loading", "pending", "syncing"].includes(syncStatus)
+              && "Progress saved on this device and syncing to your account."}
+            {syncStatus === "error" && "Progress is safe on this device; account sync will retry."}
+            {syncStatus === "local" && "Progress is saved automatically on this device."}
+          </small>
         </div>
       </header>
 

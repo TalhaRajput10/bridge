@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import CollectionCard from "../components/CollectionCard.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
+import { useProgress } from "../context/ProgressContext.jsx";
 import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
 import "./HomePage.css";
@@ -41,34 +42,6 @@ function localDateKey(date = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
-function getStreakSnapshot(userId) {
-  if (!userId) return { count: 0, dates: [] };
-
-  const storageKey = `bridge-learning-streak-${userId}`;
-  let storedDates;
-
-  try {
-    storedDates = JSON.parse(localStorage.getItem(storageKey) || "[]");
-  } catch {
-    storedDates = [];
-  }
-
-  const today = localDateKey();
-  const dates = [...new Set([...storedDates, today])].sort().slice(-60);
-  localStorage.setItem(storageKey, JSON.stringify(dates));
-
-  const completedDays = new Set(dates);
-  const cursor = new Date();
-  let count = 0;
-
-  while (completedDays.has(localDateKey(cursor))) {
-    count += 1;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-
-  return { count, dates };
-}
-
 function getCurrentWeek() {
   const today = new Date();
   const monday = new Date(today);
@@ -84,28 +57,20 @@ function getCurrentWeek() {
 
 function HomePage() {
   const { user } = useAuth();
-  const [streak, setStreak] = useState({ count: 0, dates: [] });
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setStreak(getStreakSnapshot(user?.id));
-    }, 0);
-
-    return () => window.clearTimeout(timer);
-  }, [user?.id]);
+  const { activityDates, completedCount, isCardComplete, streakCount } = useProgress();
 
   const collectionStats = collections.map((collection) => {
     const cards = journeyCards.filter((card) => card.collectionId === collection.id);
-    const completed = cards.filter((card) => localStorage.getItem(`bridge-completed-${card.id}`) === "true").length;
+    const completed = cards.filter((card) => isCardComplete(card.id)).length;
     return { ...collection, cards, completed, percentage: cards.length ? Math.round((completed / cards.length) * 100) : 0 };
   });
 
-  const totalCompleted = collectionStats.reduce((total, collection) => total + collection.completed, 0);
+  const totalCompleted = completedCount;
   const overallPercentage = journeyCards.length ? Math.round((totalCompleted / journeyCards.length) * 100) : 0;
-  const nextCard = journeyCards.find((card) => localStorage.getItem(`bridge-completed-${card.id}`) !== "true") || journeyCards[0];
+  const nextCard = journeyCards.find((card) => !isCardComplete(card.id)) || journeyCards[0];
   const hasStarted = totalCompleted > 0;
   const week = useMemo(() => getCurrentWeek(), []);
-  const streakDates = new Set(streak.dates);
+  const streakDates = new Set(activityDates);
   const avatarLabel = user?.email?.slice(0, 1).toUpperCase() || "?";
 
   return (
@@ -121,7 +86,7 @@ function HomePage() {
         <div className="home-account-actions">
           {user ? (
             <>
-              <span className="nav-streak" aria-label={`${streak.count} day learning streak`}><span aria-hidden="true">●</span>{streak.count} day streak</span>
+              <span className="nav-streak" aria-label={`${streakCount} day learning streak`}><span aria-hidden="true">●</span>{streakCount} day streak</span>
               <Link className="home-avatar" to="/account" aria-label="Open your account">{avatarLabel}</Link>
             </>
           ) : (
@@ -178,7 +143,7 @@ function HomePage() {
           </Link>
 
           <section className="streak-strip" aria-labelledby="streak-heading">
-            <div className="streak-heading"><h3 id="streak-heading">{user ? `${streak.count} day streak` : "Build a learning streak"}</h3>{!user && <Link to="/auth">Sign in to track it</Link>}</div>
+            <div className="streak-heading"><h3 id="streak-heading">{user ? `${streakCount} day streak` : "Build a learning streak"}</h3>{!user && <Link to="/auth">Sign in to track it</Link>}</div>
             <div className="streak-days">
               {week.map((day) => <span className={streakDates.has(day.key) ? "is-done" : ""} key={day.key}><i>{streakDates.has(day.key) ? "✓" : ""}</i><small>{day.label}</small></span>)}
             </div>

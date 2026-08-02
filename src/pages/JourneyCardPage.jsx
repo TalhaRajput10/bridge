@@ -7,6 +7,8 @@ import { getCardEnhancement } from "../data/journeyCardEnhancements.js";
 import { modelAnswers } from "../data/modelAnswers.js";
 import { getResourcesForCard } from "../data/resources.js";
 import { evaluatePracticeResponse } from "../utils/practiceFeedback.js";
+import { useProgress } from "../context/ProgressContext.jsx";
+import { trackEvent } from "../lib/telemetry.js";
 import "./JourneyCardPage.css";
 
 const baseLessonSections = [
@@ -19,49 +21,46 @@ const baseLessonSections = [
   ["takeaway", "Key takeaway"],
 ];
 
-function readSavedCardFeedback(storageKey) {
-  try {
-    const savedFeedback = localStorage.getItem(storageKey);
-    return savedFeedback ? JSON.parse(savedFeedback) : null;
-  } catch {
-    return null;
-  }
-}
-
 function JourneyCardPage() {
   const { cardId } = useParams();
   const card = journeyCards.find((item) => item.id === cardId);
-  const completionStorageKey = `bridge-completed-${cardId}`;
-  const answerStorageKey = `bridge-answer-${cardId}`;
-  const stretchConfidenceStorageKey = `bridge-stretch-confidence-${cardId}`;
-  const cardFeedbackStorageKey = `bridge-card-feedback-${cardId}`;
+  const {
+    getCardFeedback,
+    getPracticeAnswer,
+    getStretchConfidence,
+    isCardComplete,
+    saveCardFeedback: persistCardFeedback,
+    savePracticeAnswer: persistPracticeAnswer,
+    saveStretchConfidence: persistStretchConfidence,
+    setCardCompletion,
+    syncStatus,
+  } = useProgress();
+  const savedPracticeAnswer = getPracticeAnswer(cardId);
+  const savedStretchConfidence = getStretchConfidence(cardId);
+  const savedCardFeedback = getCardFeedback(cardId);
+  const isComplete = isCardComplete(cardId);
 
-  const [isComplete, setIsComplete] = useState(
-    () => localStorage.getItem(completionStorageKey) === "true",
-  );
-  const [practiceAnswer, setPracticeAnswer] = useState(
-    () => localStorage.getItem(answerStorageKey) || "",
-  );
-  const [answerSaved, setAnswerSaved] = useState(
-    () => Boolean(localStorage.getItem(answerStorageKey)),
-  );
+  const [practiceDraft, setPracticeDraft] = useState(null);
+  const [answerSavedOverride, setAnswerSavedOverride] = useState(null);
+  const practiceAnswer = practiceDraft ?? savedPracticeAnswer;
+  const answerSaved = answerSavedOverride ?? Boolean(savedPracticeAnswer);
   const [practiceFeedback, setPracticeFeedback] = useState(null);
-  const [stretchConfidence, setStretchConfidence] = useState(
-    () => localStorage.getItem(stretchConfidenceStorageKey) || "",
-  );
-  const [savedCardFeedback] = useState(
-    () => readSavedCardFeedback(cardFeedbackStorageKey),
-  );
-  const [cardRating, setCardRating] = useState(() => savedCardFeedback?.rating || "");
-  const [cardFeedbackReason, setCardFeedbackReason] = useState(
-    () => savedCardFeedback?.reason || "",
-  );
-  const [cardFeedbackNote, setCardFeedbackNote] = useState(
-    () => savedCardFeedback?.note || "",
-  );
-  const [cardFeedbackSaved, setCardFeedbackSaved] = useState(
-    () => Boolean(savedCardFeedback),
-  );
+  const [cardRatingDraft, setCardRatingDraft] = useState(null);
+  const [cardFeedbackReasonDraft, setCardFeedbackReasonDraft] = useState(null);
+  const [cardFeedbackNoteDraft, setCardFeedbackNoteDraft] = useState(null);
+  const [cardFeedbackSavedOverride, setCardFeedbackSavedOverride] = useState(null);
+  const stretchConfidence = savedStretchConfidence;
+  const cardRating = cardRatingDraft ?? savedCardFeedback?.rating ?? "";
+  const cardFeedbackReason = cardFeedbackReasonDraft ?? savedCardFeedback?.reason ?? "";
+  const cardFeedbackNote = cardFeedbackNoteDraft ?? savedCardFeedback?.note ?? "";
+  const cardFeedbackSaved = cardFeedbackSavedOverride ?? Boolean(savedCardFeedback);
+  const accountStorageStatus = syncStatus === "synced"
+    ? "Saved privately to your BRIDGE account"
+    : ["loading", "pending", "syncing"].includes(syncStatus)
+      ? "Saved on this device · syncing privately to your account"
+      : syncStatus === "error"
+        ? "Saved on this device · account sync will retry"
+        : "Saved privately on this device";
 
   const collectionCards = card
     ? journeyCards.filter((item) => item.collectionId === card.collectionId)
@@ -88,57 +87,74 @@ function JourneyCardPage() {
 
   function toggleCompletion() {
     const newStatus = !isComplete;
-    setIsComplete(newStatus);
-    localStorage.setItem(completionStorageKey, String(newStatus));
+    setCardCompletion(cardId, newStatus);
+    trackEvent(newStatus ? "card_completed" : "card_reopened", {
+      cardId,
+      collectionId: card.collectionId,
+    });
   }
 
   function savePracticeAnswer() {
     const cleanedAnswer = practiceAnswer.trim();
     if (!cleanedAnswer) return;
 
-    localStorage.setItem(answerStorageKey, cleanedAnswer);
-    setPracticeAnswer(cleanedAnswer);
-    setAnswerSaved(true);
+    persistPracticeAnswer(cardId, cleanedAnswer);
+    setPracticeDraft(cleanedAnswer);
+    setAnswerSavedOverride(true);
   }
 
   function checkPracticeAnswer() {
     const cleanedAnswer = practiceAnswer.trim();
     if (!cleanedAnswer || !card) return;
 
-    localStorage.setItem(answerStorageKey, cleanedAnswer);
-    setPracticeAnswer(cleanedAnswer);
-    setAnswerSaved(true);
-    setPracticeFeedback(evaluatePracticeResponse(cleanedAnswer, card));
+    persistPracticeAnswer(cardId, cleanedAnswer);
+    setPracticeDraft(cleanedAnswer);
+    setAnswerSavedOverride(true);
+    const result = evaluatePracticeResponse(cleanedAnswer, card);
+    setPracticeFeedback(result);
+    trackEvent("practice_checked", {
+      cardId,
+      collectionId: card.collectionId,
+      criteriaCovered: result.covered.length,
+      criteriaTotal: result.total,
+      wordCount: cleanedAnswer.split(/\s+/).filter(Boolean).length,
+    });
   }
 
   function saveStretchConfidence(value) {
-    setStretchConfidence(value);
-    localStorage.setItem(stretchConfidenceStorageKey, value);
+    persistStretchConfidence(cardId, value);
   }
 
   function saveCardFeedback(ratingOverride = cardRating) {
     if (!ratingOverride) return;
 
-    localStorage.setItem(cardFeedbackStorageKey, JSON.stringify({
+    persistCardFeedback(cardId, {
       cardId,
       rating: ratingOverride,
       reason: ratingOverride === "No" ? cardFeedbackReason : "",
       note: ratingOverride === "No" ? cardFeedbackNote.trim() : "",
       updatedAt: new Date().toISOString(),
-    }));
-    setCardFeedbackSaved(true);
+    });
+    trackEvent("card_feedback_submitted", {
+      cardId,
+      collectionId: card.collectionId,
+      rating: ratingOverride,
+      reason: ratingOverride === "No" ? cardFeedbackReason : "",
+      hasNote: ratingOverride === "No" && Boolean(cardFeedbackNote.trim()),
+    });
+    setCardFeedbackSavedOverride(true);
   }
 
   function selectCardRating(rating) {
-    setCardRating(rating);
+    setCardRatingDraft(rating);
 
     if (rating === "No") {
-      setCardFeedbackSaved(false);
+      setCardFeedbackSavedOverride(false);
       return;
     }
 
-    setCardFeedbackReason("");
-    setCardFeedbackNote("");
+    setCardFeedbackReasonDraft("");
+    setCardFeedbackNoteDraft("");
     saveCardFeedback(rating);
   }
 
@@ -348,7 +364,9 @@ function JourneyCardPage() {
 
               <div className="practice-response-heading">
                 <label htmlFor="practice-answer">Write your response</label>
-                <span>Saved privately on your device</span>
+                <span>
+                  {accountStorageStatus}
+                </span>
               </div>
 
               <textarea
@@ -357,8 +375,8 @@ function JourneyCardPage() {
                 rows="7"
                 value={practiceAnswer}
                 onChange={(event) => {
-                  setPracticeAnswer(event.target.value);
-                  setAnswerSaved(false);
+                  setPracticeDraft(event.target.value);
+                  setAnswerSavedOverride(false);
                   setPracticeFeedback(null);
                 }}
                 placeholder="Think through the situation, then write how you would respond..."
@@ -382,7 +400,7 @@ function JourneyCardPage() {
                   Check my response
                 </button>
 
-                {answerSaved && <span aria-live="polite">Saved</span>}
+                {answerSaved && <span aria-live="polite">{accountStorageStatus}</span>}
               </div>
 
               {practiceFeedback && (
@@ -537,8 +555,8 @@ function JourneyCardPage() {
                   id="card-feedback-reason"
                   value={cardFeedbackReason}
                   onChange={(event) => {
-                    setCardFeedbackReason(event.target.value);
-                    setCardFeedbackSaved(false);
+                    setCardFeedbackReasonDraft(event.target.value);
+                    setCardFeedbackSavedOverride(false);
                   }}
                 >
                   <option value="">Choose a reason (optional)</option>
@@ -559,15 +577,15 @@ function JourneyCardPage() {
                   maxLength="400"
                   value={cardFeedbackNote}
                   onChange={(event) => {
-                    setCardFeedbackNote(event.target.value);
-                    setCardFeedbackSaved(false);
+                    setCardFeedbackNoteDraft(event.target.value);
+                    setCardFeedbackSavedOverride(false);
                   }}
                   placeholder="Optional note—please do not include private customer information."
                 />
 
                 <div className="card-feedback-actions">
                   <button type="button" onClick={() => saveCardFeedback()}>Save feedback</button>
-                  {cardFeedbackSaved && <span role="status">Feedback saved on this device</span>}
+                  {cardFeedbackSaved && <span role="status">{accountStorageStatus}</span>}
                 </div>
               </div>
             )}
@@ -581,7 +599,7 @@ function JourneyCardPage() {
           <h2>{isComplete ? "Journey Card completed" : "Ready to complete this card?"}</h2>
           <p>
             {isComplete
-              ? "Your progress has been saved on this device."
+              ? `${accountStorageStatus}.`
               : "Mark this Journey Card complete when you feel confident with the lesson."}
           </p>
         </div>

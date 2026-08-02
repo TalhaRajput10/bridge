@@ -7,12 +7,41 @@ import JourneyCardPage from "./pages/JourneyCardPage.jsx";
 import ResourcesPage from "./pages/ResourcesPage.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import AccountPage from "./pages/AccountPage.jsx";
+import { captureAppError, trackEvent } from "./lib/telemetry.js";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname]);
+  return null;
+}
+
+function TelemetryObserver() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    trackEvent("page_view", { pathname });
+  }, [pathname]);
+
+  useEffect(() => {
+    function handleError(event) {
+      captureAppError(event.error || event.message, { source: "window-error" });
+    }
+
+    function handleUnhandledRejection(event) {
+      captureAppError(event.reason, { source: "unhandled-rejection" });
+    }
+
+    window.addEventListener("error", handleError);
+    window.addEventListener("unhandledrejection", handleUnhandledRejection);
+
+    return () => {
+      window.removeEventListener("error", handleError);
+      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
+    };
+  }, []);
+
   return null;
 }
 
@@ -26,6 +55,7 @@ function App() {
     <>
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <ScrollToTop />
+      <TelemetryObserver />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />

@@ -253,7 +253,7 @@ export const practiceRubrics = {
       {
         label: "Acknowledge the specific financial impact",
         prompt: "Recognize that the duplicate charge affects money needed for an urgent payment.",
-        why: "Specific acknowledgment sounds human because it reflects the customerâ€™s actual situation.",
+        why: "Specific acknowledgment sounds human because it reflects the customer's actual situation.",
         signals: ["duplicate charge", "charged twice", "urgent payment", "need those funds", "need the money", "financial impact", "disruptive"],
         minimumMatches: 2,
       },
@@ -531,7 +531,7 @@ export const practiceRubrics = {
     ],
   },
   "authentication-problems": {
-    minimumWords: 75,
+    minimumWords: 65,
     criteria: [
       {
         label: "Handle reset links and verification delivery safely",
@@ -583,7 +583,7 @@ export const practiceRubrics = {
     ],
   },
   "technical-escalations": {
-    minimumWords: 90,
+    minimumWords: 80,
     criteria: [
       {
         label: "Summarize impact and environment",
@@ -791,7 +791,7 @@ export const practiceRubrics = {
     ],
   },
   "renewals-and-expansion": {
-    minimumWords: 80,
+    minimumWords: 75,
     criteria: [
       {
         label: "Prepare and validate value evidence",
@@ -812,6 +812,838 @@ export const practiceRubrics = {
         prompt: "Agree on a mutual action plan and timeline, and discuss expansion only when customer goals and usage demonstrate a genuine need.",
         why: "Responsible expansion supports the customer's next outcome instead of distracting from unresolved risk.",
         signals: ["mutual action plan", "60-day", "renewal timeline", "expansion", "genuine need", "usage", "goals", "adding seats", "not as a distraction"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "how-support-operations-works": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Map the request from entry to ownership",
+        prompt: "Name how the request enters the system, the triage information required, and the person or queue responsible for it.",
+        why: "A useful support workflow makes the request, context, and owner visible from the beginning.",
+        signals: ["email", "chat", "phone", "portal", "channel", "enters", "ticket", "triage", "customer", "account", "owner", "queue", "assigned"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Define escalation and handoff conditions",
+        prompt: "Explain when the request should be escalated and what context must travel with the handoff.",
+        why: "Clear escalation rules prevent requests from being passed around without evidence or accountability.",
+        signals: ["escalate", "escalation", "specialist", "another team", "handoff", "impact", "priority", "evidence", "attempted", "context", "deadline", "exception", "fraud", "above authority", "billing"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Record the outcome and close the loop",
+        prompt: "Describe how the solution, customer confirmation, status, and reusable learning should be recorded.",
+        why: "A documented outcome supports reporting, future contacts, and continuous improvement.",
+        signals: ["document", "record", "internal note", "resolution", "resolved", "status", "confirm", "customer confirmation", "close", "knowledge", "report"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "ticket-lifecycle-and-routing": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Define intake, triage, and ownership",
+        prompt: "State the entry channel, identity or account details needed, priority, and initial owner for the password-reset request.",
+        why: "The lifecycle begins with enough information and a clear owner to move the request safely.",
+        signals: ["email", "chat", "portal", "channel", "identity", "account", "email address", "triage", "priority", "owner", "queue", "assigned"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Use meaningful statuses and escalation rules",
+        prompt: "Show the possible ticket statuses and the conditions that require escalation or another team's help.",
+        why: "Statuses should explain what is happening, while escalation rules protect customers when the normal path fails.",
+        signals: ["new", "open", "pending", "on hold", "solved", "reopened", "status", "escalate", "security", "specialist", "multiple users", "reset fails"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Define resolution and closure",
+        prompt: "Explain how successful access is verified, documented, and closed, including what happens if the customer replies again.",
+        why: "A ticket should close because the outcome is verified, not merely because instructions were sent.",
+        signals: ["verify", "confirm", "access", "sign in", "resolved", "document", "resolution", "close", "closure", "reopen", "customer replies"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "slas-and-prioritization": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Prioritize by scope and business impact",
+        prompt: "Place the widespread login and payment problems above the single-user and future report requests, explaining their larger impact.",
+        why: "Priority starts with how many people are affected and how severely their work or money is disrupted.",
+        signals: ["all customers", "fifty users", "50 users", "payments", "cannot log in", "widespread", "scope", "impact", "many users", "highest", "priority"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Account for urgency and available workarounds",
+        prompt: "Use deadlines, operational urgency, and the temporary payment workaround when explaining the order.",
+        why: "A workaround can reduce immediate severity, while a firm deadline can raise an otherwise lower-impact request.",
+        signals: ["workaround", "temporary", "tomorrow", "deadline", "urgent", "urgency", "report", "profile", "time-sensitive", "reduces impact"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Consider contractual and risk context",
+        prompt: "Explain how security, contractual SLAs, revenue impact, or an unsafe workaround could change the ranking.",
+        why: "A sensible initial order must still adapt when contractual obligations or hidden risks change the impact.",
+        signals: ["security", "contractual", "sla", "revenue", "workaround", "safe", "sustainable", "change the priority", "reassess", "risk"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "support-metrics-that-matter": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Interpret the metrics as a connected pattern",
+        prompt: "Explain how faster first responses can coexist with growing backlog, lower satisfaction, and more reopened tickets.",
+        why: "A balanced interpretation avoids celebrating one speed metric while quality and resolution deteriorate.",
+        signals: ["first response", "backlog", "customer satisfaction", "csat", "reopen", "faster", "quality", "resolution", "surface", "trade-off", "connected"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Investigate segmentation and workflow causes",
+        prompt: "Ask about ticket volume, staffing, topic, channel, priority, handoffs, resolution time, and recent process changes.",
+        why: "Segmented evidence reveals whether the problem comes from demand, capacity, routing, behavior, or a specific request type.",
+        signals: ["volume", "staffing", "topic", "channel", "priority", "handoff", "resolution time", "process change", "queue", "segment", "team", "ticket type"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Delay recommendations until evidence is verified",
+        prompt: "State what samples or additional measures you would review before changing targets, staffing, or workflows.",
+        why: "Metrics should guide investigation before they trigger a costly or counterproductive intervention.",
+        signals: ["before recommending", "review samples", "ticket sample", "quality review", "qa samples", "contact rate", "repeat contact", "customer effort", "root cause", "validate", "compare", "trend", "would not simply", "test", "focused correction"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "quality-assurance-in-support": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Define five observable quality criteria",
+        prompt: "Include five distinct criteria such as accuracy, empathy, ownership, clarity, policy compliance, investigation, or expectation setting.",
+        why: "Observable criteria make reviews consistent and coachable instead of based on personal preference.",
+        signals: ["accuracy", "empathy", "ownership", "clarity", "policy", "investigation", "expectation", "tone", "resolution", "documentation"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Describe what good performance looks like",
+        prompt: "Give a concrete positive behavior or result for each criterion rather than listing labels alone.",
+        why: "Behavioral descriptions help reviewers and agents apply the same standard to real interactions.",
+        signals: ["good performance", "accurate", "correct", "recognizes", "acknowledges", "explains", "confirms", "complete", "calm", "sets expectations", "follows policy", "clear next step", "specific", "evidence"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Identify serious critical errors",
+        prompt: "Name mistakes that should override the normal score, such as privacy, security, abusive conduct, harmful misinformation, or unauthorized promises.",
+        why: "Critical-error rules protect customers and the company when average scoring would hide a severe failure.",
+        signals: ["critical error", "privacy", "security", "sensitive data", "abusive", "discrimination", "harmful", "incorrect information", "unauthorized", "promise", "policy breach"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "knowledge-management-and-documentation": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Structure the diagnostic journey",
+        prompt: "Include prerequisites, ordered diagnostic steps, expected results, and common causes of missing password-reset emails.",
+        why: "A usable article guides a new agent through safe investigation instead of presenting an unstructured list.",
+        signals: ["prerequisite", "email address", "spam", "junk", "filter", "filtering", "delivery", "diagnostic", "steps", "expected", "common causes", "suppression", "outage", "request another", "wait"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Define safe escalation criteria",
+        prompt: "Explain when to escalate, what evidence to include, and what customer or security information must be protected.",
+        why: "Clear escalation guidance prevents risky improvisation and repeated discovery.",
+        signals: ["escalate", "multiple users", "delivery log", "delivery failure", "timestamp", "evidence", "sanitized", "error", "security", "do not share", "password", "code", "protect", "identity"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Make the article findable and maintainable",
+        prompt: "Add useful search keywords, a named content owner, and a specific review date or trigger.",
+        why: "Documentation only remains useful when people can find it and someone is accountable for keeping it current.",
+        signals: ["keyword", "password reset", "reset email", "not received", "owner", "support operations", "review date", "quarterly", "release", "update"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "workflow-automation": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Define a precise and safe automation rule",
+        prompt: "Specify the trigger, qualifying conditions, actions, and exclusions for payment-failure tickets.",
+        why: "Precise rules prevent unrelated or high-risk requests from being changed automatically.",
+        signals: ["trigger", "payment failure", "error code", "condition", "channel", "tag", "priority", "route", "action", "exclude", "fraud", "chargeback"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Preserve human ownership and fallback",
+        prompt: "Name the automation owner and explain when a person reviews, overrides, or receives the ticket.",
+        why: "Automation should accelerate safe work without removing accountability or trapping exceptions.",
+        signals: ["human", "review", "fallback", "override", "agent", "owner", "support operations", "exception", "low-confidence", "general triage", "escalate", "manual"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Test and monitor the launch",
+        prompt: "Include positive, negative, and edge test cases plus a metric that reveals routing quality or customer impact.",
+        why: "Testing and monitoring catch false matches and unintended customer harm after launch.",
+        signals: ["test", "test case", "true", "false", "positive", "negative", "duplicate", "multilingual", "security case", "edge case", "false positive", "routing accuracy", "misroute", "resolution time", "handling time", "csat", "monitor", "weekly", "rollback"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "continuous-support-improvement": {
+    minimumWords: 80,
+    criteria: [
+      {
+        label: "Define and evidence the repeated problem",
+        prompt: "Describe the invoice-finding problem and collect ticket volume, search, navigation, and customer-language evidence.",
+        why: "Evidence confirms the size and shape of the problem before the team invests in a solution.",
+        signals: ["invoice", "cannot find", "ticket volume", "contacts", "search", "navigation", "analytics", "customer wording", "evidence", "frequency", "trend"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Test one cause-linked improvement",
+        prompt: "State a likely cause and propose one focused change with a named owner and review period.",
+        why: "A focused experiment makes it possible to learn whether the proposed cause and solution were correct.",
+        signals: ["cause", "hidden", "unclear", "label", "navigation", "help article", "in-product", "test", "experiment", "owner", "product owns", "two weeks", "four weeks", "30 days", "review period"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Measure success and possible side effects",
+        prompt: "Choose an outcome metric and explain what unintended behavior or customer impact you would monitor.",
+        why: "A change is successful only when it improves the intended outcome without creating a new problem.",
+        signals: ["success", "success metric", "25%", "reduction", "reduce contacts", "contact rate", "find rate", "task completion", "customer effort", "side effect", "clutter", "misclick", "wrong invoice", "permission", "privacy", "monitor", "watch", "rollback"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "choosing-your-target-support-role": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Identify recurring role expectations",
+        prompt: "List five responsibilities and five skills or tools that recur across the three job descriptions.",
+        why: "Repeated expectations reveal the real baseline for the target role instead of the wording of one advertisement.",
+        signals: ["troubleshooting", "customer communication", "reproducing", "escalation", "documentation", "saas", "zendesk", "jira", "devtools", "api", "writing"],
+        minimumMatches: 8,
+      },
+      {
+        label: "Connect existing evidence to the role",
+        prompt: "Name at least two requirements you already meet and point to work, study, or portfolio evidence.",
+        why: "A credible fit assessment uses demonstrated evidence rather than unsupported confidence.",
+        signals: ["already", "demonstrate", "current work", "experience", "portfolio", "bridge", "communication", "troubleshooting", "evidence"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Turn two gaps into a practical plan",
+        prompt: "Identify two genuine gaps and define specific actions or projects for closing them.",
+        why: "A focused gap plan converts job research into measurable career development.",
+        signals: ["gap", "deeper", "api", "jira", "complete", "project", "document", "simulated", "workflow", "this month", "plan"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "writing-a-support-resume": {
+    minimumWords: 55,
+    criteria: [
+      {
+        label: "Lead each example with a strong action",
+        prompt: "Write three distinct accomplishment statements that begin with clear actions rather than passive duties.",
+        why: "Action-led writing makes the candidate's contribution immediately visible.",
+        signals: ["resolved", "built", "reviewed", "created", "improved", "coordinated", "investigated", "delivered", "supported", "converted"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Add relevant context and skills",
+        prompt: "Show the support setting, channel, technology, or method used in each responsibility.",
+        why: "Context helps recruiters understand the complexity and relevance of the work.",
+        signals: ["chat", "email", "voice", "diagnostic", "escalation", "react", "vite", "github", "cloudflare", "troubleshooting", "support"],
+        minimumMatches: 5,
+      },
+      {
+        label: "State truthful results or useful outputs",
+        prompt: "Complete each statement with a credible result, scale, improvement, or artifact without inventing metrics.",
+        why: "Truthful evidence is stronger than inflated numbers and gives interviewers something concrete to explore.",
+        signals: ["restore", "clear next steps", "64", "eight collections", "deployed", "improving", "reducing", "consistency", "reusable", "result", "platform"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "building-a-support-portfolio": {
+    minimumWords: 60,
+    criteria: [
+      {
+        label: "Define a realistic customer problem",
+        prompt: "Describe a specific support scenario with the customer's impact and enough technical or product context.",
+        why: "A focused scenario allows the portfolio artifacts to demonstrate relevant judgment.",
+        signals: ["customer", "401", "error", "integration", "impact", "saas", "authentication", "cannot", "problem"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Create three connected support artifacts",
+        prompt: "Include a customer response, an internal investigation note, and either a knowledge article or escalation summary.",
+        why: "Connected artifacts show how customer communication and internal problem-solving support the same outcome.",
+        signals: ["customer response", "investigation note", "knowledge article", "escalation", "artifact", "internal", "customer"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Show evidence, safety, and an actionable handoff",
+        prompt: "Include safe evidence gathering, tests or hypotheses, what was ruled out, and a clear next question or action.",
+        why: "Useful portfolio work demonstrates professional investigation rather than decorative documents.",
+        signals: ["sanitized", "timestamp", "request", "response", "environment", "reproduction", "tests", "hypotheses", "evidence", "ruled out", "workaround", "engineering question"],
+        minimumMatches: 6,
+      },
+    ],
+  },
+  "optimizing-linkedin-for-support": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Write a focused, searchable headline",
+        prompt: "Keep the headline within 220 characters and include a target role plus relevant support specialties or evidence.",
+        why: "A focused headline helps recruiters understand the candidate's direction and find relevant keywords quickly.",
+        signals: ["analyst", "customer success", "saas support", "technical troubleshooting", "product support", "customer support", "bridge", "platform"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Explain strengths through practical evidence",
+        prompt: "Use the About section to connect communication, troubleshooting, ownership, or customer work with a real role or project.",
+        why: "Evidence turns broad professional claims into a credible narrative.",
+        signals: ["help customers", "communication", "troubleshooting", "ownership", "us mobile", "chat", "email", "voice", "built bridge", "64", "react"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Show a clear current learning direction",
+        prompt: "End with the relevant skills, role direction, or topics you are actively developing.",
+        why: "A specific learning focus signals intentional growth without pretending every skill is already mastered.",
+        signals: ["currently", "deepening", "learning", "api", "support operations", "ai", "customer success", "developing", "focus"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "finding-and-evaluating-support-jobs": {
+    minimumWords: 60,
+    criteria: [
+      {
+        label: "Build a complete application tracker",
+        prompt: "Include company, role, link, date, fit, resume version, contact, status, follow-up date, and notes.",
+        why: "A complete tracker prevents missed follow-ups and makes each application easier to evaluate.",
+        signals: ["company", "role", "link", "date", "fit", "resume", "contact", "status", "follow-up", "notes"],
+        minimumMatches: 9,
+      },
+      {
+        label: "Evaluate three roles individually",
+        prompt: "Add three distinct roles and record one evidence-based reason to apply for each.",
+        why: "Role-by-role fit prevents high-volume applications with no connection to the candidate's evidence.",
+        signals: ["acme", "northstar", "orbit", "role", "fit", "experience", "troubleshooting", "onboarding", "saas", "apply"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Record uncertainties and follow-up actions",
+        prompt: "Add one point to verify for every role, use the correct resume version, and schedule a follow-up.",
+        why: "Verification catches hidden mismatches while planned follow-up keeps the search organized.",
+        signals: ["verify", "shift", "portfolio size", "sql", "requirement", "role-specific", "resume version", "five business days", "follow-up date"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "writing-targeted-applications": {
+    minimumWords: 100,
+    criteria: [
+      {
+        label: "Open with the employer's specific need",
+        prompt: "Identify what this company needs from the role instead of beginning with a generic request for consideration.",
+        why: "Employer-focused opening shows that the candidate understood the job rather than reusing a template unchanged.",
+        signals: ["your team needs", "product support", "technical problems", "customer guidance", "engineering", "evidence", "role"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Prove fit with one relevant example",
+        prompt: "Use a concise work or project example that demonstrates the skill the employer needs.",
+        why: "A specific example gives the application credibility and creates a natural interview topic.",
+        signals: ["current role", "investigate", "activation", "connectivity", "chat", "email", "voice", "built bridge", "react", "64"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Explain genuine product or customer interest",
+        prompt: "Close with a company-specific reason the product, mission, or customers matter to you.",
+        why: "Specific motivation distinguishes a targeted application from one that could be sent anywhere.",
+        signals: ["especially interested", "your product", "workflow product", "customers", "collaboration", "technical clarity", "customer trust", "your support team"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "mastering-support-interviews": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Prepare all six required story themes",
+        prompt: "Cover a difficult person, a mistake, competing priorities, fast learning, problem-solving, and process improvement.",
+        why: "A varied story bank prepares the candidate for common behavioral questions without forcing one example into every answer.",
+        signals: ["difficult person", "frustrated customer", "mistake", "priorities", "sla", "fast learning", "learned", "problem solving", "isolated", "process improvement", "documentation"],
+        minimumMatches: 7,
+      },
+      {
+        label: "Use a complete STAR structure",
+        prompt: "Ensure every story contains a specific situation, your responsibility, your actions, and a truthful result or learning.",
+        why: "STAR keeps answers focused while making individual contribution and outcome clear.",
+        signals: ["situation", "task", "action", "result", "specific", "my action", "truthful result", "what i learned", "learned"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Practise concise spoken delivery",
+        prompt: "State that each answer will be rehearsed aloud and kept under two minutes.",
+        why: "Spoken practice improves clarity, timing, and confidence more effectively than written preparation alone.",
+        signals: ["two-minute", "two minute", "under two", "aloud", "practice", "rehearse", "story bank", "short"],
+        minimumMatches: 2,
+      },
+    ],
+  },
+  "evaluating-offers-and-first-90-days": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Verify the complete employment offer",
+        prompt: "Check at least ten practical terms including compensation, contract, schedule, leave, equipment, performance, and exit conditions.",
+        why: "A title and salary alone do not reveal whether the role is workable, secure, or aligned with expectations.",
+        signals: ["salary", "currency", "payment schedule", "employment type", "probation", "hours", "time zone", "leave", "benefits", "equipment", "performance", "notice"],
+        minimumMatches: 10,
+      },
+      {
+        label: "Set progressive 30, 60, and 90-day goals",
+        prompt: "Create distinct goals for the first 30, 60, and 90 days that progress from learning to independent performance and improvement.",
+        why: "Sequenced goals establish realistic expectations for ramp-up rather than demanding expert performance immediately.",
+        signals: ["30 days", "day 60", "day 90", "learn", "independently", "meet", "improvement", "product", "tools", "policies"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Include feedback, measures, and relationships",
+        prompt: "Build regular feedback, agreed quality or performance expectations, and cross-team relationships into the plan.",
+        why: "Early success depends on alignment and relationships as much as individual task completion.",
+        signals: ["feedback", "weekly", "quality", "documentation", "core measures", "teammates", "cross-team", "relationships", "expectations"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "ai-in-modern-customer-support": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Separate assistive AI tasks from human decisions",
+        prompt: "Distinguish safe assistance such as summarizing or drafting from financial, emotional, exception, and accountability decisions a person must own.",
+        why: "AI can accelerate preparation, but people must remain responsible for consequential customer decisions.",
+        signals: ["summarize", "classify", "retrieve", "draft", "human", "verify", "financial action", "exception", "emotion", "accountable"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Verify facts in approved systems",
+        prompt: "List the transaction, policy, history, and identity facts that must be confirmed before using the draft.",
+        why: "A fluent AI response is unsafe when its underlying account and policy facts are unverified.",
+        signals: ["transaction", "status", "date", "amount", "prior contact", "policy", "eligibility", "identity", "approved system", "verify"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Define clear escalation boundaries",
+        prompt: "Escalate fraud, vulnerability, threats, legal issues, exceptions, high-value actions, or conflicts between evidence and AI output.",
+        why: "Explicit boundaries prevent automation from improvising in high-risk or ambiguous cases.",
+        signals: ["fraud", "vulnerable", "threat", "legal", "exception", "high-value", "escalate", "conflict", "evidence", "ai draft"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "prompting-for-support-work": {
+    minimumWords: 80,
+    criteria: [
+      {
+        label: "Provide verified context and approved options",
+        prompt: "Include the order facts, confirmed delay, current eligibility, and only the remedies the agent is authorized to offer.",
+        why: "Grounded context reduces invention and keeps the output within policy.",
+        signals: ["due tuesday", "expected friday", "in transit", "carrier delay", "refund", "not yet eligible", "tracking", "expedited shipping", "approved options", "verified facts"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Specify tone, length, and response structure",
+        prompt: "Define a calm tone, maximum length, and the required acknowledgment, update, options, and next-step structure.",
+        why: "Output constraints turn a vague request into a usable support draft.",
+        signals: ["tone", "calm", "accountable", "under 130", "length", "structure", "acknowledgment", "verified update", "options", "next step"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Prohibit invention and surface missing information",
+        prompt: "State what the model must not promise or claim and require unknown information to be listed separately.",
+        why: "A safe prompt makes uncertainty visible instead of allowing AI to fill gaps confidently.",
+        signals: ["do not promise", "do not blame", "missing information", "separately", "do not invent", "unknown", "friday delivery", "prohibited"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "reviewing-ai-generated-responses": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Verify facts, policy, and customer goal",
+        prompt: "Check source-system facts, authorization under policy, and whether the draft solves what the customer actually wants.",
+        why: "Correct language cannot compensate for inaccurate facts, an unauthorized action, or the wrong customer outcome.",
+        signals: ["facts", "amount", "dates", "status", "source system", "policy", "authorized", "goal", "customer wants"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Review tone, privacy, and actionability",
+        prompt: "Confirm that the response acknowledges impact, protects personal data, and gives clear next steps and timing.",
+        why: "A send-ready response must be respectful, safe, and easy for the customer to act on.",
+        signals: ["tone", "acknowledge", "privacy", "personal data", "actionability", "next steps", "timeframe", "clear"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Expose uncertainty and preserve human approval",
+        prompt: "Check that unknowns are labelled rather than invented and require correction or human approval before sending.",
+        why: "Human review remains essential when information is incomplete or the response affects money or policy.",
+        signals: ["uncertainty", "unknown", "labelled", "invented", "correct", "before sending", "human approval", "financial decision"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "privacy-and-security-with-ai": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Remove direct identifiers and financial data",
+        prompt: "Remove or replace the customer's name, email, account ID, API token, and payment information before AI use.",
+        why: "Customer identity and payment data should not be exposed merely to obtain an AI-assisted analysis.",
+        signals: ["name", "email", "account id", "api token", "payment", "remove", "replace", "placeholder", "customer_a", "account_1"],
+        minimumMatches: 7,
+      },
+      {
+        label: "Treat secrets as non-shareable",
+        prompt: "State that tokens and credentials must never be entered and explain the response if exposure is suspected.",
+        why: "Secrets require stronger handling than ordinary identifiers because they can grant direct system access.",
+        signals: ["never", "api token", "partially", "revoke", "exposure", "credential", "secret", "suspected"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Use minimum approved context with human review",
+        prompt: "Keep only permitted technical context, use an approved tool with suitable retention, and review the sanitized input before submission.",
+        why: "Data minimization, approved tooling, and review reduce privacy risk even after identifiers are removed.",
+        signals: ["minimum", "error code", "product version", "permitted", "approved ai tool", "retention", "review", "sanitized", "before submission"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "ai-for-ticket-summaries-and-handoffs": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Constrain the summary to verified information",
+        prompt: "Require the AI to use only verified notes, separate facts from hypotheses, preserve timestamps, and flag missing fields.",
+        why: "A handoff becomes dangerous when generated assumptions are presented as confirmed investigation.",
+        signals: ["verified notes", "facts", "hypotheses", "timestamps", "do not add", "missing fields", "factual", "only"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Use a complete operational handoff template",
+        prompt: "Include impact, environment, evidence, attempted steps and results, owner, blocker, and the next action with timing.",
+        why: "A structured handoff lets the receiving person continue work without repeating discovery.",
+        signals: ["impact", "environment", "evidence", "request id", "steps attempted", "results", "owner", "blocker", "next action", "due time"],
+        minimumMatches: 8,
+      },
+      {
+        label: "Verify, sanitize, and approve before sharing",
+        prompt: "Compare the output with the ticket, remove sensitive data, and require the current owner to approve it.",
+        why: "Human approval protects accuracy, privacy, and accountability at the point of handoff.",
+        signals: ["compare", "ticket", "remove sensitive", "sensitive data", "current owner", "approve", "before sharing", "verify"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "ai-assisted-knowledge-management": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Use representative and trusted source material",
+        prompt: "Select sanitized ticket samples plus current product and policy documentation before asking AI to draft.",
+        why: "Knowledge content is only as reliable as the cases and approved sources used to create it.",
+        signals: ["representative", "sanitized", "tickets", "product", "policy", "documentation", "current", "source"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Require expert review, testing, and approval",
+        prompt: "Define the AI tasks and include support and security checks, user testing, content ownership, and approval before publication.",
+        why: "AI can organize and draft, but qualified people must verify safety and usability.",
+        signals: ["cluster", "outline", "draft", "support expert", "verifies", "security", "tested", "content owner", "approves", "publishes"],
+        minimumMatches: 7,
+      },
+      {
+        label: "Measure use and schedule maintenance",
+        prompt: "Track findability or support outcomes, gather failure feedback, and set a concrete review schedule.",
+        why: "A published article needs evidence of usefulness and an owner-led maintenance cycle.",
+        signals: ["search success", "deflection", "incorrect-use", "feedback", "30 days", "quarterly", "review", "track", "keywords", "escalation criteria"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "ai-automation-and-human-handoffs": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Define high-risk and failed-automation handoffs",
+        prompt: "List at least five situations requiring a person, including security, financial risk, exceptions, vulnerability, or repeated AI failure.",
+        why: "Clear boundaries prevent an automated assistant from persisting when risk or complexity exceeds its authority.",
+        signals: ["fraud", "account compromise", "high-value", "policy exception", "vulnerable", "failed ai", "human", "two failed", "disputed"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Transfer context with a reassuring customer message",
+        prompt: "Pass verified facts, authentication, actions, sentiment, and handoff reason without secrets, while telling the customer what happens next.",
+        why: "A good handoff reduces repetition and preserves trust without exposing protected information.",
+        signals: ["verified facts", "summary", "authentication", "actions tried", "sentiment", "reason for handoff", "never secret", "connecting you", "specialist", "won't need to repeat", "billing priority"],
+        minimumMatches: 7,
+      },
+      {
+        label: "Measure the handoff experience",
+        prompt: "Track at least four measures covering routing, response, repeated explanation, resolution, or satisfaction.",
+        why: "Automation should be evaluated by customer outcomes after transfer, not only by how many conversations it contains.",
+        signals: ["handoff accuracy", "time to human", "repeat explanation", "resolution rate", "csat", "satisfaction", "measure", "response"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "measuring-ai-support-quality": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Use a balanced AI quality scorecard",
+        prompt: "Measure accuracy, policy, privacy, customer effort, resolution, repeat contact, escalation, satisfaction, and efficiency.",
+        why: "A balanced scorecard prevents efficiency gains from hiding unsafe or unresolved customer experiences.",
+        signals: ["accuracy", "policy", "privacy", "customer effort", "resolution", "repeat contact", "escalation", "csat", "satisfaction", "efficiency"],
+        minimumMatches: 8,
+      },
+      {
+        label: "Treat safety outcomes as release gates",
+        prompt: "Make accuracy, policy, and privacy non-negotiable gates and identify failures that require an immediate pause.",
+        why: "Severe safety failures should not be averaged away by strong performance elsewhere.",
+        signals: ["safety gate", "accuracy", "policy", "privacy", "pause", "sensitive data", "unauthorized", "invented facts", "immediately"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Define rollback and investigation conditions",
+        prompt: "Set a critical-error or customer-outcome threshold for rollback and require investigation before reactivation.",
+        why: "Predefined rollback rules help teams respond quickly and responsibly when quality deteriorates.",
+        signals: ["roll back", "rollback", "critical-error", "threshold", "resolution falls", "repeat contacts rise", "investigate", "before reactivation", "pause"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "managing-your-support-workday": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Start with risk, commitments, and focus",
+        prompt: "Begin the shift by reviewing outages, SLA risk, promised updates, handoffs, priorities, and protected investigation time.",
+        why: "A deliberate start prevents urgent work and customer commitments from being buried by new activity.",
+        signals: ["start", "outage", "sla", "promised update", "handoff", "priority", "queue", "focused", "investigation block"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Reassess and recover during the shift",
+        prompt: "Use a mid-shift review for aging work, due communication, documentation, help, and a proper break.",
+        why: "Mid-shift checks catch changing risk while protecting the concentration and recovery needed for accurate work.",
+        signals: ["mid-shift", "aging", "due updates", "document", "completed tests", "break", "ask for help", "sla risk", "reassess"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Close with clean status and handoffs",
+        prompt: "End by resolving or updating owned cases, recording evidence and next actions, sending commitments, and handing off urgent work with an owner and deadline.",
+        why: "A reliable end-of-shift routine prevents lost context and unclear ownership across shifts.",
+        signals: ["end", "resolve", "status", "owned case", "record evidence", "next action", "promised", "hand off", "owner", "deadline", "tomorrow"],
+        minimumMatches: 7,
+      },
+    ],
+  },
+  "receiving-and-using-feedback": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Clarify the feedback with evidence",
+        prompt: "Name the specific feedback and request examples plus the expected standard or impact.",
+        why: "Evidence turns a broad criticism into an observable behavior that can be improved.",
+        signals: ["feedback", "escalation", "too much history", "engineering question", "request", "examples", "standard", "delay", "sections"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Practise a specific replacement behavior",
+        prompt: "Define the new behavior, practise it on real or past examples, and ask a suitable person to review the work.",
+        why: "Improvement requires repeated use of a clearer behavior rather than an intention to simply do better.",
+        signals: ["behavior", "leading with", "impact", "reproduction", "evidence", "exact help", "rewrite", "three", "template", "senior teammate", "review"],
+        minimumMatches: 7,
+      },
+      {
+        label: "Set evidence of progress and a follow-up date",
+        prompt: "Choose a measurable sign of improvement and a specific time to review it.",
+        why: "A measure and date close the feedback loop and reveal whether practice changed performance.",
+        signals: ["progress", "reviewer", "identify", "under one minute", "measure", "follow-up", "two weeks", "date"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "collaborating-across-teams": {
+    minimumWords: 80,
+    criteria: [
+      {
+        label: "State customer impact, scope, and environment",
+        prompt: "Explain who is affected, the operational impact, where the problem occurs, and its urgency.",
+        why: "Impact and scope help Engineering assess priority before reading detailed evidence.",
+        signals: ["blocking", "four customers", "scope", "production", "multiple accounts", "chrome", "edge", "urgency", "friday", "month-end"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Provide reproducible evidence and completed tests",
+        prompt: "Include exact reproduction steps, expected and actual results, sanitized evidence, and tests that narrowed the cause.",
+        why: "Structured evidence lets another team begin investigation without repeating basic discovery.",
+        signals: ["reproduction", "reports", "10,001", "export csv", "expected", "actual", "sanitized", "request id", "timestamp", "network", "smaller reports", "cache", "browser"],
+        minimumMatches: 8,
+      },
+      {
+        label: "End with a clear decision request",
+        prompt: "Ask the receiving team to answer a specific question and identify a safe workaround or owner.",
+        why: "A precise request turns evidence into an actionable cross-team handoff.",
+        signals: ["please confirm", "backend limit", "intended", "safe workaround", "fix owner", "advise", "decision", "help needed"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "learning-products-and-tools-quickly": {
+    minimumWords: 80,
+    criteria: [
+      {
+        label: "Map the goal, prerequisites, and roles",
+        prompt: "Start with the customer outcome, required account conditions, permissions, and the people involved in the workflow.",
+        why: "Learning around the customer's goal makes product knowledge easier to retrieve during real support conversations.",
+        signals: ["goal", "access", "prerequisite", "active account", "seat", "admin permission", "roles", "administrator", "teammate"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Document the normal path and likely failures",
+        prompt: "List the ordered steps, expected result, and common failure states for the workflow.",
+        why: "Strong product knowledge covers both the happy path and where customers are likely to get stuck.",
+        signals: ["normal steps", "open team", "invite", "email", "role", "send", "accept", "expected", "correct permissions", "duplicate", "expired", "filtering", "no seat", "insufficient permission"],
+        minimumMatches: 8,
+      },
+      {
+        label: "Identify evidence, trusted sources, and escalation",
+        prompt: "Name the diagnostic evidence, authoritative references, and the condition and context for escalation.",
+        why: "Evidence and trusted sources allow a learner to investigate safely and know when specialist help is required.",
+        signals: ["evidence", "status", "timestamp", "delivery event", "error text", "trusted sources", "product guide", "admin policy", "escalate", "reproducible", "request id"],
+        minimumMatches: 7,
+      },
+    ],
+  },
+  "mentoring-and-peer-support": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Use five questions that build judgment",
+        prompt: "Ask five coaching questions about reader needs, action, hesitation, unnecessary content, and structure.",
+        why: "Questions help the colleague recognize and solve the writing problem instead of becoming dependent on corrections.",
+        signals: ["understand first", "sentence", "action", "hesitate", "removed", "accuracy", "structure", "mobile", "question"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Demonstrate and assign deliberate practice",
+        prompt: "Show one clear rewrite and give the colleague a realistic task that requires explaining their choices.",
+        why: "A demonstration creates a model, while independent practice reveals whether the principle transferred.",
+        signals: ["demonstrate", "rewriting", "acknowledgment", "answer", "numbered steps", "expectation", "practice task", "two", "anonymized", "explain each edit"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Follow up in a way that builds independence",
+        prompt: "Set a review point, use a new example, and let the colleague self-assess before receiving feedback.",
+        why: "Self-assessment and spaced follow-up develop independent quality judgment.",
+        signals: ["follow up", "one week", "new response", "together", "self-score", "before", "feedback", "independence"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "leading-without-a-title": {
+    minimumWords: 80,
+    criteria: [
+      {
+        label: "Define the problem with evidence and impact",
+        prompt: "Use a specific team problem, measurable evidence, and its effect on customers or colleagues.",
+        why: "Evidence-based influence focuses attention on a shared outcome instead of personal preference.",
+        signals: ["password-reset", "reassigned", "18%", "reassignment rate", "resolution time", "agent comments", "unclear ownership", "impact", "customers wait", "duplicate work"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Respect ownership and involve affected people",
+        prompt: "Name the process owner and the teams affected, then invite them to shape a low-risk test.",
+        why: "Leadership without authority works through shared ownership rather than unilateral change.",
+        signals: ["support operations", "owns", "frontline", "identity support", "affected", "invite", "both teams", "shape the test", "one shift"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Test, measure, and share credit and learning",
+        prompt: "Define the experiment, timeframe, success measure, and how contributors and unsuccessful findings will be recognized.",
+        why: "Transparent learning and shared credit build trust around improvement work.",
+        signals: ["low-risk", "routing guide", "tags", "two weeks", "success", "lower reassignment", "incorrect routing", "credit", "contributors", "did not work", "publish"],
+        minimumMatches: 6,
+      },
+    ],
+  },
+  "building-a-career-development-plan": {
+    minimumWords: 70,
+    criteria: [
+      {
+        label: "Compare five competencies with current evidence",
+        prompt: "Name a target role, five relevant competencies, and honest evidence or level for each.",
+        why: "A development plan starts with an evidence-based gap assessment rather than a title alone.",
+        signals: ["technical support specialist", "customer communication", "troubleshooting", "api", "devtools", "technical escalation", "strong evidence", "developing", "basic", "simulated"],
+        minimumMatches: 7,
+      },
+      {
+        label: "Prioritize gaps and create practical activities",
+        prompt: "Choose the two highest-value gaps and define repeated projects, practice, or shadowing that will build evidence.",
+        why: "Focused practice is more likely to create job-ready capability than trying to improve everything simultaneously.",
+        signals: ["priority gaps", "api investigation", "diagnostic", "six months", "two api labs", "weekly", "four", "escalations", "shadow", "technical teammate"],
+        minimumMatches: 6,
+      },
+      {
+        label: "Build feedback and monthly review into the plan",
+        prompt: "Identify people who can give feedback and a monthly process for comparing evidence with the target role.",
+        why: "Regular feedback and market comparison keep the plan honest and adaptable.",
+        signals: ["mentor", "team lead", "feedback", "monthly", "reviews", "artifacts", "job descriptions", "adjust", "plan"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "sustainable-performance-and-wellbeing": {
+    minimumWords: 80,
+    criteria: [
+      {
+        label: "Recognize personal warning signs early",
+        prompt: "List observable signs that strain is beginning to affect attention, tone, documentation, or emotional recovery.",
+        why: "Early signals make it possible to act before wellbeing pressure becomes a customer-quality problem.",
+        signals: ["rushing", "rereading", "irritability", "skipping notes", "difficult case", "warning signs", "absorbing", "quality"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Use recovery habits and interaction boundaries",
+        prompt: "Describe daily recovery practices and safe boundaries for intense or abusive interactions.",
+        why: "Recovery and boundaries protect empathy without requiring the agent to absorb harmful behavior.",
+        signals: ["scheduled breaks", "water", "walk", "two-minute reset", "pause", "de-escalation", "escalate abuse", "boundaries", "daily recovery"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Identify support routes and an early action",
+        prompt: "Name appropriate people or channels and a concrete trigger for seeking help or adjusting work before quality declines.",
+        why: "A predefined support plan makes it easier to respond responsibly when strain persists.",
+        signals: ["team lead", "peer", "wellbeing resource", "incident route", "two warning signs", "tell my lead", "rebalance", "before quality declines", "support channel"],
         minimumMatches: 5,
       },
     ],
