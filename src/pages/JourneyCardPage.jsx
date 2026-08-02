@@ -116,17 +116,30 @@ function JourneyCardPage() {
     localStorage.setItem(stretchConfidenceStorageKey, value);
   }
 
-  function saveCardFeedback() {
-    if (!cardRating) return;
+  function saveCardFeedback(ratingOverride = cardRating) {
+    if (!ratingOverride) return;
 
     localStorage.setItem(cardFeedbackStorageKey, JSON.stringify({
       cardId,
-      rating: cardRating,
-      reason: cardFeedbackReason,
-      note: cardFeedbackNote.trim(),
+      rating: ratingOverride,
+      reason: ratingOverride === "No" ? cardFeedbackReason : "",
+      note: ratingOverride === "No" ? cardFeedbackNote.trim() : "",
       updatedAt: new Date().toISOString(),
     }));
     setCardFeedbackSaved(true);
+  }
+
+  function selectCardRating(rating) {
+    setCardRating(rating);
+
+    if (rating === "No") {
+      setCardFeedbackSaved(false);
+      return;
+    }
+
+    setCardFeedbackReason("");
+    setCardFeedbackNote("");
+    saveCardFeedback(rating);
   }
 
   if (!card) {
@@ -504,17 +517,20 @@ function JourneyCardPage() {
                   key={rating}
                   className={cardRating === rating ? "selected" : ""}
                   aria-pressed={cardRating === rating}
-                  onClick={() => {
-                    setCardRating(rating);
-                    setCardFeedbackSaved(false);
-                  }}
+                  onClick={() => selectCardRating(rating)}
                 >
                   {rating}
                 </button>
               ))}
             </div>
 
-            {cardRating && (
+            {cardFeedbackSaved && cardRating !== "No" && (
+              <p className="card-feedback-quick-status" role="status">
+                Feedback saved. Thank you.
+              </p>
+            )}
+
+            {cardRating === "No" && (
               <div className="card-feedback-details">
                 <label htmlFor="card-feedback-reason">What influenced your answer?</label>
                 <select
@@ -550,7 +566,7 @@ function JourneyCardPage() {
                 />
 
                 <div className="card-feedback-actions">
-                  <button type="button" onClick={saveCardFeedback}>Save feedback</button>
+                  <button type="button" onClick={() => saveCardFeedback()}>Save feedback</button>
                   {cardFeedbackSaved && <span role="status">Feedback saved on this device</span>}
                 </div>
               </div>

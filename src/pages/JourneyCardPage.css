@@ -933,6 +933,13 @@
   outline-offset: 3px;
 }
 
+.journey-page .card-feedback-quick-status {
+  margin: 16px 0 0 !important;
+  color: #83d9ae !important;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
 .card-feedback-details {
   display: grid;
   max-width: 680px;
