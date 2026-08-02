@@ -90,3 +90,22 @@ The second Phase 1 rollout applies the standard to all eight Customer Communicat
 - Closing Conversations with Confidence.
 
 Each card now has three criteria derived directly from its Practice Lab. All eight model answers satisfy all three criteria, typo-bearing versions retain full credit, and a generic irrelevant response receives zero credit on every card. The rendered Active Listening lab was also verified at desktop and 390 x 844 mobile widths with no horizontal overflow.
+
+## Technical Support rollout
+
+The third Phase 1 rollout applies the standard to all eight Technical Support cards:
+
+- The Troubleshooting Mindset;
+- Reproducing Customer Issues;
+- Reading Error Messages;
+- Browser Developer Tools;
+- API and HTTP Basics;
+- Investigating Authentication Problems;
+- Networking and DNS Basics; and
+- Writing Technical Escalations.
+
+The rubrics reward safe evidence gathering, controlled comparisons, contextual interpretation, privacy, and actionable escalation. They do not reward status-code memorization or a generic restart-and-escalate response. All eight model answers and typo-bearing variants satisfy all three criteria, while the generic restart-and-escalate response receives zero credit on every card.
+
+API and HTTP Basics and Networking and DNS Basics retain the Technical Stretch treatment, prerequisite links, beginner check-in, and plain-language first pass. Their rendered desktop and 390 x 844 mobile experiences were verified with no horizontal overflow.
+
+The official technical resources were rechecked during this rollout: Chrome DevTools Network, MDN HTTP Overview, MDN HTTP Status Codes, RFC 6749, and Cloudflare's DNS explainer all resolve to current authoritative pages.

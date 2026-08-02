@@ -400,6 +400,214 @@ export const practiceRubrics = {
       },
     ],
   },
+  "troubleshooting-mindset": {
+    minimumWords: 48,
+    criteria: [
+      {
+        label: "Collect the relevant environment and symptom details",
+        prompt: "Gather at least five useful details such as device, operating system, application version, image type or size, timing, and whether every photo fails.",
+        why: "Environment and symptom details turn a broad crash report into testable conditions.",
+        signals: ["device model", "operating system", "application version", "app version", "image format", "file type", "file size", "crash time", "every photo", "certain photos"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Describe a controlled comparison",
+        prompt: "Test a known-small supported image and a previously failing image under the same conditions.",
+        why: "Changing one meaningful variable reveals whether the result follows the file or the wider environment.",
+        signals: ["small supported image", "known working", "image that failed", "previously failed", "same device", "same conditions", "compare"],
+        minimumMatches: 2,
+      },
+      {
+        label: "Explain what the test would isolate",
+        prompt: "State how the result would narrow the cause instead of claiming a diagnosis in advance.",
+        why: "A controlled test is useful only when its possible results change the investigation.",
+        signals: ["isolate", "narrow", "whether", "linked to", "file", "image data", "environment", "application"],
+        minimumMatches: 2,
+      },
+    ],
+  },
+  "reproducing-customer-issues": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Define the starting state and environment",
+        prompt: "Specify the account, cart, discount code, browser, operating system, and other conditions needed before the test begins.",
+        why: "Reproduction fails when the tester begins from a different state or environment.",
+        signals: ["test account", "account", "cart", "discount code", "save10", "browser", "chrome", "windows", "starting conditions"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Write exact actions and test data",
+        prompt: "List the checkout actions in order and identify the item, address, or discount data used.",
+        why: "Repeatable actions and test data let another person run the same experiment.",
+        signals: ["open checkout", "shipping details", "apply", "continue", "standard item", "valid address", "test data", "steps"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Separate expected, actual, and recorded evidence",
+        prompt: "State what should happen, what actually happens, and what evidence or comparison you would record.",
+        why: "Expected and actual results define the defect, while recorded evidence supports investigation.",
+        signals: ["expected", "actual", "discount appears", "remains disabled", "console", "network", "timestamp", "repeats", "another browser"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "reading-error-messages": {
+    minimumWords: 48,
+    criteria: [
+      {
+        label: "Capture the known error evidence",
+        prompt: "Record the upload action, 14:32 UTC timestamp, HTTP 413 result, and request ID req_8472.",
+        why: "Exact evidence allows the event to be traced without relying on a vague summary.",
+        signals: ["upload", "14:32", "utc", "413", "req_8472", "request id"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Interpret 413 without declaring the cause",
+        prompt: "Explain that 413 commonly points to a request body that is too large, while clearly treating that as a clue rather than proof.",
+        why: "Status codes narrow possibilities but rarely prove the complete root cause by themselves.",
+        signals: ["commonly means", "usually means", "request body", "too large", "larger", "does not prove", "not confirm", "possible"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Propose three relevant follow-up checks",
+        prompt: "Check file size or type, documented limits, intermediary limits, and traceable logs before concluding.",
+        why: "Relevant checks convert the error clue into a safe investigation path.",
+        signals: ["file size", "file type", "documented limit", "documentation", "proxy", "gateway", "request id", "logs", "known working"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "browser-developer-tools": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Use the Console at the moment of failure",
+        prompt: "Reload or reproduce the blank dashboard with DevTools open and record relevant Console errors and timestamps.",
+        why: "Console evidence can reveal client-side errors that are invisible in the interface.",
+        signals: ["devtools open", "reload", "reproduce", "console", "errors", "script", "timestamp"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Inspect failed or slow Network requests",
+        prompt: "Record the request path, method, status, duration, response, and request identifier where available.",
+        why: "Network evidence shows whether the page requested data and how the server responded.",
+        signals: ["network", "xhr", "fetch", "request", "url", "endpoint", "method", "status", "duration", "response", "request id"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Remove sensitive information before sharing",
+        prompt: "Redact tokens, cookies, authorization headers, personal data, and account identifiers from screenshots or HAR files.",
+        why: "Diagnostic evidence must not create a new security or privacy incident.",
+        signals: ["remove", "redact", "token", "cookies", "authorization header", "personal data", "account identifier", "har", "screenshot"],
+        minimumMatches: 4,
+      },
+    ],
+  },
+  "api-and-http-basics": {
+    minimumWords: 55,
+    criteria: [
+      {
+        label: "Explain what POST represents",
+        prompt: "Explain that POST sends data for the server to create or process an order.",
+        why: "The method clarifies the intended action without requiring the learner to write code.",
+        signals: ["post", "create", "process", "order", "request body", "supplied body", "send data"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Interpret 400 as a request clue",
+        prompt: "Explain that 400 commonly indicates an invalid request, not a confirmed server defect.",
+        why: "The status category guides investigation while leaving room for the actual evidence.",
+        signals: ["400", "bad request", "invalid request", "malformed", "missing", "invalid value", "does not prove", "commonly"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Inspect the structured request before escalating",
+        prompt: "Check the endpoint, headers or content type, JSON syntax, required fields, field types, and request ID against documentation or a working request.",
+        why: "A structured comparison can identify request problems before engineering must investigate.",
+        signals: ["endpoint", "headers", "content type", "json", "syntax", "required fields", "field types", "request id", "documentation", "working request"],
+        minimumMatches: 5,
+      },
+    ],
+  },
+  "authentication-problems": {
+    minimumWords: 75,
+    criteria: [
+      {
+        label: "Handle reset links and verification delivery safely",
+        prompt: "For the expired link and missing code, check timing and the masked destination, then generate or deliver a new valid request without asking for the secret.",
+        why: "These checks address link validity and delivery without exposing recovery credentials.",
+        signals: ["expired link", "request time", "new link", "missing code", "masked destination", "delivery", "spam", "generate"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Separate sessions from permissions",
+        prompt: "Investigate session timeouts through device, browser, cookies, and timing; investigate visible-but-blocked billing through role or permission checks.",
+        why: "A password reset will not fix a session configuration or authorization problem.",
+        signals: ["session", "timeout", "device", "browser", "cookie", "billing", "role", "permission", "authorization"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Protect authentication secrets",
+        prompt: "State that passwords, one-time codes, tokens, and recovery secrets must never be requested or recorded.",
+        why: "Access troubleshooting must not expose the credentials it is meant to protect.",
+        signals: ["never request", "do not ask", "password", "one-time code", "otp", "token", "recovery code", "secret"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "networking-and-dns-basics": {
+    minimumWords: 65,
+    criteria: [
+      {
+        label: "Establish scope before changing anything",
+        prompt: "Confirm whether the slowdown affects one user or many and record the time, location, or region.",
+        why: "Scope distinguishes an individual environment problem from a wider service event.",
+        signals: ["one user", "many users", "time", "region", "location", "scope", "when"],
+        minimumMatches: 3,
+      },
+      {
+        label: "Compare browser, device, and network one layer at a time",
+        prompt: "Test another browser, another device on the same network, and the original device on another network.",
+        why: "Controlled comparisons show whether the problem follows the browser, device, or network.",
+        signals: ["browser", "device", "network", "another browser", "private window", "another device", "same network", "different network", "mobile data", "original device"],
+        minimumMatches: 4,
+      },
+      {
+        label: "Check route and service evidence",
+        prompt: "Record DNS or request timing, compare another region where possible, and review service status or application metrics.",
+        why: "Route and service evidence prevents the local network from being blamed without proof.",
+        signals: ["dns", "resolution", "request timing", "latency", "another region", "service status", "status page", "application metrics", "monitoring"],
+        minimumMatches: 3,
+      },
+    ],
+  },
+  "technical-escalations": {
+    minimumWords: 90,
+    criteria: [
+      {
+        label: "Summarize impact and environment",
+        prompt: "State the export failure, customer impact, affected environment, browser, operating system, and relevant scope.",
+        why: "Impact and environment help the receiving team understand urgency and where to investigate.",
+        signals: ["export", "fails", "impact", "cannot complete", "month-end", "production", "chrome", "windows", "10,000", "records"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Provide reproducible expected-versus-actual evidence",
+        prompt: "Include exact steps, expected result, actual result, timestamps or request IDs, and sanitized technical evidence.",
+        why: "Reproduction and evidence let engineering continue the investigation instead of restarting it.",
+        signals: ["steps", "open reports", "expected", "actual", "spinner", "export failed", "timestamp", "request id", "console", "network", "sanitized"],
+        minimumMatches: 5,
+      },
+      {
+        label: "Document completed tests and the help requested",
+        prompt: "Show the comparison tests already completed and ask engineering a precise question about the limit, failure, workaround, or fix path.",
+        why: "Completed tests prevent repetition, while a clear request defines what the next team should decide.",
+        signals: ["tests", "9,999", "two browsers", "two users", "reproduce", "engineering", "confirm", "size limit", "backend", "workaround", "fix path"],
+        minimumMatches: 5,
+      },
+    ],
+  },
 };
 
 export function getPracticeRubric(card) {
