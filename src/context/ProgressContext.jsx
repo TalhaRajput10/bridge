@@ -250,26 +250,32 @@ export function ProgressProvider({ children }) {
     updateEntry("completed", cardId, value);
   }, [updateEntry]);
 
-  const savePracticeAnswer = useCallback((cardId, value) => {
+  const savePracticeAnswer = useCallback(async (cardId, value) => {
     localStorage.setItem(`bridge-answer-${cardId}`, value);
     updateEntry("answers", cardId, value);
 
-    if (user && isSupabaseConfigured && supabase) {
-      const card = journeyCards.find((item) => item.id === cardId);
-      supabase.from("practice_responses").upsert({
-        user_id: user.id,
-        card_id: cardId,
-        collection_id: card?.collectionId || "unknown",
-        card_title: card?.title || cardId,
-        answer: value,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: "user_id,card_id" }).then(({ error }) => {
-        if (error) {
-          console.error("Unable to save the Practice Lab response:", error.message);
-          setSyncStatus("error");
-        }
-      });
+    if (!user || !isSupabaseConfigured || !supabase) {
+      return { location: "device", error: null };
     }
+
+    const card = journeyCards.find((item) => item.id === cardId);
+    const { error } = await supabase.from("practice_responses").upsert({
+      user_id: user.id,
+      card_id: cardId,
+      collection_id: card?.collectionId || "unknown",
+      card_title: card?.title || cardId,
+      answer: value,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "user_id,card_id" });
+
+    if (error) {
+      console.error("Unable to save the Practice Lab response:", error.message);
+      setSyncStatus("error");
+      return { location: "device", error };
+    }
+
+    setSyncStatus("synced");
+    return { location: "account", error: null };
   }, [updateEntry, user]);
 
   const saveStretchConfidence = useCallback((cardId, value) => {
@@ -277,10 +283,35 @@ export function ProgressProvider({ children }) {
     updateEntry("confidence", cardId, value);
   }, [updateEntry]);
 
-  const saveCardFeedback = useCallback((cardId, value) => {
+  const saveCardFeedback = useCallback(async (cardId, value) => {
     localStorage.setItem(`bridge-card-feedback-${cardId}`, JSON.stringify(value));
     updateEntry("feedback", cardId, value);
-  }, [updateEntry]);
+
+    if (!user || !isSupabaseConfigured || !supabase) {
+      return { location: "device", error: null };
+    }
+
+    const card = journeyCards.find((item) => item.id === cardId);
+    const { error } = await supabase.from("card_feedback").upsert({
+      user_id: user.id,
+      card_id: cardId,
+      collection_id: card?.collectionId || "unknown",
+      card_title: card?.title || cardId,
+      rating: value.rating,
+      reason: value.reason || null,
+      note: value.note || null,
+      updated_at: value.updatedAt || new Date().toISOString(),
+    }, { onConflict: "user_id,card_id" });
+
+    if (error) {
+      console.error("Unable to save Journey Card feedback:", error.message);
+      setSyncStatus("error");
+      return { location: "device", error };
+    }
+
+    setSyncStatus("synced");
+    return { location: "account", error: null };
+  }, [updateEntry, user]);
 
   const value = useMemo(() => {
     const completedIds = new Set(

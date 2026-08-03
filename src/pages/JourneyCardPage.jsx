@@ -94,20 +94,20 @@ function JourneyCardPage() {
     });
   }
 
-  function savePracticeAnswer() {
+  async function savePracticeAnswer() {
     const cleanedAnswer = practiceAnswer.trim();
     if (!cleanedAnswer) return;
 
-    persistPracticeAnswer(cardId, cleanedAnswer);
+    await persistPracticeAnswer(cardId, cleanedAnswer);
     setPracticeDraft(cleanedAnswer);
     setAnswerSavedOverride(true);
   }
 
-  function checkPracticeAnswer() {
+  async function checkPracticeAnswer() {
     const cleanedAnswer = practiceAnswer.trim();
     if (!cleanedAnswer || !card) return;
 
-    persistPracticeAnswer(cardId, cleanedAnswer);
+    await persistPracticeAnswer(cardId, cleanedAnswer);
     setPracticeDraft(cleanedAnswer);
     setAnswerSavedOverride(true);
     const result = evaluatePracticeResponse(cleanedAnswer, card);
@@ -125,10 +125,10 @@ function JourneyCardPage() {
     persistStretchConfidence(cardId, value);
   }
 
-  function saveCardFeedback(ratingOverride = cardRating) {
+  async function saveCardFeedback(ratingOverride = cardRating) {
     if (!ratingOverride) return;
 
-    persistCardFeedback(cardId, {
+    await persistCardFeedback(cardId, {
       cardId,
       rating: ratingOverride,
       reason: ratingOverride === "No" ? cardFeedbackReason : "",
