@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "seo:generate": "node scripts/generateSeoAssets.mjs --public-only",
+    "build": "npm run seo:generate && vite build && node scripts/generateSeoAssets.mjs --dist-only",
     "lint": "eslint .",
     "audit:content": "node scripts/auditJourneyCards.mjs",
+    "audit:seo": "node scripts/auditSeoOutput.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -25,6 +27,11 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "wrangler": "^4.119.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "workerd@1.20260801.1": true
   }
 }

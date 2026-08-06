@@ -7,6 +7,7 @@ import JourneyCardPage from "./pages/JourneyCardPage.jsx";
 import ResourcesPage from "./pages/ResourcesPage.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import AccountPage from "./pages/AccountPage.jsx";
+import SeoManager from "./components/SeoManager.jsx";
 import { captureAppError, trackEvent } from "./lib/telemetry.js";
 
 function ScrollToTop() {
@@ -56,6 +57,7 @@ function App() {
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <ScrollToTop />
       <TelemetryObserver />
+      <SeoManager />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
