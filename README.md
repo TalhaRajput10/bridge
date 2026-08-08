@@ -8,7 +8,9 @@ BRIDGE CST (BRIDGE Customer Support Training) is a free, interactive career plat
 
 - Eight learning collections and 64 Journey Cards
 - Twelve launch Guides covering applications, interviews, BPO campaigns, support industries, and technical skills
-- Searchable Guides hub, individual article routes, and a complete FAQ page
+- Global search across all 64 Journey Cards, plus a searchable Guides hub
+- Individual guide routes, a complete FAQ, and an About page documenting the mission and product ownership
+- Guided end-of-collection handoffs and a helpful application-level 404 page
 - Practical scenarios, model answers, and saved Practice Lab responses
 - Completion progress and device-based learning streaks
 - Supabase email authentication
@@ -37,6 +39,7 @@ Open the local URL printed by Vite.
 
 ```powershell
 npm.cmd run lint
+npm.cmd run audit:content
 npm.cmd run audit:guides
 npm.cmd run audit:seo
 npm.cmd run build
@@ -67,6 +70,13 @@ src/
 ```
 
 The presentation layer is intentionally separate from curriculum data and authentication. UI work should not mutate files in `src/data`, `src/context`, or `src/lib` unless a feature explicitly requires a data or backend change.
+
+## Public routes
+
+- `/search` searches and filters the complete Journey Card curriculum.
+- `/about` explains the mission, creator story, product principles, and AI-assistance disclosure.
+- Unknown React routes render a branded, non-indexable 404 experience.
+- The final card in each collection recommends the next collection and retains links to every collection and card.
 
 See [docs/BRIDGE_UI_SYSTEM.md](docs/BRIDGE_UI_SYSTEM.md) for the approved visual language and responsive rules.
 

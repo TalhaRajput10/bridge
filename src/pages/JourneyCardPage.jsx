@@ -73,6 +73,12 @@ function JourneyCardPage() {
   const collection = card
     ? collections.find((item) => item.id === card.collectionId)
     : null;
+  const collectionIndex = card
+    ? collections.findIndex((item) => item.id === card.collectionId)
+    : -1;
+  const nextCollection = collectionIndex >= 0 && collectionIndex < collections.length - 1
+    ? collections[collectionIndex + 1]
+    : null;
   const enhancement = card ? getCardEnhancement(card) : null;
   const cardResources = card ? getResourcesForCard(card.id) : [];
   const lessonSections = [
@@ -634,14 +640,26 @@ function JourneyCardPage() {
               <span>Next Journey Card →</span>
               <strong>{nextCard.title}</strong>
             </Link>
+          ) : nextCollection ? (
+            <Link to={`/collections/${nextCollection.id}`}>
+              <span>Next collection →</span>
+              <strong>Continue with {nextCollection.title}</strong>
+            </Link>
           ) : (
-            <Link to={`/collections/${card.collectionId}`}>
-              <span>Collection complete</span>
-              <strong>Return to {collectionTitle}</strong>
+            <Link to="/search">
+              <span>Learning path complete</span>
+              <strong>Explore any Journey Card</strong>
             </Link>
           )}
         </div>
       </nav>
+
+      {!nextCard && (
+        <div className="collection-completion-links" aria-label="Collection completion options">
+          <p><strong>{collectionTitle} complete.</strong> Keep building your bridge or revisit any skill whenever you need it.</p>
+          <div><Link to="/#collections">Browse all collections</Link><Link to="/search">Search all 64 Journey Cards</Link></div>
+        </div>
+      )}
     </main>
   );
 }

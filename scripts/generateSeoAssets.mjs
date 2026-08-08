@@ -44,7 +44,7 @@ function renderLink(route, label) {
 
 function renderStaticContent(route) {
   const seo = getSeoForPath(route);
-  const sharedHeader = `<header><a href="/" aria-label="BRIDGE CST home">${SITE_NAME}</a><nav aria-label="Primary"><a href="/">Home</a> <a href="/guides">Guides</a> <a href="/resources">Resources</a> <a href="/faq">FAQ</a></nav></header>`;
+  const sharedHeader = `<header><a href="/" aria-label="BRIDGE CST home">${SITE_NAME}</a><nav aria-label="Primary"><a href="/">Home</a> <a href="/search">Search</a> <a href="/guides">Guides</a> <a href="/resources">Resources</a> <a href="/faq">FAQ</a> <a href="/about">About</a></nav></header>`;
 
   if (seo.pageKind === "home") {
     return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="/">
@@ -108,6 +108,24 @@ function renderStaticContent(route) {
     </main>`;
   }
 
+  if (seo.pageKind === "search") {
+    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
+      ${sharedHeader}
+      <p>All 64 Journey Cards</p><h1>Search customer support Journey Cards</h1><p>${escapeHtml(seo.description)}</p>
+      ${collections.map((collection) => `<section><h2>${escapeHtml(collection.title)}</h2><ul>${journeyCards.filter((card) => card.collectionId === collection.id).map((card) => renderLink(`/cards/${card.id}`, card.title)).join("\n")}</ul></section>`).join("\n")}
+    </main>`;
+  }
+
+  if (seo.pageKind === "about") {
+    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
+      ${sharedHeader}
+      <p>Why BRIDGE CST exists</p><h1>Customer support deserves a clearer starting point</h1><p>${escapeHtml(seo.description)}</p>
+      <section><h2>Built from real support work</h2><p>Talha Rajput created BRIDGE CST for beginners and early-career professionals, especially Pakistan-based learners pursuing global customer support careers.</p></section>
+      <section><h2>Practical, accessible, and honest</h2><p>Journey Cards combine plain-language lessons, realistic situations, Practice Labs, and interview connections without promising effortless outcomes.</p></section>
+      <section><h2>Product ownership and assistance</h2><p>The original concept, product direction, curriculum decisions, and final editorial judgment belong to Talha Rajput. AI tools supported drafting, code assistance, research organization, and quality checks as project assistants.</p></section>
+    </main>`;
+  }
+
   if (seo.pageKind === "collection") {
     const cards = journeyCards.filter((card) => card.collectionId === seo.collection.id);
     return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
@@ -128,6 +146,10 @@ function renderStaticContent(route) {
     const next = cardPosition >= 0 && cardPosition < collectionCards.length - 1
       ? collectionCards[cardPosition + 1]
       : null;
+    const collectionIndex = collections.findIndex((collection) => collection.id === seo.card.collectionId);
+    const nextCollection = collectionIndex >= 0 && collectionIndex < collections.length - 1
+      ? collections[collectionIndex + 1]
+      : null;
     return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
       ${sharedHeader}
       <p><a href="/collections/${escapeHtml(seo.card.collectionId)}">${escapeHtml(seo.collection?.title || "Journey Cards")}</a> / Journey Card ${escapeHtml(seo.card.number)}</p>
@@ -140,7 +162,7 @@ function renderStaticContent(route) {
       <section><h2>${escapeHtml(seo.card.practiceTitle || "Practice Lab")}</h2><p>${escapeHtml(seo.card.practice)}</p></section>
       <section><h2>Interview connection</h2><p>${escapeHtml(seo.card.interview)}</p></section>
       <section><h2>Key takeaway</h2><p>${escapeHtml(seo.card.takeaway)}</p></section>
-      <nav aria-label="Journey Card navigation">${previous ? `<a href="/cards/${escapeHtml(previous.id)}">Previous: ${escapeHtml(previous.title)}</a>` : ""} ${next ? `<a href="/cards/${escapeHtml(next.id)}">Next: ${escapeHtml(next.title)}</a>` : ""}</nav>
+      <nav aria-label="Journey Card navigation">${previous ? `<a href="/cards/${escapeHtml(previous.id)}">Previous: ${escapeHtml(previous.title)}</a>` : ""} ${next ? `<a href="/cards/${escapeHtml(next.id)}">Next: ${escapeHtml(next.title)}</a>` : nextCollection ? `<a href="/collections/${escapeHtml(nextCollection.id)}">Next collection: ${escapeHtml(nextCollection.title)}</a>` : '<a href="/search">Search all Journey Cards</a>'}</nav>
     </main>`;
   }
 

@@ -82,9 +82,11 @@ function HomePage() {
           <a href="#learning-path">My Path</a>
           <a href="#how-it-works">How It Works</a>
           <a href="#collections">Collections</a>
+          <Link to="/search">Search</Link>
           <Link to="/guides">Guides</Link>
           <Link to="/resources">Resources</Link>
           <Link to="/faq">FAQ</Link>
+          <Link to="/about">About</Link>
         </nav>
         <div className="home-account-actions">
           {user ? (
@@ -176,7 +178,7 @@ function HomePage() {
       <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
         <Link className="is-current" to="/"><span aria-hidden="true">⌂</span>Home</Link>
         <Link to={`/cards/${nextCard.id}`}><span aria-hidden="true">◇</span>Journey</Link>
-        <Link to="/guides"><span aria-hidden="true">G</span>Guides</Link>
+        <Link to="/search"><span aria-hidden="true">⌕</span>Search</Link>
         <Link to={user ? "/account" : "/auth"}><span aria-hidden="true">○</span>Account</Link>
       </nav>
     </div>

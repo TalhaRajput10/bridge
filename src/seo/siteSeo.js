@@ -96,6 +96,24 @@ export function getSeoForPath(pathname = "/") {
     };
   }
 
+  if (seo.path === "/search") {
+    return {
+      ...seo,
+      title: "Search 64 Customer Support Journey Cards | BRIDGE CST",
+      description: "Search all 64 free BRIDGE CST Journey Cards by skill, collection, technical topic, customer scenario, or interview preparation goal.",
+      pageKind: "search",
+    };
+  }
+
+  if (seo.path === "/about") {
+    return {
+      ...seo,
+      title: "About BRIDGE CST and Creator Talha Rajput",
+      description: "Learn why Talha Rajput created BRIDGE CST, how the free customer support platform helps beginners, and how AI tools assisted its development.",
+      pageKind: "about",
+    };
+  }
+
   const guideMatch = seo.path.match(/^\/guides\/([^/]+)$/);
   if (guideMatch) {
     const guide = getGuideById(guideMatch[1]);
@@ -292,6 +310,60 @@ export function getStructuredDataForPath(pathname = "/") {
     );
   }
 
+  if (seo.pageKind === "search") {
+    graph.push(
+      {
+        "@type": "CollectionPage",
+        "@id": `${seo.canonical}#page`,
+        url: seo.canonical,
+        name: seo.title,
+        description: seo.description,
+        isPartOf: { "@id": websiteId },
+        mainEntity: { "@id": `${seo.canonical}#journey-cards` },
+        inLanguage: "en",
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${seo.canonical}#journey-cards`,
+        name: "BRIDGE CST Journey Cards",
+        numberOfItems: journeyCards.length,
+        itemListElement: journeyCards.map((card, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${SITE_URL}/cards/${card.id}`,
+          name: card.title,
+        })),
+      },
+      breadcrumbData([
+        { name: "BRIDGE CST", url: `${SITE_URL}/` },
+        { name: "Search Journey Cards", url: seo.canonical },
+      ]),
+    );
+  }
+
+  if (seo.pageKind === "about") {
+    graph.push(
+      {
+        "@type": "AboutPage",
+        "@id": `${seo.canonical}#page`,
+        url: seo.canonical,
+        name: seo.title,
+        description: seo.description,
+        isPartOf: { "@id": websiteId },
+        mainEntity: {
+          "@type": "Person",
+          name: "Talha Rajput",
+          description: "Creator and product owner of BRIDGE CST.",
+        },
+        inLanguage: "en",
+      },
+      breadcrumbData([
+        { name: "BRIDGE CST", url: `${SITE_URL}/` },
+        { name: "About", url: seo.canonical },
+      ]),
+    );
+  }
+
   if (seo.pageKind === "guide") {
     graph.push(
       {
@@ -399,6 +471,8 @@ export function getIndexableRoutes() {
     "/resources",
     "/guides",
     "/faq",
+    "/search",
+    "/about",
     ...guides.map((guide) => `/guides/${guide.id}`),
     ...collections.map((collection) => `/collections/${collection.id}`),
     ...journeyCards.map((card) => `/cards/${card.id}`),

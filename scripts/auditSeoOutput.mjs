@@ -45,6 +45,9 @@ for (const route of getAllStaticRoutes()) {
 
   expect(html.includes(`<title>${seo.title}</title>`), `${route}: title is missing or incorrect`);
   expect(html.includes(`content="${escapeAttribute(seo.description)}"`), `${route}: description is missing or incorrect`);
+  expect(seo.title.includes("BRIDGE CST"), `${route}: public title does not use the BRIDGE CST name`);
+  expect(seo.description.length <= 158, `${route}: description exceeds 158 characters`);
+  expect(/[.!?]$/.test(seo.description), `${route}: description does not end as a complete sentence`);
   expect(html.includes(`rel="canonical" href="${seo.canonical}"`), `${route}: canonical URL is missing or incorrect`);
   expect(html.includes('property="og:title"'), `${route}: Open Graph title is missing`);
   expect(html.includes('name="twitter:card"'), `${route}: Twitter card metadata is missing`);
@@ -72,6 +75,8 @@ for (const route of getAllStaticRoutes()) {
       if (seo.pageKind === "guide") expect(structuredTypes.has("Article"), `${route}: Article structured data is missing`);
       if (seo.pageKind === "faq") expect(structuredTypes.has("FAQPage"), `${route}: FAQPage structured data is missing`);
       if (seo.pageKind === "guides") expect(structuredTypes.has("CollectionPage") && structuredTypes.has("ItemList"), `${route}: Guides collection structured data is incomplete`);
+      if (seo.pageKind === "search") expect(structuredTypes.has("CollectionPage") && structuredTypes.has("ItemList"), `${route}: Journey Card search structured data is incomplete`);
+      if (seo.pageKind === "about") expect(structuredTypes.has("AboutPage") && structuredTypes.has("BreadcrumbList"), `${route}: About structured data is incomplete`);
     } catch {
       failures.push(`${route}: structured data is not valid JSON`);
     }

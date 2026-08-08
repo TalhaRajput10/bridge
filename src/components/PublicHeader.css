@@ -14,7 +14,7 @@
 
 .public-logo { color: #f2f7fa; font-size: .84rem; font-weight: 600; letter-spacing: .29em; text-decoration: none; }
 .public-logo span { color: #69b8f5; }
-.public-header nav { display: flex; justify-content: center; gap: clamp(20px, 3vw, 42px); }
+.public-header nav { display: flex; justify-content: center; gap: clamp(14px, 2.1vw, 30px); }
 .public-header nav a, .public-account-link { color: #a9bbc9; font-size: .75rem; font-weight: 500; text-decoration: none; }
 .public-header nav a:hover, .public-header nav a:focus-visible, .public-header nav a.active { color: #fff; }
 .public-account-link { padding: 9px 13px; border: 1px solid #3c5c74; border-radius: 5px; color: #dce9f1; }
