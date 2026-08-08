@@ -94,7 +94,7 @@ expect(robots.includes("Disallow: /auth"), "robots.txt does not protect the auth
 expect(robots.includes("Disallow: /account"), "robots.txt does not protect the account route");
 
 const notFoundHtml = await readFile(path.join(outputDirectory, "404.html"), "utf8");
-expect(notFoundHtml.includes("Page Not Found | BRIDGE"), "404 page has the wrong title");
+expect(notFoundHtml.includes("Page Not Found | BRIDGE CST"), "404 page has the wrong title");
 expect(notFoundHtml.includes('name="robots" content="noindex,nofollow"'), "404 page is not marked noindex");
 expect(notFoundHtml.includes("Page not found"), "404 page lacks a crawler-readable message");
 
@@ -104,10 +104,10 @@ expect(wranglerConfig.includes('"not_found_handling": "404-page"'), "Cloudflare 
 expect(wranglerConfig.includes('"html_handling": "drop-trailing-slash"'), "Cloudflare clean-URL handling does not match canonical URLs");
 
 if (failures.length) {
-  console.error("BRIDGE SEO audit failed:");
+  console.error("BRIDGE CST SEO audit failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
 
-console.log("BRIDGE SEO audit passed.");
+console.log("BRIDGE CST SEO audit passed.");
 console.log(`${expectedUrls.length} indexable URLs | ${getAllStaticRoutes().length} pre-rendered routes | valid metadata and structured data`);

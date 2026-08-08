@@ -1,4 +1,4 @@
-# BRIDGE UI System
+# BRIDGE CST UI System
 
 This document records the approved July 2026 interface direction. It is the visual source of truth for the Homepage, Authentication, Collection, Journey Card stack, and full Journey Card lesson.
 

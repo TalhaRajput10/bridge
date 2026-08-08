@@ -1324,7 +1324,7 @@ takeaway:
       "Instead of writing 'Responsible for customers,' a retail applicant writes, 'Resolved product and payment questions for 30 to 40 customers per shift, documented recurring issues, and coordinated complex refunds with the floor manager.' The revised bullet shows scale, communication, documentation, and escalation.",
     practiceTitle: "Rewrite three resume bullets",
     practice:
-      "Choose three responsibilities from work, study, volunteering, or a BRIDGE project. Rewrite each using a strong action, relevant context, the skill or tool used, and a truthful result.",
+      "Choose three responsibilities from work, study, volunteering, or a BRIDGE CST project. Rewrite each using a strong action, relevant context, the skill or tool used, and a truthful result.",
     interview:
       "Walk me through the experience on your resume that best prepares you for customer support.",
     takeaway:

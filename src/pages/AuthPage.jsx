@@ -114,7 +114,7 @@ function AuthPage() {
   return (
     <main id="main-content" className="auth-page">
       <section className="auth-story" aria-labelledby="auth-story-heading">
-        <Link to="/" className="auth-logo">BRIDGE</Link>
+        <Link to="/" className="auth-logo">BRIDGE <span>CST</span></Link>
         <div>
           <h2 id="auth-story-heading">Your progress<br />follows you.</h2>
           <p>Sign in to continue building practical skills, saving responses, and keeping your learning streak alive.</p>

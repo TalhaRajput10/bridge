@@ -1,4 +1,4 @@
--- Run this once in the Supabase SQL editor for the BRIDGE project.
+-- Run this once in the Supabase SQL editor for the BRIDGE CST project.
 -- It creates one private progress document per authenticated learner.
 
 create table if not exists public.learning_progress (

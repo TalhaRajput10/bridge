@@ -1,8 +1,8 @@
-# BRIDGE
+# BRIDGE CST
 
 **Every great support interaction builds a bridge.**
 
-BRIDGE is a free, interactive customer-support career platform for aspiring and early-career professionals. It combines 64 concise Journey Cards, realistic Practice Labs, interview preparation, progress tracking, and eight skill collections in a responsive React experience.
+BRIDGE CST (BRIDGE Customer Support Training) is a free, interactive career platform for aspiring and early-career customer support professionals. Built in Pakistan with a global outlook, it combines 64 concise Journey Cards, realistic Practice Labs, interview preparation, progress tracking, and eight skill collections in a responsive React experience.
 
 ## Core experience
 
@@ -68,4 +68,4 @@ See [docs/BRIDGE_UI_SYSTEM.md](docs/BRIDGE_UI_SYSTEM.md) for the approved visual
 
 ## Product ownership
 
-BRIDGE is an original concept and product led by Talha Rajput. AI tools, including ChatGPT/Codex, have been used as implementation and production assistants; product direction, audience, content strategy, and core ideas remain the creator's.
+BRIDGE CST is an original concept and product led by Talha Rajput. AI tools, including ChatGPT/Codex, have been used as implementation and production assistants; product direction, audience, content strategy, and core ideas remain the creator's.

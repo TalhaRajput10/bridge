@@ -35,8 +35,8 @@ function ResourcesPage() {
   return (
     <div className="resources-page">
       <header className="resources-navbar">
-        <Link className="logo" to="/" aria-label="BRIDGE home">
-          BRIDGE
+        <Link className="logo" to="/" aria-label="BRIDGE CST home">
+          BRIDGE <span>CST</span>
         </Link>
 
         <nav aria-label="Resources navigation">
@@ -55,11 +55,11 @@ function ResourcesPage() {
 
       <main id="main-content">
         <section className="resources-hero">
-          <p className="resources-eyebrow">The BRIDGE resource shelf</p>
+          <p className="resources-eyebrow">The BRIDGE CST resource shelf</p>
           <h1>Useful links, without the tab chaos.</h1>
           <p>
             Every external guide, practice tool, and official product reference
-            used across the Journey Cards lives here. BRIDGE does not own these
+            used across the Journey Cards lives here. BRIDGE CST does not own these
             websites, and interfaces or availability may change.
           </p>
         </section>
@@ -140,7 +140,7 @@ function ResourcesPage() {
       </main>
 
       <footer className="resources-footer">
-        <Link className="logo" to="/">BRIDGE</Link>
+        <Link className="logo" to="/">BRIDGE <span>CST</span></Link>
         <p>Every great support interaction builds a bridge.</p>
       </footer>
     </div>

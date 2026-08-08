@@ -81,7 +81,7 @@ const cardTerms = {
 
 const benchmarks = {
   "building-your-support-learning-plan": {
-    label: "BRIDGE practice target",
+    label: "BRIDGE CST practice target",
     text:
       "Aim toward 40 WPM with at least 95% accuracy, then keep improving from your own baseline. This is a learning target, not a universal employer requirement.",
   },

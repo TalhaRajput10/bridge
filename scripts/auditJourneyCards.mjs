@@ -68,10 +68,10 @@ for (const id of Object.keys(practiceRubrics)) record(cardIds.has(id), `Rubric r
 for (const id of Object.keys(modelAnswers)) record(cardIds.has(id), `Model answer references unknown card: ${id}`);
 
 if (errors.length) {
-  console.error(`BRIDGE content audit failed with ${errors.length} issue(s):`);
+  console.error(`BRIDGE CST content audit failed with ${errors.length} issue(s):`);
   errors.forEach((error) => console.error(`- ${error}`));
   process.exitCode = 1;
 } else {
-  console.log("BRIDGE content audit passed.");
+  console.log("BRIDGE CST content audit passed.");
   console.log("64 Journey Cards | 8 collections | 64 rubrics | 64 calibrated model answers");
 }

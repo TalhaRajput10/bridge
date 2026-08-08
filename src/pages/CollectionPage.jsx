@@ -79,7 +79,7 @@ function CollectionPage() {
             <div className="progress-fill" style={{ width: `${progressPercentage}%` }} />
           </div>
           <small>
-            {syncStatus === "synced" && "Progress synced privately to your BRIDGE account."}
+            {syncStatus === "synced" && "Progress synced privately to your BRIDGE CST account."}
             {["loading", "pending", "syncing"].includes(syncStatus)
               && "Progress saved on this device and syncing to your account."}
             {syncStatus === "error" && "Progress is safe on this device; account sync will retry."}

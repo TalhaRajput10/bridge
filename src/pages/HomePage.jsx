@@ -76,7 +76,7 @@ function HomePage() {
   return (
     <div className="home-page">
       <header className="home-navbar">
-        <Link className="home-logo" to="/" aria-label="BRIDGE home">BRIDGE</Link>
+        <Link className="home-logo" to="/" aria-label="BRIDGE CST home">BRIDGE <span>CST</span></Link>
         <nav className="home-nav-links" aria-label="Primary navigation">
           <a href="#learning-path">My Path</a>
           <a href="#how-it-works">How It Works</a>
@@ -97,9 +97,9 @@ function HomePage() {
 
       <main id="main-content" className="home-hero" tabIndex="-1">
         <div className="home-hero-copy">
-          <p className="home-eyebrow">A free customer-support career platform</p>
+          <p className="home-eyebrow">Customer Support Training for Global Careers</p>
           <h1>Build the skills.<span>Bridge the gap.</span></h1>
-          <p className="home-hero-intro">Practical, beginner-friendly learning for real customer situations and confident interviews.</p>
+          <p className="home-hero-intro">Practical, beginner-friendly learning for real customer situations and confident interviews—built in Pakistan with a global outlook.</p>
           <div className="home-hero-actions">
             <Link className="home-primary-button" to={`/cards/${nextCard.id}`}>{hasStarted ? "Continue your journey" : "Start your journey"}<span aria-hidden="true">→</span></Link>
             <a className="home-secondary-button" href="#collections">Explore collections</a>
@@ -163,7 +163,7 @@ function HomePage() {
       </section>
 
       <section className="home-closing"><p className="home-eyebrow">Your next step</p><h2>A stronger support career starts with one card.</h2><Link className="home-primary-button" to={`/cards/${nextCard.id}`}>{hasStarted ? "Continue your journey" : "Begin with Foundations"}<span aria-hidden="true">→</span></Link></section>
-      <footer className="home-footer"><Link className="home-logo" to="/">BRIDGE</Link><p>Every great support interaction builds a bridge.</p></footer>
+      <footer className="home-footer"><Link className="home-logo" to="/">BRIDGE <span>CST</span></Link><p>Every great support interaction builds a bridge.</p></footer>
 
       <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
         <Link className="is-current" to="/"><span aria-hidden="true">⌂</span>Home</Link>

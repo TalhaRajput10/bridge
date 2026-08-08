@@ -24,10 +24,10 @@ function ModuleBar({ activeCollectionId }) {
   return (
     <nav
       className="module-bar"
-      aria-label="BRIDGE Collections"
+      aria-label="BRIDGE CST collections"
     >
       <Link className="module-bar-logo" to="/">
-        BRIDGE
+        BRIDGE <span>CST</span>
       </Link>
 
       <div className="module-links">

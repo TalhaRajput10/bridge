@@ -2,12 +2,12 @@ import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
 
 export const SITE_URL = "https://bridge.talharashid1209.workers.dev";
-export const SITE_NAME = "BRIDGE";
+export const SITE_NAME = "BRIDGE CST";
 export const SOCIAL_IMAGE_PATH = "/bridge-night-hero.png";
 
-const HOME_TITLE = "Free Customer Support Training for Beginners | BRIDGE";
+const HOME_TITLE = "Free Customer Support Training for Beginners | BRIDGE CST";
 const HOME_DESCRIPTION =
-  "Build practical customer support skills, practise realistic scenarios, and prepare for interviews with 64 free beginner-friendly Journey Cards.";
+  "Build practical customer support skills, practise realistic scenarios, and prepare for global support careers with 64 free Journey Cards.";
 
 function normalizePath(pathname = "/") {
   const cleanPath = pathname.split("?")[0].split("#")[0] || "/";
@@ -15,10 +15,15 @@ function normalizePath(pathname = "/") {
   return cleanPath.replace(/\/+$/, "");
 }
 
-function limitText(value, maximum = 158) {
+function completeDescription(value, maximum = 158) {
   const text = String(value || "").replace(/\s+/g, " ").trim();
   if (text.length <= maximum) return text;
-  return `${text.slice(0, maximum - 1).replace(/\s+\S*$/, "")}…`;
+
+  const available = text.slice(0, maximum);
+  const completeSentence = available.match(/^(.+[.!?])(?:\s|$)/)?.[1];
+  if (completeSentence) return completeSentence;
+
+  return `${available.slice(0, maximum - 1).replace(/\s+\S*$/, "")}.`;
 }
 
 function canonicalUrl(pathname) {
@@ -39,7 +44,7 @@ function baseSeo(pathname) {
     description: HOME_DESCRIPTION,
     canonical: canonicalUrl(path),
     image: `${SITE_URL}${SOCIAL_IMAGE_PATH}`,
-    imageAlt: "BRIDGE Journey Cards connecting a night-time bridge",
+    imageAlt: "BRIDGE CST Journey Cards connecting a night-time bridge",
     robots: "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     type: "website",
     pageKind: "home",
@@ -64,7 +69,7 @@ export function getSeoForPath(pathname = "/") {
   if (seo.path === "/resources") {
     return {
       ...seo,
-      title: "Free Customer Support Tools and Career Resources | BRIDGE",
+      title: "Free Customer Support Tools and Resources | BRIDGE CST",
       description:
         "Explore free customer support tools, official product guides, typing practice, interview resources, and career websites curated for beginners.",
       pageKind: "resources",
@@ -74,7 +79,7 @@ export function getSeoForPath(pathname = "/") {
   if (seo.path === "/auth") {
     return {
       ...seo,
-      title: "Sign In to Your Learning Account | BRIDGE",
+      title: "Sign In to Your Learning Account | BRIDGE CST",
       description: "Sign in to save Journey Card progress and Practice Lab responses across devices.",
       robots: "noindex,nofollow",
       pageKind: "auth",
@@ -84,8 +89,8 @@ export function getSeoForPath(pathname = "/") {
   if (seo.path === "/account") {
     return {
       ...seo,
-      title: "Your Learning Progress | BRIDGE",
-      description: "View your private BRIDGE learning progress and continue your customer support journey.",
+      title: "Your Learning Progress | BRIDGE CST",
+      description: "View your private BRIDGE CST learning progress and continue your customer support journey.",
       robots: "noindex,nofollow",
       pageKind: "account",
     };
@@ -97,8 +102,8 @@ export function getSeoForPath(pathname = "/") {
     if (collection) {
       return {
         ...seo,
-        title: `${collection.title} Training for Support Beginners | BRIDGE`,
-        description: limitText(
+        title: `${collection.title} Training for Beginners | BRIDGE CST`,
+        description: completeDescription(
           `${collection.description} Learn through eight free, practical Journey Cards designed for aspiring customer support professionals.`,
         ),
         pageKind: "collection",
@@ -116,8 +121,8 @@ export function getSeoForPath(pathname = "/") {
     if (card) {
       return {
         ...seo,
-        title: `${card.title} | Customer Support Training | BRIDGE`,
-        description: limitText(
+        title: `${card.title} | BRIDGE CST`,
+        description: completeDescription(
           `${card.description} Practise with a realistic scenario and prepare a stronger interview answer in this free Journey Card.`,
         ),
         type: "article",
@@ -131,8 +136,8 @@ export function getSeoForPath(pathname = "/") {
   if (seo.path !== "/") {
     return {
       ...seo,
-      title: "Page Not Found | BRIDGE",
-      description: "Return to BRIDGE and continue building practical customer support skills.",
+      title: "Page Not Found | BRIDGE CST",
+      description: "Return to BRIDGE CST and continue building practical customer support skills.",
       robots: "noindex,nofollow",
       pageKind: "not-found",
     };
@@ -151,7 +156,7 @@ export function getStructuredDataForPath(pathname = "/") {
       "@id": websiteId,
       url: `${SITE_URL}/`,
       name: SITE_NAME,
-      alternateName: "BRIDGE Customer Support Learning Platform",
+      alternateName: "BRIDGE Customer Support Training",
       description: HOME_DESCRIPTION,
       inLanguage: "en",
       publisher: { "@id": providerId },
@@ -162,7 +167,7 @@ export function getStructuredDataForPath(pathname = "/") {
       name: SITE_NAME,
       url: `${SITE_URL}/`,
       description:
-        "A free learning platform for aspiring and early-career customer support professionals.",
+        "A free customer support training platform built in Pakistan for people pursuing global support careers.",
       logo: `${SITE_URL}/favicon.svg`,
     },
   ];
@@ -171,7 +176,7 @@ export function getStructuredDataForPath(pathname = "/") {
     graph.push({
       "@type": "ItemList",
       "@id": `${seo.canonical}#collections`,
-      name: "BRIDGE customer support learning collections",
+      name: "BRIDGE CST customer support learning collections",
       numberOfItems: collections.length,
       itemListElement: collections.map((collection, index) => ({
         "@type": "ListItem",
@@ -194,7 +199,7 @@ export function getStructuredDataForPath(pathname = "/") {
         inLanguage: "en",
       },
       breadcrumbData([
-        { name: "BRIDGE", url: `${SITE_URL}/` },
+        { name: "BRIDGE CST", url: `${SITE_URL}/` },
         { name: "Resources", url: seo.canonical },
       ]),
     );
@@ -226,7 +231,7 @@ export function getStructuredDataForPath(pathname = "/") {
         })),
       },
       breadcrumbData([
-        { name: "BRIDGE", url: `${SITE_URL}/` },
+        { name: "BRIDGE CST", url: `${SITE_URL}/` },
         { name: seo.collection.title, url: seo.canonical },
       ]),
     );
@@ -249,7 +254,7 @@ export function getStructuredDataForPath(pathname = "/") {
         isAccessibleForFree: true,
         isPartOf: {
           "@type": "CollectionPage",
-          name: seo.collection?.title || "BRIDGE Journey Cards",
+          name: seo.collection?.title || "BRIDGE CST Journey Cards",
           url: seo.collection
             ? `${SITE_URL}/collections/${seo.collection.id}`
             : `${SITE_URL}/`,
@@ -257,7 +262,7 @@ export function getStructuredDataForPath(pathname = "/") {
         provider: { "@id": providerId },
       },
       breadcrumbData([
-        { name: "BRIDGE", url: `${SITE_URL}/` },
+        { name: "BRIDGE CST", url: `${SITE_URL}/` },
         {
           name: seo.collection?.title || "Journey Cards",
           url: seo.collection

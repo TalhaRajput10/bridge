@@ -55,7 +55,7 @@ function JourneyCardPage() {
   const cardFeedbackNote = cardFeedbackNoteDraft ?? savedCardFeedback?.note ?? "";
   const cardFeedbackSaved = cardFeedbackSavedOverride ?? Boolean(savedCardFeedback);
   const accountStorageStatus = syncStatus === "synced"
-    ? "Saved privately to your BRIDGE account"
+    ? "Saved privately to your BRIDGE CST account"
     : ["loading", "pending", "syncing"].includes(syncStatus)
       ? "Saved on this device · syncing privately to your account"
       : syncStatus === "error"
@@ -167,7 +167,7 @@ function JourneyCardPage() {
     );
   }
 
-  const collectionTitle = collection?.title || "BRIDGE";
+  const collectionTitle = collection?.title || "BRIDGE CST";
   const cardPosition = currentCardIndex + 1;
   const pathProgress = collectionCards.length
     ? Math.round((cardPosition / collectionCards.length) * 100)
@@ -513,7 +513,7 @@ function JourneyCardPage() {
               </div>
 
               <Link className="all-resources-link" to="/resources">
-                Browse every BRIDGE resource <span aria-hidden="true">→</span>
+                Browse every BRIDGE CST resource <span aria-hidden="true">→</span>
               </Link>
             </section>
           )}
@@ -524,7 +524,7 @@ function JourneyCardPage() {
           </section>
 
           <section className="lesson-section card-feedback-section" aria-labelledby="card-feedback-title">
-            <p>Help improve BRIDGE</p>
+            <p>Help improve BRIDGE CST</p>
             <h2 id="card-feedback-title">Was this Journey Card useful?</h2>
             <p>Your feedback helps identify lessons that need clearer language, stronger examples, or better exercises.</p>
 

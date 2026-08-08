@@ -23,7 +23,7 @@ function AccountPage() {
   return (
     <main className="account-page" id="main-content">
       <section className="account-panel">
-        <Link className="auth-logo" to="/">BRIDGE</Link>
+        <Link className="auth-logo" to="/">BRIDGE <span>CST</span></Link>
         <p className="eyebrow">YOUR LEARNING ACCOUNT</p>
         <h1>Your bridge, in progress.</h1>
         <p className="account-email">Signed in as {user.email}</p>
@@ -37,7 +37,7 @@ function AccountPage() {
           <button type="button" onClick={signOut}>Sign out</button>
         </div>
         <p className="account-note" aria-live="polite">
-          {syncStatus === "synced" && "Your progress is synced across your BRIDGE account."}
+          {syncStatus === "synced" && "Your progress is synced across your BRIDGE CST account."}
           {["loading", "pending", "syncing"].includes(syncStatus) && "Syncing your latest learning progress…"}
           {syncStatus === "error" && "Your progress is safe on this device, but cloud sync needs attention."}
           {syncStatus === "local" && "Your progress is currently stored on this device."}

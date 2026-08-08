@@ -22,11 +22,11 @@ export default class ErrorBoundary extends Component {
     if (this.state.hasError) {
       return (
         <main id="main-content" className="app-error-state">
-          <p>BRIDGE hit a temporary problem.</p>
+          <p>BRIDGE CST hit a temporary problem.</p>
           <h1>Your progress is safe.</h1>
           <p>Refresh the page to continue. The error has been recorded for review.</p>
           <button type="button" onClick={() => window.location.reload()}>
-            Refresh BRIDGE
+            Refresh BRIDGE CST
           </button>
         </main>
       );

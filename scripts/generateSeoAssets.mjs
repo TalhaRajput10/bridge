@@ -42,7 +42,7 @@ function renderLink(route, label) {
 
 function renderStaticContent(route) {
   const seo = getSeoForPath(route);
-  const sharedHeader = `<header><a href="/" aria-label="BRIDGE home">${SITE_NAME}</a><nav aria-label="Primary"><a href="/">Home</a> <a href="/resources">Resources</a></nav></header>`;
+  const sharedHeader = `<header><a href="/" aria-label="BRIDGE CST home">${SITE_NAME}</a><nav aria-label="Primary"><a href="/">Home</a> <a href="/resources">Resources</a></nav></header>`;
 
   if (seo.pageKind === "home") {
     return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="/">
@@ -61,7 +61,7 @@ function renderStaticContent(route) {
   if (seo.pageKind === "resources") {
     return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
       ${sharedHeader}
-      <p>The BRIDGE resource shelf</p>
+      <p>The BRIDGE CST resource shelf</p>
       <h1>Free customer support tools and career resources</h1>
       <p>${escapeHtml(seo.description)}</p>
       <section><h2>Browse the resource library</h2><ul>
@@ -74,7 +74,7 @@ function renderStaticContent(route) {
     const cards = journeyCards.filter((card) => card.collectionId === seo.collection.id);
     return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
       ${sharedHeader}
-      <p><a href="/">BRIDGE</a> / Collection ${escapeHtml(seo.collection.number)}</p>
+      <p><a href="/">BRIDGE CST</a> / Collection ${escapeHtml(seo.collection.number)}</p>
       <h1>${escapeHtml(seo.collection.title)} customer support training</h1>
       <p>${escapeHtml(seo.description)}</p>
       <section><h2>${cards.length} practical Journey Cards</h2><ol>
@@ -107,14 +107,14 @@ function renderStaticContent(route) {
   }
 
   if (seo.pageKind === "auth") {
-    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="/auth">${sharedHeader}<h1>Sign in to BRIDGE</h1><p>${escapeHtml(seo.description)}</p></main>`;
+    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="/auth">${sharedHeader}<h1>Sign in to BRIDGE CST</h1><p>${escapeHtml(seo.description)}</p></main>`;
   }
 
   if (seo.pageKind === "account") {
-    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="/account">${sharedHeader}<h1>Your private BRIDGE learning account</h1><p>${escapeHtml(seo.description)}</p></main>`;
+    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="/account">${sharedHeader}<h1>Your private BRIDGE CST learning account</h1><p>${escapeHtml(seo.description)}</p></main>`;
   }
 
-  return `<main id="main-content" class="seo-static-fallback"><h1>Page not found</h1><p><a href="/">Return to BRIDGE</a></p></main>`;
+  return `<main id="main-content" class="seo-static-fallback"><h1>Page not found</h1><p><a href="/">Return to BRIDGE CST</a></p></main>`;
 }
 
 function upsertMeta(html, attribute, key, content) {
@@ -188,6 +188,6 @@ if (!publicOnly) await writePrerenderedRoutes();
 
 console.log(
   distOnly
-    ? `Pre-rendered ${getAllStaticRoutes().length} BRIDGE routes.`
+    ? `Pre-rendered ${getAllStaticRoutes().length} BRIDGE CST routes.`
     : `Generated robots.txt and sitemap.xml with ${getIndexableRoutes().length} URLs.`,
 );

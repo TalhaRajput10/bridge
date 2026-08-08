@@ -1,4 +1,4 @@
--- Run this once in the Supabase SQL editor for the BRIDGE project.
+-- Run this once in the Supabase SQL editor for the BRIDGE CST project.
 -- It stores anonymous, non-sensitive product events and signed-in learner events.
 -- Practice Lab answers, email addresses, and passwords are never included.
 
