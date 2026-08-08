@@ -1,5 +1,7 @@
 import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
+import { allFaqs } from "../data/faqs.js";
+import { getGuideById, guides } from "../data/guides.js";
 
 export const SITE_URL = "https://bridge.talharashid1209.workers.dev";
 export const SITE_NAME = "BRIDGE CST";
@@ -74,6 +76,39 @@ export function getSeoForPath(pathname = "/") {
         "Explore free customer support tools, official product guides, typing practice, interview resources, and career websites curated for beginners.",
       pageKind: "resources",
     };
+  }
+
+  if (seo.path === "/guides") {
+    return {
+      ...seo,
+      title: "Customer Support Career Guides | BRIDGE CST",
+      description: "Read practical guides about customer support careers, CVs, interviews, BPO campaigns, support industries, tools, and technical skills.",
+      pageKind: "guides",
+    };
+  }
+
+  if (seo.path === "/faq") {
+    return {
+      ...seo,
+      title: "Customer Support Training FAQ | BRIDGE CST",
+      description: "Learn who BRIDGE CST is for, how Journey Cards and Practice Labs work, what accounts save, and how the free platform supports interview preparation.",
+      pageKind: "faq",
+    };
+  }
+
+  const guideMatch = seo.path.match(/^\/guides\/([^/]+)$/);
+  if (guideMatch) {
+    const guide = getGuideById(guideMatch[1]);
+    if (guide) {
+      return {
+        ...seo,
+        title: guide.seoTitle,
+        description: completeDescription(guide.excerpt),
+        type: "article",
+        pageKind: "guide",
+        guide,
+      };
+    }
   }
 
   if (seo.path === "/auth") {
@@ -205,6 +240,84 @@ export function getStructuredDataForPath(pathname = "/") {
     );
   }
 
+  if (seo.pageKind === "guides") {
+    graph.push(
+      {
+        "@type": "CollectionPage",
+        "@id": `${seo.canonical}#page`,
+        url: seo.canonical,
+        name: seo.title,
+        description: seo.description,
+        isPartOf: { "@id": websiteId },
+        mainEntity: { "@id": `${seo.canonical}#articles` },
+        inLanguage: "en",
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${seo.canonical}#articles`,
+        numberOfItems: guides.length,
+        itemListElement: guides.map((guide, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${SITE_URL}/guides/${guide.id}`,
+          name: guide.title,
+        })),
+      },
+      breadcrumbData([
+        { name: "BRIDGE CST", url: `${SITE_URL}/` },
+        { name: "Guides", url: seo.canonical },
+      ]),
+    );
+  }
+
+  if (seo.pageKind === "faq") {
+    graph.push(
+      {
+        "@type": "FAQPage",
+        "@id": `${seo.canonical}#page`,
+        url: seo.canonical,
+        name: seo.title,
+        description: seo.description,
+        isPartOf: { "@id": websiteId },
+        mainEntity: allFaqs.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      },
+      breadcrumbData([
+        { name: "BRIDGE CST", url: `${SITE_URL}/` },
+        { name: "FAQ", url: seo.canonical },
+      ]),
+    );
+  }
+
+  if (seo.pageKind === "guide") {
+    graph.push(
+      {
+        "@type": "Article",
+        "@id": `${seo.canonical}#article`,
+        mainEntityOfPage: seo.canonical,
+        url: seo.canonical,
+        headline: seo.guide.title,
+        description: seo.description,
+        image: seo.image,
+        datePublished: seo.guide.publishedAt,
+        dateModified: seo.guide.updatedAt,
+        inLanguage: "en",
+        isAccessibleForFree: true,
+        keywords: seo.guide.keywords.join(", "),
+        author: { "@type": "Person", name: "Talha Rajput" },
+        publisher: { "@id": providerId },
+      },
+      breadcrumbData([
+        { name: "BRIDGE CST", url: `${SITE_URL}/` },
+        { name: "Guides", url: `${SITE_URL}/guides` },
+        { name: seo.guide.title, url: seo.canonical },
+      ]),
+    );
+  }
+
   if (seo.pageKind === "collection") {
     const cards = journeyCards.filter((card) => card.collectionId === seo.collection.id);
     graph.push(
@@ -284,6 +397,9 @@ export function getIndexableRoutes() {
   return [
     "/",
     "/resources",
+    "/guides",
+    "/faq",
+    ...guides.map((guide) => `/guides/${guide.id}`),
     ...collections.map((collection) => `/collections/${collection.id}`),
     ...journeyCards.map((card) => `/cards/${card.id}`),
   ];

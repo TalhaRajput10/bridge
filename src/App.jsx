@@ -7,6 +7,9 @@ import JourneyCardPage from "./pages/JourneyCardPage.jsx";
 import ResourcesPage from "./pages/ResourcesPage.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import AccountPage from "./pages/AccountPage.jsx";
+import GuidesPage from "./pages/GuidesPage.jsx";
+import GuideArticlePage from "./pages/GuideArticlePage.jsx";
+import FaqPage from "./pages/FaqPage.jsx";
 import SeoManager from "./components/SeoManager.jsx";
 import { captureAppError, trackEvent } from "./lib/telemetry.js";
 
@@ -63,6 +66,9 @@ function App() {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/guides" element={<GuidesPage />} />
+        <Route path="/guides/:guideId" element={<GuideArticlePage />} />
+        <Route path="/faq" element={<FaqPage />} />
         <Route path="/collections/:collectionId" element={<CollectionPage />} />
         <Route path="/cards/:cardId" element={<JourneyCardRoute />} />
       </Routes>

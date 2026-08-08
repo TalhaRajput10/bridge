@@ -2,11 +2,13 @@
 
 **Every great support interaction builds a bridge.**
 
-BRIDGE CST (BRIDGE Customer Support Training) is a free, interactive career platform for aspiring and early-career customer support professionals. Built in Pakistan with a global outlook, it combines 64 concise Journey Cards, realistic Practice Labs, interview preparation, progress tracking, and eight skill collections in a responsive React experience.
+BRIDGE CST (BRIDGE Customer Support Training) is a free, interactive career platform for aspiring and early-career customer support professionals. Built in Pakistan with a global outlook, it combines 64 concise Journey Cards, realistic Practice Labs, interview preparation, progress tracking, eight skill collections, original career Guides, and a complete FAQ in a responsive React experience.
 
 ## Core experience
 
 - Eight learning collections and 64 Journey Cards
+- Twelve launch Guides covering applications, interviews, BPO campaigns, support industries, and technical skills
+- Searchable Guides hub, individual article routes, and a complete FAQ page
 - Practical scenarios, model answers, and saved Practice Lab responses
 - Completion progress and device-based learning streaks
 - Supabase email authentication
@@ -35,6 +37,8 @@ Open the local URL printed by Vite.
 
 ```powershell
 npm.cmd run lint
+npm.cmd run audit:guides
+npm.cmd run audit:seo
 npm.cmd run build
 ```
 

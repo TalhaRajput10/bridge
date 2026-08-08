@@ -67,7 +67,11 @@ for (const route of getAllStaticRoutes()) {
   expect(Boolean(structuredMatch), `${route}: structured data is missing`);
   if (structuredMatch) {
     try {
-      JSON.parse(structuredMatch[1]);
+      const structuredData = JSON.parse(structuredMatch[1]);
+      const structuredTypes = new Set((structuredData["@graph"] || []).map((item) => item["@type"]));
+      if (seo.pageKind === "guide") expect(structuredTypes.has("Article"), `${route}: Article structured data is missing`);
+      if (seo.pageKind === "faq") expect(structuredTypes.has("FAQPage"), `${route}: FAQPage structured data is missing`);
+      if (seo.pageKind === "guides") expect(structuredTypes.has("CollectionPage") && structuredTypes.has("ItemList"), `${route}: Guides collection structured data is incomplete`);
     } catch {
       failures.push(`${route}: structured data is not valid JSON`);
     }

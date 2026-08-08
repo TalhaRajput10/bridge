@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useProgress } from "../context/ProgressContext.jsx";
 import { collections } from "../data/collections.js";
 import { journeyCards } from "../data/journeyCards.js";
+import { homepageFaqs } from "../data/faqs.js";
 import "./HomePage.css";
 
 const learningSteps = [
@@ -81,7 +82,9 @@ function HomePage() {
           <a href="#learning-path">My Path</a>
           <a href="#how-it-works">How It Works</a>
           <a href="#collections">Collections</a>
+          <Link to="/guides">Guides</Link>
           <Link to="/resources">Resources</Link>
+          <Link to="/faq">FAQ</Link>
         </nav>
         <div className="home-account-actions">
           {user ? (
@@ -162,13 +165,18 @@ function HomePage() {
         <div className="collection-grid">{collections.map((collection) => <CollectionCard key={collection.id} collection={collection} />)}</div>
       </section>
 
+      <section className="home-faq" aria-labelledby="home-faq-heading">
+        <div className="home-faq-intro"><p className="home-eyebrow">Before you begin</p><h2 id="home-faq-heading">A few useful answers.</h2><p>No sales maze, no mysterious certificate promise, and no need to pretend you already understand the jargon.</p><Link to="/faq">Read every FAQ <span aria-hidden="true">→</span></Link></div>
+        <div className="home-faq-list">{homepageFaqs.map((item) => <details key={item.question}><summary>{item.question}<span aria-hidden="true">+</span></summary><p>{item.answer}</p></details>)}</div>
+      </section>
+
       <section className="home-closing"><p className="home-eyebrow">Your next step</p><h2>A stronger support career starts with one card.</h2><Link className="home-primary-button" to={`/cards/${nextCard.id}`}>{hasStarted ? "Continue your journey" : "Begin with Foundations"}<span aria-hidden="true">→</span></Link></section>
       <footer className="home-footer"><Link className="home-logo" to="/">BRIDGE <span>CST</span></Link><p>Every great support interaction builds a bridge.</p></footer>
 
       <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
         <Link className="is-current" to="/"><span aria-hidden="true">⌂</span>Home</Link>
         <Link to={`/cards/${nextCard.id}`}><span aria-hidden="true">◇</span>Journey</Link>
-        <a href="#collections"><span aria-hidden="true">▤</span>Collections</a>
+        <Link to="/guides"><span aria-hidden="true">G</span>Guides</Link>
         <Link to={user ? "/account" : "/auth"}><span aria-hidden="true">○</span>Account</Link>
       </nav>
     </div>

@@ -1,0 +1,4 @@
+.public-footer { min-height: 130px; padding: 34px max(5vw, calc((100vw - 1280px) / 2)); display: flex; align-items: center; justify-content: space-between; gap: 32px; border-top: 1px solid #234158; background: #040d18; color: #7f94a6; font-family: Inter, "Segoe UI", sans-serif; }
+.public-footer > div > a { color: #edf6fa; font-size: .82rem; font-weight: 600; letter-spacing: .28em; text-decoration: none; }.public-footer > div > a span { color: #69b8f5; }.public-footer p { margin: 10px 0 0; font-size: .7rem; }.public-footer nav { display: flex; gap: 24px; }.public-footer nav a { color: #9fb2c2; font-size: .72rem; text-decoration: none; }.public-footer nav a:hover { color: #fff; }
+@media (max-width: 600px) { .public-footer { padding: 34px 5% 94px; align-items: flex-start; flex-direction: column; }.public-footer nav { flex-wrap: wrap; } }
+

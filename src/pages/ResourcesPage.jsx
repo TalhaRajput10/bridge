@@ -40,12 +40,12 @@ function ResourcesPage() {
         </Link>
 
         <nav aria-label="Resources navigation">
-          <Link to="/#learning-path">My path</Link>
-          <Link to="/#how-it-works">How it works</Link>
           <Link to="/#collections">Collections</Link>
+          <Link to="/guides">Guides</Link>
           <Link className="is-current" to="/resources" aria-current="page">
             Resources
           </Link>
+          <Link to="/faq">FAQ</Link>
         </nav>
 
         <Link className="resources-start-link" to="/cards/what-customer-support-means">

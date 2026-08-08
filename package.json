@@ -9,6 +9,7 @@
     "build": "npm run seo:generate && vite build && node scripts/generateSeoAssets.mjs --dist-only",
     "lint": "eslint .",
     "audit:content": "node scripts/auditJourneyCards.mjs",
+    "audit:guides": "node scripts/auditGuides.mjs",
     "audit:seo": "node scripts/auditSeoOutput.mjs",
     "preview": "vite preview"
   },

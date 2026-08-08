@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 import { collections } from "../src/data/collections.js";
 import { journeyCards } from "../src/data/journeyCards.js";
 import { externalResources } from "../src/data/resources.js";
+import { faqGroups } from "../src/data/faqs.js";
+import { guideCategories, guides } from "../src/data/guides.js";
 import {
   getAllStaticRoutes,
   getIndexableRoutes,
@@ -42,7 +44,7 @@ function renderLink(route, label) {
 
 function renderStaticContent(route) {
   const seo = getSeoForPath(route);
-  const sharedHeader = `<header><a href="/" aria-label="BRIDGE CST home">${SITE_NAME}</a><nav aria-label="Primary"><a href="/">Home</a> <a href="/resources">Resources</a></nav></header>`;
+  const sharedHeader = `<header><a href="/" aria-label="BRIDGE CST home">${SITE_NAME}</a><nav aria-label="Primary"><a href="/">Home</a> <a href="/guides">Guides</a> <a href="/resources">Resources</a> <a href="/faq">FAQ</a></nav></header>`;
 
   if (seo.pageKind === "home") {
     return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="/">
@@ -55,6 +57,8 @@ function renderStaticContent(route) {
         ${collections.map((collection) => renderLink(`/collections/${collection.id}`, collection.title)).join("\n")}
       </ul></section>
       <section><h2>Learn, practise, and build interview confidence</h2><p>Each Journey Card explains one practical skill, presents a realistic customer scenario, includes a Practice Lab, and connects the lesson to interview preparation.</p></section>
+      <section><h2>Customer support career guides</h2><p>Read original guidance about applications, interviews, BPO campaigns, support industries, and technical skills.</p><p><a href="/guides">Browse BRIDGE CST Guides</a></p></section>
+      <section><h2>Frequently asked questions</h2><dl>${faqGroups[0].items.map((item) => `<dt>${escapeHtml(item.question)}</dt><dd>${escapeHtml(item.answer)}</dd>`).join("\n")}</dl><p><a href="/faq">Read every FAQ</a></p></section>
     </main>`;
   }
 
@@ -67,6 +71,40 @@ function renderStaticContent(route) {
       <section><h2>Browse the resource library</h2><ul>
         ${externalResources.map((resource) => `<li><a href="${escapeHtml(resource.url)}" rel="noreferrer">${escapeHtml(resource.title)}</a> — ${escapeHtml(resource.description)}</li>`).join("\n")}
       </ul></section>
+    </main>`;
+  }
+
+  if (seo.pageKind === "guides") {
+    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
+      ${sharedHeader}
+      <p>BRIDGE CST Guides</p>
+      <h1>Practical customer support career guides</h1>
+      <p>${escapeHtml(seo.description)}</p>
+      ${guideCategories.map((category) => `<section><h2>${escapeHtml(category.label)}</h2><ul>${guides.filter((guide) => guide.category === category.id).map((guide) => `<li><a href="/guides/${escapeHtml(guide.id)}">${escapeHtml(guide.title)}</a> — ${escapeHtml(guide.excerpt)}</li>`).join("\n")}</ul></section>`).join("\n")}
+    </main>`;
+  }
+
+  if (seo.pageKind === "guide") {
+    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
+      ${sharedHeader}
+      <p><a href="/guides">Guides</a> / ${escapeHtml(guideCategories.find((category) => category.id === seo.guide.category)?.label || "Customer support")}</p>
+      <article>
+        <h1>${escapeHtml(seo.guide.title)}</h1>
+        <p>${escapeHtml(seo.guide.excerpt)}</p>
+        <p>${escapeHtml(seo.guide.readingTime)} minute read · By Talha Rajput</p>
+        ${seo.guide.sections.map((section) => `<section><h2>${escapeHtml(section.heading)}</h2>${(section.paragraphs || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("\n")}${section.bullets ? `<ul>${section.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("\n")}</ul>` : ""}</section>`).join("\n")}
+        ${seo.guide.externalLinks?.length ? `<section><h2>Useful resources</h2><ul>${seo.guide.externalLinks.map((link) => `<li><a href="${escapeHtml(link.url)}" rel="noreferrer">${escapeHtml(link.label)}</a></li>`).join("\n")}</ul></section>` : ""}
+        <section><h2>Key takeaway</h2><p>${escapeHtml(seo.guide.takeaway)}</p></section>
+        <section><h2>Related Journey Cards</h2><ul>${seo.guide.relatedCardIds.map((id) => { const card = journeyCards.find((item) => item.id === id); return card ? renderLink(`/cards/${card.id}`, card.title) : ""; }).join("\n")}</ul></section>
+      </article>
+    </main>`;
+  }
+
+  if (seo.pageKind === "faq") {
+    return `<main id="main-content" class="seo-static-fallback" data-prerendered-route="${escapeHtml(route)}">
+      ${sharedHeader}
+      <p>BRIDGE CST FAQ</p><h1>Customer support training questions and answers</h1><p>${escapeHtml(seo.description)}</p>
+      ${faqGroups.map((group) => `<section><h2>${escapeHtml(group.title)}</h2><dl>${group.items.map((item) => `<dt>${escapeHtml(item.question)}</dt><dd>${escapeHtml(item.answer)}</dd>`).join("\n")}</dl></section>`).join("\n")}
     </main>`;
   }
 
